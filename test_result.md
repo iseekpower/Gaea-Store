@@ -212,15 +212,18 @@ backend:
 
   - task: "B2B Leads Submission"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/leads creates B2B inquiry"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: B2B leads submission working correctly - Successfully submitted corporate inquiry with message 'Thank you! We will contact you soon.'"
 
   - task: "Newsletter Subscription"
     implemented: true
