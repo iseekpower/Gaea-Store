@@ -240,6 +240,78 @@ backend:
         agent: "testing"
         comment: "✅ TESTED: Newsletter subscription working correctly - Successfully subscribed email with message 'Welcome to the Gaea family!'"
 
+  - task: "Orders API - Create Order"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/orders creates new order with shipping address, items, and generates order number. Requires auth."
+
+  - task: "Orders API - Get User Orders"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/orders returns user's order history. Requires auth."
+
+  - task: "Blog API - Get Posts"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/blog returns published blog posts. Supports featured and category filters."
+
+  - task: "Blog API - Admin CRUD"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST/PUT/DELETE /api/admin/blog for creating, updating, deleting blog posts. Requires admin auth."
+
+  - task: "Collective API - Apply"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/collective/apply submits application to join Gaea Collective. Requires auth."
+
+  - task: "Collective API - Admin Approve/Reject"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/admin/collective/:id to approve or reject applications. Requires admin auth."
+
 frontend:
   - task: "Landing Page with Hero"
     implemented: true
