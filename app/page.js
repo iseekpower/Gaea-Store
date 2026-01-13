@@ -353,11 +353,14 @@ export default function GaeaStore() {
             </a>
 
             <div className="flex items-center gap-5">
-              <button className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors hidden sm:block">
+              <button 
+                onClick={() => setSearchOpen(true)}
+                className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors"
+              >
                 <Search className="w-5 h-5" />
               </button>
               <button 
-                onClick={() => user ? handleLogout() : setAuthOpen(true)}
+                onClick={() => user ? (user.role === 'admin' ? window.location.href = '/admin' : handleLogout()) : setAuthOpen(true)}
                 className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors"
               >
                 <User className="w-5 h-5" />
@@ -377,6 +380,82 @@ export default function GaeaStore() {
           </div>
         </div>
       </motion.nav>
+
+      {/* Search Modal */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-[#faf9f6]/95 backdrop-blur-md"
+          >
+            <div className="container mx-auto px-6 py-20">
+              <button 
+                onClick={() => setSearchOpen(false)}
+                className="absolute top-6 right-6 text-[#1a1a1a]/60 hover:text-[#1a1a1a]"
+              >
+                <X className="w-8 h-8" />
+              </button>
+              
+              <div className="max-w-2xl mx-auto">
+                <div className="relative mb-8">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-[#6b6b6b]" />
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                    className="w-full bg-white border border-[#1a1a1a]/10 rounded-none h-16 pl-14 pr-4 text-xl text-[#1a1a1a] placeholder:text-[#6b6b6b] focus:outline-none focus:border-[#2d5a27]"
+                  />
+                </div>
+
+                {searchQuery && (
+                  <div className="space-y-4">
+                    <p className="text-[#6b6b6b] text-sm">{filteredProducts.length} results for "{searchQuery}"</p>
+                    <div className="grid grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto">
+                      {filteredProducts.slice(0, 8).map(product => (
+                        <button
+                          key={product.id}
+                          onClick={() => {
+                            setProductModal(product);
+                            setSearchOpen(false);
+                          }}
+                          className="flex items-center gap-4 p-4 bg-white border border-[#1a1a1a]/5 hover:border-[#2d5a27] transition-colors text-left"
+                        >
+                          <img src={product.images?.[0]} alt={product.name} className="w-16 h-16 object-cover" />
+                          <div>
+                            <p className="font-medium text-[#1a1a1a]">{product.name}</p>
+                            <p className="text-[#2d5a27]">${product.price?.toFixed(2)}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {!searchQuery && (
+                  <div>
+                    <p className="text-[#6b6b6b] mb-4 text-sm font-medium">POPULAR SEARCHES</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Bamboo', 'Toothbrush', 'Kitchen', 'Apparel', 'Travel'].map(term => (
+                        <button
+                          key={term}
+                          onClick={() => setSearchQuery(term)}
+                          className="px-4 py-2 bg-white border border-[#1a1a1a]/10 text-[#4a4a4a] hover:border-[#2d5a27] hover:text-[#2d5a27] transition-colors"
+                        >
+                          {term}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Elegant Slide-out Menu */}
       <AnimatePresence>
