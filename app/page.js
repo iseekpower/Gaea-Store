@@ -547,7 +547,7 @@ export default function GaeaStore() {
       </section>
 
       {/* New Arrivals */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-[#0a0a0a]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -556,8 +556,8 @@ export default function GaeaStore() {
             className="flex items-end justify-between mb-12"
           >
             <div>
-              <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">JUST IN</p>
-              <h3 className="text-4xl md:text-5xl font-serif">New Arrivals</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">JUST IN</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-white">New Arrivals</h3>
             </div>
           </motion.div>
 
