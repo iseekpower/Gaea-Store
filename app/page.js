@@ -15,7 +15,7 @@ import {
   Menu, X, ShoppingBag, User, Search, ChevronRight, Star, Leaf, 
   ArrowRight, Instagram, Twitter, Facebook, Mail, MapPin, Phone,
   Minus, Plus, Trash2, Heart, Globe, Building2, Package, Filter,
-  Check, CreditCard, Truck, Shield, ChevronDown, SlidersHorizontal
+  Check, CreditCard, Truck, Shield, ChevronDown, SlidersHorizontal, Users
 } from 'lucide-react';
 
 export default function GaeaStore() {
@@ -27,6 +27,7 @@ export default function GaeaStore() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [collectiveModal, setCollectiveModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
