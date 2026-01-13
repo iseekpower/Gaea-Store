@@ -257,15 +257,18 @@ backend:
 
   - task: "Orders API - Get User Orders"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/orders returns user's order history. Requires auth."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Get user orders working perfectly - Successfully retrieved user's order history as array, properly sorted by createdAt desc. Auth protection working correctly (401 without token)."
 
   - task: "Blog API - Get Posts"
     implemented: true
