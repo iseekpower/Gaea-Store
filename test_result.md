@@ -272,15 +272,18 @@ backend:
 
   - task: "Blog API - Get Posts"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/blog returns published blog posts. Supports featured and category filters."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Blog API public endpoints working perfectly - GET /api/blog returns published posts array, GET /api/blog?featured=true filters featured posts correctly. Both endpoints return proper JSON arrays and handle empty results gracefully."
 
   - task: "Blog API - Admin CRUD"
     implemented: true
