@@ -379,12 +379,12 @@ export default function GaeaStore() {
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ 
-              backgroundImage: `url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80)`,
+              backgroundImage: `url(https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1920&q=80)`,
               backgroundPosition: 'center center'
             }}
           />
           {/* Gradient overlay - lighter at top for nav, darker at bottom for text */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-black/10 to-[#050505]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-black/20 to-[#050505]/95" />
         </motion.div>
         
         <div className="relative h-full flex flex-col justify-end pb-24 px-6">
