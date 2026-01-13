@@ -440,7 +440,11 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Orders API - Create Order"
+    - "Orders API - Get User Orders"
+    - "Blog API - Get Posts"
+    - "Collective API - Apply"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -450,3 +454,5 @@ agent_communication:
     message: "Implemented full Gaea Store MVP with landing page, product catalog, auth, cart, B2B section. Frontend is working visually. Please test backend APIs: products, categories, auth (register/login), cart add, newsletter, and leads endpoints."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE: All 13 backend APIs tested and working perfectly! Health check, products (with filtering), categories, testimonials, user auth (register/login/me), cart operations, B2B leads, and newsletter subscription all functioning correctly. No critical issues found. Ready for production!"
+  - agent: "main"
+    message: "Implemented major new features: 1) Full Checkout Flow with /api/orders endpoint that creates orders with shipping info and generates order numbers. 2) Blog/Journal section with /api/blog endpoint and admin CRUD at /api/admin/blog. 3) Gaea Collective community section with /api/collective/apply for applications and /api/admin/collective for approval. Please test the new endpoints: orders create (POST /api/orders with auth), blog get (GET /api/blog), collective apply (POST /api/collective/apply with auth)."
