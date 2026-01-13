@@ -271,9 +271,46 @@ export default function GaeaStore() {
 
   const featuredProducts = products.filter(p => p.featured);
   const newArrivals = products.filter(p => p.newArrival);
-  const filteredProducts = selectedCategory 
-    ? products.filter(p => p.category === selectedCategory)
-    : products;
+  
+  // Advanced filtering
+  const filteredProducts = products
+    .filter(p => {
+      // Category filter
+      if (selectedCategory && p.category !== selectedCategory) return false;
+      // Search filter
+      if (searchQuery && !p.name?.toLowerCase().includes(searchQuery.toLowerCase()) && 
+          !p.description?.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+      // Price filter
+      if (p.price < priceRange[0] || p.price > priceRange[1]) return false;
+      // Material filter
+      if (selectedMaterials.length > 0 && !selectedMaterials.includes(p.material)) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low': return a.price - b.price;
+        case 'price-high': return b.price - a.price;
+        case 'newest': return b.newArrival ? 1 : -1;
+        case 'rating': return (b.rating || 0) - (a.rating || 0);
+        default: return b.featured ? 1 : -1;
+      }
+    });
+
+  const toggleMaterial = (material) => {
+    setSelectedMaterials(prev => 
+      prev.includes(material) 
+        ? prev.filter(m => m !== material)
+        : [...prev, material]
+    );
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setPriceRange([0, 200]);
+    setSelectedMaterials([]);
+    setSortBy('featured');
+    setSelectedCategory(null);
+  };
 
   const cartTotal = cart.items?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
   const cartCount = cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
