@@ -1140,6 +1140,151 @@ export default function GaeaStore() {
         </div>
       </section>
 
+      {/* Blog/Journal Section */}
+      {blogPosts.length > 0 && (
+        <section id="journal" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#f5f4f0]">
+          <div className="container mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-8 sm:mb-12 md:mb-16"
+            >
+              <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-3 sm:mb-4 font-medium">THE JOURNAL</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1a1a1a]">Stories & Insights</h3>
+              <p className="text-[#6b6b6b] mt-4 max-w-2xl mx-auto font-light">
+                Explore sustainable living tips, artisan stories, and the journey behind our products.
+              </p>
+            </motion.div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {blogPosts.slice(0, 3).map((post, i) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group bg-white border border-[#1a1a1a]/5 overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className="aspect-[16/10] overflow-hidden bg-[#f0efe9]">
+                    <img 
+                      src={post.image} 
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-[#2d5a27] text-xs font-medium tracking-wider uppercase">{post.category}</span>
+                      <span className="text-[#6b6b6b] text-xs">•</span>
+                      <span className="text-[#6b6b6b] text-xs">{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    </div>
+                    <h4 className="font-serif text-xl text-[#1a1a1a] mb-2 group-hover:text-[#2d5a27] transition-colors">{post.title}</h4>
+                    <p className="text-[#6b6b6b] text-sm font-light line-clamp-2">{post.excerpt}</p>
+                    <button className="mt-4 text-[#2d5a27] text-sm font-medium flex items-center gap-2 group/btn">
+                      Read More
+                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+
+            {blogPosts.length > 3 && (
+              <div className="text-center mt-10">
+                <Button 
+                  variant="outline"
+                  className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 rounded-none tracking-wider"
+                >
+                  VIEW ALL ARTICLES
+                </Button>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Gaea Collective Section */}
+      <section id="collective" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#1a1a1a] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-[#2d5a27] rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2d5a27] rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        </div>
+        
+        <div className="container mx-auto relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
+                <Heart className="w-4 h-4 text-[#7cb342]" />
+                <span className="text-white/70 text-sm tracking-wider">COMMUNITY</span>
+              </div>
+              
+              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6">
+                The Gaea <span className="text-[#7cb342]">Collective</span>
+              </h3>
+              
+              <p className="text-white/60 text-lg mb-8 leading-relaxed font-light">
+                Join a community of like-minded individuals passionate about sustainable living. 
+                Share stories, get exclusive access to new products, and connect with artisans around the world.
+              </p>
+
+              <div className="grid sm:grid-cols-3 gap-6 mb-10">
+                <div className="p-6 bg-white/5 border border-white/10 rounded-lg">
+                  <div className="w-12 h-12 bg-[#7cb342]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="w-6 h-6 text-[#7cb342]" />
+                  </div>
+                  <h4 className="text-white font-medium mb-2">Community Access</h4>
+                  <p className="text-white/50 text-sm font-light">Connect with sustainability advocates worldwide</p>
+                </div>
+                <div className="p-6 bg-white/5 border border-white/10 rounded-lg">
+                  <div className="w-12 h-12 bg-[#7cb342]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Star className="w-6 h-6 text-[#7cb342]" />
+                  </div>
+                  <h4 className="text-white font-medium mb-2">Exclusive Benefits</h4>
+                  <p className="text-white/50 text-sm font-light">Early access, special discounts, and members-only events</p>
+                </div>
+                <div className="p-6 bg-white/5 border border-white/10 rounded-lg">
+                  <div className="w-12 h-12 bg-[#7cb342]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Leaf className="w-6 h-6 text-[#7cb342]" />
+                  </div>
+                  <h4 className="text-white font-medium mb-2">Impact Stories</h4>
+                  <p className="text-white/50 text-sm font-light">See the real-world impact of your choices</p>
+                </div>
+              </div>
+
+              {collectiveStatus.isMember ? (
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-[#7cb342] text-white rounded-full">
+                  <Check className="w-5 h-5" />
+                  <span className="font-medium">You're a Collective Member!</span>
+                </div>
+              ) : collectiveStatus.applicationStatus === 'pending' ? (
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-full">
+                  <span className="font-medium">Application Under Review</span>
+                </div>
+              ) : (
+                <Button 
+                  onClick={() => {
+                    if (!user) {
+                      setAuthOpen(true);
+                    } else {
+                      setCollectiveModal(true);
+                    }
+                  }}
+                  className="bg-white text-[#1a1a1a] hover:bg-[#7cb342] hover:text-white px-8 py-6 rounded-none tracking-wider transition-all"
+                >
+                  JOIN THE COLLECTIVE
+                </Button>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter - Elegant */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#f5f4f0]">
         <div className="container mx-auto max-w-2xl text-center">
