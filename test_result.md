@@ -302,15 +302,18 @@ backend:
 
   - task: "Collective API - Apply"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/collective/apply submits application to join Gaea Collective. Requires auth."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Collective application working perfectly - POST /api/collective/apply successfully accepts applications with reason, bio, interests, socialMedia fields. Returns success message 'Application submitted! We will review it shortly.' Auth protection working correctly."
 
   - task: "Collective API - Admin Approve/Reject"
     implemented: true
