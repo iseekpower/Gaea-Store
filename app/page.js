@@ -223,6 +223,35 @@ export default function GaeaStore() {
     }
   };
 
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+    if (checkoutStep < 3) {
+      setCheckoutStep(checkoutStep + 1);
+      return;
+    }
+    
+    // Process order
+    const token = localStorage.getItem('gaea_token');
+    try {
+      // Clear cart after successful order
+      await fetch('/api/cart/clear', {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setCart({ items: [] });
+      setOrderComplete(true);
+      setCheckoutStep(1);
+      
+      setTimeout(() => {
+        setCheckoutOpen(false);
+        setOrderComplete(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Checkout error:', error);
+    }
+  };
+
   const handleB2bSubmit = async (e) => {
     e.preventDefault();
     try {
