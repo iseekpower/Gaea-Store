@@ -238,6 +238,8 @@ export default function AdminDashboard() {
             {[
               { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
               { id: 'products', icon: Package, label: 'Products' },
+              { id: 'blog', icon: PenLine, label: 'Blog Posts' },
+              { id: 'collective', icon: Users, label: 'Collective' },
               { id: 'leads', icon: FileText, label: 'B2B Leads' },
               { id: 'settings', icon: Settings, label: 'Settings' },
             ].map(item => (
