@@ -754,17 +754,17 @@ export default function GaeaStore() {
       </section>
 
       {/* Featured Products - Light elegant */}
-      <section className="py-20 px-6 bg-[#f5f4f0]">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#f5f4f0]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-end justify-between mb-12"
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12"
           >
             <div>
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">CURATED</p>
-              <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">Featured Products</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-2 sm:mb-4 font-medium">CURATED</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1a1a1a]">Featured Products</h3>
             </div>
             <button className="hidden md:flex items-center gap-2 text-[#6b6b6b] hover:text-[#2d5a27] transition-colors group">
               <span className="tracking-wider text-sm font-light">VIEW ALL</span>
@@ -772,7 +772,7 @@ export default function GaeaStore() {
             </button>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
             {featuredProducts.slice(0, 4).map((product, i) => (
               <ProductCard 
                 key={product.id} 
@@ -787,23 +787,23 @@ export default function GaeaStore() {
       </section>
 
       {/* New Arrivals */}
-      <section className="py-20 px-6 bg-[#faf9f6]">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-end justify-between mb-12"
+            className="flex items-end justify-between mb-8 sm:mb-12"
           >
             <div>
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">JUST IN</p>
-              <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">New Arrivals</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-2 sm:mb-4 font-medium">JUST IN</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1a1a1a]">New Arrivals</h3>
             </div>
           </motion.div>
 
-          <div className="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
+          <div className="flex gap-3 sm:gap-4 md:gap-6 lg:gap-8 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             {newArrivals.map((product, i) => (
-              <div key={product.id} className="flex-shrink-0 w-72">
+              <div key={product.id} className="flex-shrink-0 w-[160px] sm:w-[200px] md:w-64 lg:w-72">
                 <ProductCard 
                   product={product} 
                   index={i}
