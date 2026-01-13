@@ -30,36 +30,56 @@ class GaeaAPITester:
         try:
             self.log("🔧 Setting up admin user...")
             
-            # Try to login with existing admin
-            login_data = {
-                "email": "admin@gaea.co",
-                "password": "admin123"
+            # Try multiple admin credentials
+            admin_credentials = [
+                {"email": "admin@gaea.co", "password": "admin123"},
+                {"email": "admin@example.com", "password": "admin123"},
+                {"email": "admin@gaea.store", "password": "admin123"}
+            ]
+            
+            for creds in admin_credentials:
+                response = requests.post(f"{self.base_url}/auth/login", json=creds)
+                if response.status_code == 200:
+                    data = response.json()
+                    user = data.get('user', {})
+                    if user.get('role') == 'admin':
+                        self.admin_token = data.get('token')
+                        self.log(f"✅ Admin login successful: {creds['email']}")
+                        return True
+            
+            # If no admin found, try to create one with a unique email
+            self.log("⚠️ No admin found, attempting to create admin...")
+            timestamp = datetime.now().strftime('%H%M%S')
+            admin_data = {
+                "email": f"admin_{timestamp}@gaea.co",
+                "password": "admin123",
+                "name": "Gaea Admin"
             }
             
-            response = requests.post(f"{self.base_url}/auth/login", json=login_data)
-            
+            response = requests.post(f"{self.base_url}/admin/setup", json=admin_data)
             if response.status_code == 200:
                 data = response.json()
                 self.admin_token = data.get('token')
-                self.log("✅ Admin login successful")
+                self.log(f"✅ Admin created successfully: {admin_data['email']}")
                 return True
             else:
-                # Try to create admin
-                self.log("⚠️ Admin login failed, attempting to create admin...")
-                admin_data = {
-                    "email": "admin@gaea.co",
+                # If admin setup fails, try to register a regular user and manually promote
+                self.log("⚠️ Admin setup failed, creating regular user for limited testing...")
+                user_data = {
+                    "email": f"testadmin_{timestamp}@gaea.co",
                     "password": "admin123",
-                    "name": "Gaea Admin"
+                    "name": "Test Admin"
                 }
                 
-                response = requests.post(f"{self.base_url}/admin/setup", json=admin_data)
+                response = requests.post(f"{self.base_url}/auth/register", json=user_data)
                 if response.status_code == 200:
                     data = response.json()
                     self.admin_token = data.get('token')
-                    self.log("✅ Admin created successfully")
+                    self.log(f"⚠️ Created regular user for testing: {user_data['email']}")
+                    self.log("⚠️ Some admin-only tests may fail due to insufficient permissions")
                     return True
                 else:
-                    self.log(f"❌ Admin setup failed: {response.text}")
+                    self.log(f"❌ All admin setup attempts failed: {response.text}")
                     return False
                     
         except Exception as e:
