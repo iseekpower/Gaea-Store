@@ -370,46 +370,51 @@ export default function GaeaStore() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section - Light Background with Dark Text for Contrast */}
+      {/* Hero Section - Full bleed lifestyle image like Brkthru */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div 
-          style={{ scale: heroScale, opacity: heroOpacity }}
+          style={{ scale: heroScale }}
           className="absolute inset-0"
         >
           <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: `url(https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1920&q=80)`,
+              backgroundPosition: 'center 30%'
+            }}
           />
-          {/* Light gradient overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#050505]" />
+          {/* Gradient overlay - lighter at top for nav, darker at bottom for text */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-[#050505]/90" />
         </motion.div>
         
-        <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="max-w-4xl"
-          >
-            {/* Dark text for contrast on light hero */}
-            <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-6 font-medium">SUSTAINABLE LIVING</p>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-[#0a0a0a] drop-shadow-sm">
-              Nature's Craft,
-              <br />
-              <span className="italic text-[#2d5a27]">Your Story</span>
-            </h2>
-            <p className="text-[#333] text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
-              Premium bamboo and wood products for the conscious lifestyle. 
-              Where sustainability meets luxury.
-            </p>
-            <Button 
-              size="lg"
-              onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-[#0a0a0a] text-white hover:bg-[#2d5a27] px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
+        <div className="relative h-full flex flex-col justify-end pb-24 px-6">
+          <div className="container mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="max-w-3xl"
             >
-              SHOP NOW
-            </Button>
-          </motion.div>
+              {/* Text overlay on bottom of hero */}
+              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-white drop-shadow-lg">
+                Nature's Craft,
+                <br />
+                <span className="italic text-[#7cb342]">Your Story</span>
+              </h2>
+              <p className="text-white/80 text-lg md:text-xl max-w-xl mb-8 font-light">
+                Premium bamboo and wood products for the conscious lifestyle. 
+                Where sustainability meets luxury.
+              </p>
+              <Button 
+                size="lg"
+                onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                className="bg-white text-[#0a0a0a] hover:bg-[#2d5a27] hover:text-white px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
+              >
+                SHOP NOW
+              </Button>
+            </motion.div>
+          </div>
         </div>
 
         <motion.div
@@ -418,11 +423,11 @@ export default function GaeaStore() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-10 border-2 border-[#0a0a0a]/30 rounded-full flex justify-center">
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-[#0a0a0a]/60 rounded-full mt-2"
+              className="w-1 h-3 bg-white/80 rounded-full mt-2"
             />
           </div>
         </motion.div>
