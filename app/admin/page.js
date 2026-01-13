@@ -80,15 +80,25 @@ export default function AdminDashboard() {
 
   const fetchData = async (token) => {
     try {
-      const [productsRes, leadsRes, categoriesRes] = await Promise.all([
+      const [productsRes, leadsRes, categoriesRes, blogRes, collectiveRes] = await Promise.all([
         fetch('/api/products'),
         fetch('/api/admin/leads', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('/api/categories')
+        fetch('/api/categories'),
+        fetch('/api/admin/blog', { headers: { Authorization: `Bearer ${token}` } }),
+        fetch('/api/admin/collective', { headers: { Authorization: `Bearer ${token}` } })
       ]);
 
       setProducts(await productsRes.json());
       if (leadsRes.ok) setLeads(await leadsRes.json());
       setCategories(await categoriesRes.json());
+      if (blogRes.ok) {
+        const blogData = await blogRes.json();
+        setBlogPosts(Array.isArray(blogData) ? blogData : []);
+      }
+      if (collectiveRes.ok) {
+        const collectiveData = await collectiveRes.json();
+        setCollectiveApps(Array.isArray(collectiveData) ? collectiveData : []);
+      }
     } catch (error) {
       console.error('Fetch error:', error);
     } finally {
