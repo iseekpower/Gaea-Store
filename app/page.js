@@ -16,9 +16,10 @@ import {
   Minus, Plus, Trash2, Heart, Globe, Building2, Package
 } from 'lucide-react';
 
-// Hero images
-const heroImage = 'https://images.unsplash.com/photo-1546948630-84f64bda3ad8?w=1920&q=80';
-const heroImage2 = 'https://images.unsplash.com/photo-1534195003206-c8e1957f0d7c?w=1920&q=80';
+// Hero images - Lifestyle shots with light backgrounds
+const heroImage = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=80'; // Person in nature meditation/wellness
+const heroImage2 = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80'; // Natural lifestyle
+const heroImageAlt = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&q=80'; // Yoga/wellness lifestyle
 
 export default function GaeaStore() {
   const [menuOpen, setMenuOpen] = useState(false);
