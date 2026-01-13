@@ -36,6 +36,12 @@ export default function AdminDashboard() {
     featured: false, newArrival: false, stock: ''
   });
 
+  // Blog form state
+  const [blogForm, setBlogForm] = useState({
+    title: '', excerpt: '', content: '', category: 'lifestyle',
+    image: '', tags: '', featured: false
+  });
+
   useEffect(() => {
     checkAuth();
   }, []);
