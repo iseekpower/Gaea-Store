@@ -701,7 +701,7 @@ export default function GaeaStore() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-[#0a0a0a]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -709,8 +709,8 @@ export default function GaeaStore() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">TESTIMONIALS</p>
-            <h3 className="text-4xl md:text-5xl font-serif">What People Say</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">TESTIMONIALS</p>
+            <h3 className="text-4xl md:text-5xl font-serif text-white">What People Say</h3>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -725,7 +725,7 @@ export default function GaeaStore() {
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#c9a961] text-[#c9a961]" />
+                    <Star key={i} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />
                   ))}
                 </div>
                 <p className="text-white/70 mb-6 font-light italic">"{testimonial.content}"</p>
