@@ -104,6 +104,121 @@ export async function GET(request) {
       return NextResponse.json(product, { headers: corsHeaders });
     }
 
+    // Get user orders
+    if (pathParts[0] === 'orders') {
+      const user = verifyToken(request);
+      if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('orders');
+      const orders = await collection.find({ userId: user.id }).sort({ createdAt: -1 }).toArray();
+      return NextResponse.json(orders, { headers: corsHeaders });
+    }
+
+    // Get blog posts (public)
+    if (pathParts[0] === 'blog' && !pathParts[1]) {
+      const collection = await getCollection('blog_posts');
+      const featured = searchParams.get('featured');
+      const category = searchParams.get('category');
+      const limit = parseInt(searchParams.get('limit')) || 10;
+
+      let query = { status: 'published' };
+      if (featured === 'true') query.featured = true;
+      if (category) query.category = category;
+
+      const posts = await collection.find(query).sort({ createdAt: -1 }).limit(limit).toArray();
+      return NextResponse.json(posts, { headers: corsHeaders });
+    }
+
+    // Get single blog post
+    if (pathParts[0] === 'blog' && pathParts[1]) {
+      const collection = await getCollection('blog_posts');
+      const post = await collection.findOne({ 
+        $or: [{ id: pathParts[1] }, { slug: pathParts[1] }],
+        status: 'published'
+      });
+      
+      if (!post) {
+        return NextResponse.json({ error: 'Post not found' }, { status: 404, headers: corsHeaders });
+      }
+
+      // Increment views
+      await collection.updateOne({ id: post.id }, { $inc: { views: 1 } });
+      
+      return NextResponse.json(post, { headers: corsHeaders });
+    }
+
+    // Admin: Get all blog posts (including drafts)
+    if (pathParts[0] === 'admin' && pathParts[1] === 'blog') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('blog_posts');
+      const posts = await collection.find({}).sort({ createdAt: -1 }).toArray();
+      return NextResponse.json(posts, { headers: corsHeaders });
+    }
+
+    // Admin: Get all collective applications
+    if (pathParts[0] === 'admin' && pathParts[1] === 'collective') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('collective_applications');
+      const status = searchParams.get('status');
+      let query = {};
+      if (status) query.status = status;
+
+      const applications = await collection.find(query).sort({ createdAt: -1 }).toArray();
+      return NextResponse.json(applications, { headers: corsHeaders });
+    }
+
+    // Admin: Get all orders
+    if (pathParts[0] === 'admin' && pathParts[1] === 'orders') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('orders');
+      const orders = await collection.find({}).sort({ createdAt: -1 }).toArray();
+      return NextResponse.json(orders, { headers: corsHeaders });
+    }
+
+    // Get collective members (public)
+    if (pathParts[0] === 'collective' && pathParts[1] === 'members') {
+      const collection = await getCollection('users');
+      const members = await collection.find({ collectiveMember: true })
+        .project({ password: 0 })
+        .sort({ collectiveJoinedAt: -1 })
+        .limit(20)
+        .toArray();
+      return NextResponse.json(members, { headers: corsHeaders });
+    }
+
+    // Check user's collective status
+    if (pathParts[0] === 'collective' && pathParts[1] === 'status') {
+      const user = verifyToken(request);
+      if (!user) {
+        return NextResponse.json({ status: 'not_logged_in' }, { headers: corsHeaders });
+      }
+
+      const applicationsCollection = await getCollection('collective_applications');
+      const application = await applicationsCollection.findOne({ userId: user.id });
+
+      const usersCollection = await getCollection('users');
+      const userData = await usersCollection.findOne({ id: user.id });
+
+      return NextResponse.json({
+        isMember: userData?.collectiveMember || false,
+        applicationStatus: application?.status || null
+      }, { headers: corsHeaders });
+    }
+
     // Get all categories
     if (pathParts[0] === 'categories') {
       const collection = await getCollection('categories');
