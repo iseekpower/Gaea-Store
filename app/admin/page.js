@@ -11,7 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   LayoutDashboard, Package, Users, FileText, Settings, LogOut,
-  Plus, Edit, Trash2, Eye, Search, ChevronLeft, Leaf, Mail, Phone, Globe
+  Plus, Edit, Trash2, Eye, Search, ChevronLeft, Leaf, Mail, Phone, Globe,
+  PenLine, UserCheck, UserX, Clock
 } from 'lucide-react';
 
 export default function AdminDashboard() {
