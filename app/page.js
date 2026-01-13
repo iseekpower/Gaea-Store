@@ -429,7 +429,7 @@ export default function GaeaStore() {
       </section>
 
       {/* Brand Statement */}
-      <section className="py-32 px-6">
+      <section className="py-32 px-6 bg-[#050505]">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -437,10 +437,10 @@ export default function GaeaStore() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">THE PHILOSOPHY</p>
-              <h3 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">THE PHILOSOPHY</p>
+              <h3 className="text-4xl md:text-5xl font-serif leading-tight mb-6 text-white">
                 We exist in the space<br/>
-                between <span className="text-[#c9a961]">nature</span><br/>
+                between <span className="text-[#2d5a27]">nature</span><br/>
                 and <span className="italic text-[#c9a961]">artistry.</span>
               </h3>
             </motion.div>
@@ -458,11 +458,11 @@ export default function GaeaStore() {
               </p>
               <div className="flex gap-12 pt-4">
                 <div className="border-t border-white/20 pt-4">
-                  <p className="text-3xl font-serif text-[#c9a961]">15K+</p>
+                  <p className="text-3xl font-serif text-[#2d5a27]">15K+</p>
                   <p className="text-white/40 text-sm tracking-wider">HAPPY CUSTOMERS</p>
                 </div>
                 <div className="border-t border-white/20 pt-4">
-                  <p className="text-3xl font-serif text-[#c9a961]">50+</p>
+                  <p className="text-3xl font-serif text-[#2d5a27]">50+</p>
                   <p className="text-white/40 text-sm tracking-wider">ARTISAN PARTNERS</p>
                 </div>
               </div>
