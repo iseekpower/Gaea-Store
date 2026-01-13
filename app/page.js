@@ -969,10 +969,10 @@ export default function GaeaStore() {
           ) : (
             <Tabs value={authTab} onValueChange={setAuthTab} className="mt-4">
               <TabsList className="grid grid-cols-2 bg-white/5">
-                <TabsTrigger value="login" className="data-[state=active]:bg-[#c9a961] data-[state=active]:text-[#050505]">
+                <TabsTrigger value="login" className="data-[state=active]:bg-[#2d5a27] data-[state=active]:text-white">
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="register" className="data-[state=active]:bg-[#c9a961] data-[state=active]:text-[#050505]">
+                <TabsTrigger value="register" className="data-[state=active]:bg-[#2d5a27] data-[state=active]:text-white">
                   Register
                 </TabsTrigger>
               </TabsList>
@@ -1008,7 +1008,7 @@ export default function GaeaStore() {
                 )}
                 <Button 
                   type="submit"
-                  className="w-full bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none h-12"
+                  className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
                 >
                   {authTab === 'login' ? 'SIGN IN' : 'CREATE ACCOUNT'}
                 </Button>
