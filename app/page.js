@@ -666,16 +666,16 @@ export default function GaeaStore() {
       </section>
 
       {/* Brand Statement - Elegant Light */}
-      <section className="py-32 px-6 bg-[#faf9f6]">
+      <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#faf9f6]">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">THE PHILOSOPHY</p>
-              <h3 className="text-4xl md:text-5xl font-serif leading-tight mb-6 text-[#1a1a1a]">
+              <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-3 sm:mb-4 font-medium">THE PHILOSOPHY</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif leading-tight mb-4 sm:mb-6 text-[#1a1a1a]">
                 We exist in the space<br/>
                 between <span className="text-[#2d5a27]">nature</span><br/>
                 and <span className="italic text-[#2d5a27]">artistry.</span>
@@ -685,22 +685,22 @@ export default function GaeaStore() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
             >
-              <p className="text-[#4a4a4a] text-lg font-light leading-relaxed">
+              <p className="text-[#4a4a4a] text-base sm:text-lg font-light leading-relaxed">
                 The Gaea Store was founded on a simple principle: everyday products should 
                 honor both the people who use them and the planet we share. We source the 
                 finest bamboo, teak, walnut, and neem to create pieces that are as beautiful 
                 as they are sustainable.
               </p>
-              <div className="flex gap-12 pt-4">
+              <div className="flex gap-8 sm:gap-12 pt-4">
                 <div className="border-t border-[#1a1a1a]/10 pt-4">
-                  <p className="text-3xl font-serif text-[#2d5a27]">15K+</p>
-                  <p className="text-[#6b6b6b] text-sm tracking-wider font-light">HAPPY CUSTOMERS</p>
+                  <p className="text-2xl sm:text-3xl font-serif text-[#2d5a27]">15K+</p>
+                  <p className="text-[#6b6b6b] text-xs sm:text-sm tracking-wider font-light">HAPPY CUSTOMERS</p>
                 </div>
                 <div className="border-t border-[#1a1a1a]/10 pt-4">
-                  <p className="text-3xl font-serif text-[#2d5a27]">50+</p>
-                  <p className="text-[#6b6b6b] text-sm tracking-wider font-light">ARTISAN PARTNERS</p>
+                  <p className="text-2xl sm:text-3xl font-serif text-[#2d5a27]">50+</p>
+                  <p className="text-[#6b6b6b] text-xs sm:text-sm tracking-wider font-light">ARTISAN PARTNERS</p>
                 </div>
               </div>
             </motion.div>
@@ -712,19 +712,19 @@ export default function GaeaStore() {
       <div className="elegant-divider mx-auto max-w-6xl" />
 
       {/* Categories - Light elegant cards */}
-      <section className="py-20 px-6 bg-[#faf9f6]">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">COLLECTIONS</p>
-            <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">Shop by Category</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-3 sm:mb-4 font-medium">COLLECTIONS</p>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1a1a1a]">Shop by Category</h3>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
             {categories.map((category, i) => (
               <motion.button
                 key={category.id}
@@ -736,16 +736,16 @@ export default function GaeaStore() {
                   setSelectedCategory(category.slug);
                   document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="group relative aspect-[3/4] overflow-hidden bg-[#f0efe9] rounded-sm"
+                className="group relative aspect-[3/4] overflow-hidden bg-[#f0efe9] rounded-sm touch-manipulation"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{ backgroundImage: `url(${category.image})` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/70 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h4 className="text-xl font-serif mb-1 text-white">{category.name}</h4>
-                  <p className="text-white/70 text-sm line-clamp-2 font-light">{category.description}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6">
+                  <h4 className="text-sm sm:text-base md:text-xl font-serif mb-0 sm:mb-1 text-white">{category.name}</h4>
+                  <p className="text-white/70 text-xs sm:text-sm line-clamp-2 font-light hidden sm:block">{category.description}</p>
                 </div>
               </motion.button>
             ))}
