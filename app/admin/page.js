@@ -904,6 +904,113 @@ export default function AdminDashboard() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Blog Modal */}
+      <Dialog open={blogModal.open} onOpenChange={(open) => setBlogModal({ ...blogModal, open })}>
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-[#1a1a1a] font-serif text-2xl">
+              {blogModal.mode === 'edit' ? 'Edit Blog Post' : 'Add New Blog Post'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <form onSubmit={handleBlogSubmit} className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Title *</label>
+              <Input
+                value={blogForm.title}
+                onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
+                className="bg-white border-[#1a1a1a]/10"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Excerpt *</label>
+              <textarea
+                value={blogForm.excerpt}
+                onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
+                className="w-full bg-white border border-[#1a1a1a]/10 rounded-md p-3 h-20"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Content *</label>
+              <textarea
+                value={blogForm.content}
+                onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
+                className="w-full bg-white border border-[#1a1a1a]/10 rounded-md p-3 h-40"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Category</label>
+                <select
+                  value={blogForm.category}
+                  onChange={(e) => setBlogForm({ ...blogForm, category: e.target.value })}
+                  className="w-full bg-white border border-[#1a1a1a]/10 rounded-md p-2 h-10"
+                >
+                  <option value="lifestyle">Lifestyle</option>
+                  <option value="sustainability">Sustainability</option>
+                  <option value="wellness">Wellness</option>
+                  <option value="business">Business</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Image URL</label>
+                <Input
+                  value={blogForm.image}
+                  onChange={(e) => setBlogForm({ ...blogForm, image: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                  className="bg-white border-[#1a1a1a]/10"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Tags (comma separated)</label>
+              <Input
+                value={blogForm.tags}
+                onChange={(e) => setBlogForm({ ...blogForm, tags: e.target.value })}
+                placeholder="eco-friendly, sustainable, wellness"
+                className="bg-white border-[#1a1a1a]/10"
+              />
+            </div>
+
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={blogForm.featured}
+                  onChange={(e) => setBlogForm({ ...blogForm, featured: e.target.checked })}
+                  className="w-4 h-4 accent-[#2d5a27]"
+                />
+                <span className="text-[#4a4a4a]">Featured Post</span>
+              </label>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <Button 
+                type="button"
+                variant="outline"
+                onClick={() => setBlogModal({ open: false, mode: 'create', post: null })}
+                className="flex-1 border-[#1a1a1a]/20 text-[#1a1a1a]"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit"
+                className="flex-1 bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90"
+              >
+                {blogModal.mode === 'edit' ? 'Update Post' : 'Create Post'}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
