@@ -22,7 +22,10 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [leads, setLeads] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [collectiveApps, setCollectiveApps] = useState([]);
   const [productModal, setProductModal] = useState({ open: false, mode: 'create', product: null });
+  const [blogModal, setBlogModal] = useState({ open: false, mode: 'create', post: null });
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
