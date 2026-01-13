@@ -1031,7 +1031,7 @@ export default function GaeaStore() {
                 />
               </div>
               <div className="p-8 flex flex-col">
-                <Badge className="w-fit bg-[#c9a961]/20 text-[#c9a961] mb-4">
+                <Badge className="w-fit bg-[#2d5a27]/20 text-[#2d5a27] mb-4">
                   {productModal.material}
                 </Badge>
                 <h2 className="text-3xl font-serif text-white mb-2">{productModal.name}</h2>
@@ -1040,14 +1040,14 @@ export default function GaeaStore() {
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#c9a961] text-[#c9a961]' : 'text-white/20'}`}
+                        className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#2d5a27] text-[#2d5a27]' : 'text-white/20'}`}
                       />
                     ))}
                   </div>
                   <span className="text-white/60 text-sm">({productModal.reviews} reviews)</span>
                 </div>
                 <div className="flex items-baseline gap-3 mb-6">
-                  <span className="text-3xl text-[#c9a961] font-serif">${productModal.price?.toFixed(2)}</span>
+                  <span className="text-3xl text-[#2d5a27] font-serif">${productModal.price?.toFixed(2)}</span>
                   {productModal.originalPrice && (
                     <span className="text-white/40 line-through">${productModal.originalPrice?.toFixed(2)}</span>
                   )}
@@ -1059,7 +1059,7 @@ export default function GaeaStore() {
                       addToCart(productModal);
                       setProductModal(null);
                     }}
-                    className="flex-1 bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none h-12"
+                    className="flex-1 bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
                   >
                     ADD TO CART
                   </Button>
