@@ -116,6 +116,9 @@ backend:
       - working: true
         agent: "main"
         comment: "GET /api/health returns healthy status"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Health check API working correctly, returns status: healthy"
 
   - task: "Products API - List all"
     implemented: true
