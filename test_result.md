@@ -137,15 +137,18 @@ backend:
 
   - task: "Categories API"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/categories returns all product categories"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Categories API working correctly - Found 5 categories: Personal Care, Home & Kitchen, Apparel, Decor, Travel EDC"
 
   - task: "Testimonials API"
     implemented: true
