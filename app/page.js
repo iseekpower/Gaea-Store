@@ -521,21 +521,21 @@ export default function GaeaStore() {
 
       {/* Hero Section - Split Layout for Conversion */}
       <section ref={heroRef} className="min-h-screen bg-[#faf9f6] pt-20">
-        <div className="container mx-auto px-6 h-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
+        <div className="container mx-auto px-4 sm:px-6 h-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-80px)]">
             {/* Left - Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="py-12 lg:py-0"
+              className="py-8 lg:py-0 order-2 lg:order-1"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2d5a27]/10 rounded-full mb-6">
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#2d5a27]/10 rounded-full mb-4 sm:mb-6">
                 <Leaf className="w-4 h-4 text-[#2d5a27]" />
-                <span className="text-[#2d5a27] text-sm font-medium tracking-wide">SUSTAINABLE LIVING</span>
+                <span className="text-[#2d5a27] text-xs sm:text-sm font-medium tracking-wide">SUSTAINABLE LIVING</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#1a1a1a] leading-[1.1] mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#1a1a1a] leading-[1.1] mb-4 sm:mb-6">
                 Premium Eco-Friendly
                 <br />
                 <span className="text-[#2d5a27]">Products</span> for
@@ -543,16 +543,16 @@ export default function GaeaStore() {
                 Conscious Living
               </h1>
               
-              <p className="text-lg md:text-xl text-[#4a4a4a] max-w-lg mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-[#4a4a4a] max-w-lg mb-6 sm:mb-8 leading-relaxed">
                 Discover our curated collection of bamboo, teak, and wood essentials. 
                 Beautifully crafted, naturally sustainable.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10">
                 <Button 
                   size="lg"
                   onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] px-8 py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-14"
+                  className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] px-6 sm:px-8 py-5 sm:py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-12 sm:h-14 w-full sm:w-auto justify-center"
                 >
                   SHOP COLLECTION
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -561,25 +561,25 @@ export default function GaeaStore() {
                   variant="outline"
                   size="lg"
                   onClick={() => setB2bModal(true)}
-                  className="border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-14"
+                  className="border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-6 sm:px-8 py-5 sm:py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-12 sm:h-14 w-full sm:w-auto justify-center"
                 >
                   B2B INQUIRY
                 </Button>
               </div>
 
               {/* Trust Signals */}
-              <div className="flex flex-wrap items-center gap-8 pt-8 border-t border-[#1a1a1a]/10">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-8 pt-6 sm:pt-8 border-t border-[#1a1a1a]/10">
                 <div className="flex items-center gap-2">
-                  <Truck className="w-5 h-5 text-[#2d5a27]" />
-                  <span className="text-[#4a4a4a] text-sm">Free Shipping $50+</span>
+                  <Truck className="w-4 sm:w-5 h-4 sm:h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-xs sm:text-sm">Free Shipping $50+</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-[#2d5a27]" />
-                  <span className="text-[#4a4a4a] text-sm">30-Day Returns</span>
+                  <Shield className="w-4 sm:w-5 h-4 sm:h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-xs sm:text-sm">30-Day Returns</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Leaf className="w-5 h-5 text-[#2d5a27]" />
-                  <span className="text-[#4a4a4a] text-sm">100% Eco-Friendly</span>
+                  <Leaf className="w-4 sm:w-5 h-4 sm:h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-xs sm:text-sm">100% Eco-Friendly</span>
                 </div>
               </div>
             </motion.div>
@@ -589,9 +589,9 @@ export default function GaeaStore() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative order-1 lg:order-2"
             >
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 {/* Main large image */}
                 <div className="col-span-2 aspect-[16/10] overflow-hidden bg-[#f0efe9]">
                   <img 
@@ -622,19 +622,19 @@ export default function GaeaStore() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="absolute -bottom-6 -left-6 bg-white p-6 shadow-xl border border-[#1a1a1a]/5"
+                className="absolute -bottom-4 sm:-bottom-6 left-2 sm:-left-6 bg-white p-4 sm:p-6 shadow-xl border border-[#1a1a1a]/5"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
                   <div className="text-center">
-                    <p className="text-3xl font-serif text-[#2d5a27]">15K+</p>
-                    <p className="text-xs text-[#6b6b6b] tracking-wider">HAPPY CUSTOMERS</p>
+                    <p className="text-2xl sm:text-3xl font-serif text-[#2d5a27]">15K+</p>
+                    <p className="text-[10px] sm:text-xs text-[#6b6b6b] tracking-wider">HAPPY CUSTOMERS</p>
                   </div>
-                  <div className="w-px h-12 bg-[#1a1a1a]/10" />
+                  <div className="w-px h-10 sm:h-12 bg-[#1a1a1a]/10" />
                   <div className="text-center">
-                    <p className="text-3xl font-serif text-[#2d5a27]">4.9</p>
-                    <div className="flex items-center gap-1">
+                    <p className="text-2xl sm:text-3xl font-serif text-[#2d5a27]">4.9</p>
+                    <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-[#2d5a27] text-[#2d5a27]" />
+                        <Star key={i} className="w-2.5 sm:w-3 h-2.5 sm:h-3 fill-[#2d5a27] text-[#2d5a27]" />
                       ))}
                     </div>
                   </div>
@@ -646,9 +646,9 @@ export default function GaeaStore() {
       </section>
 
       {/* Featured Categories Bar */}
-      <section className="bg-[#1a1a1a] py-6">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+      <section className="bg-[#1a1a1a] py-4 sm:py-6 overflow-x-auto">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 md:gap-16 min-w-max sm:min-w-0">
             {['Personal Care', 'Home & Kitchen', 'Apparel', 'Decor', 'Travel EDC'].map((cat, i) => (
               <button
                 key={cat}
@@ -656,7 +656,7 @@ export default function GaeaStore() {
                   setSelectedCategory(cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-'));
                   document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="text-white/70 hover:text-white text-sm tracking-wider transition-colors"
+                className="text-white/70 hover:text-white text-xs sm:text-sm tracking-wider transition-colors whitespace-nowrap py-2 touch-manipulation"
               >
                 {cat.toUpperCase()}
               </button>
