@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -15,11 +15,6 @@ import {
   ArrowRight, Instagram, Twitter, Facebook, Mail, MapPin, Phone,
   Minus, Plus, Trash2, Heart, Globe, Building2, Package
 } from 'lucide-react';
-
-// Hero images - Lifestyle shots with light backgrounds
-const heroImage = 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1920&q=80'; // Person in nature with backpack - adventure lifestyle
-const heroImage2 = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80'; // Natural lifestyle
-const heroImageAlt = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&q=80'; // Yoga/wellness lifestyle
 
 export default function GaeaStore() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,21 +33,17 @@ export default function GaeaStore() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('');
   
-  // Auth form state
   const [authForm, setAuthForm] = useState({ email: '', password: '', name: '' });
   const [authError, setAuthError] = useState('');
 
-  // B2B form state
   const [b2bForm, setB2bForm] = useState({
     companyName: '', contactName: '', email: '', phone: '', type: 'corporate', message: '', country: ''
   });
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1]);
 
-  // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -74,7 +65,6 @@ export default function GaeaStore() {
 
     fetchData();
 
-    // Check for saved user
     const token = localStorage.getItem('gaea_token');
     if (token) {
       fetchUser(token);
@@ -240,57 +230,54 @@ export default function GaeaStore() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+      <div className="min-h-screen bg-[#faf9f6] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-center"
         >
-          <Leaf className="w-16 h-16 text-[#c9a961] mx-auto mb-4 animate-pulse" />
-          <p className="text-white/60 font-light tracking-widest">LOADING</p>
+          <Leaf className="w-16 h-16 text-[#2d5a27] mx-auto mb-4 animate-pulse" />
+          <p className="text-[#6b6b6b] font-light tracking-widest text-sm">LOADING</p>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
-      {/* Navigation - Clean minimal with transparency */}
+    <div className="min-h-screen bg-[#faf9f6] text-[#1a1a1a]">
+      {/* Glass Navigation */}
       <motion.nav 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5"
+        className="fixed top-0 left-0 right-0 z-50 glass"
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Menu Button */}
             <button 
               onClick={() => setMenuOpen(true)}
-              className="flex items-center gap-2 text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
+              className="flex items-center gap-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors"
             >
               <Menu className="w-5 h-5" />
-              <span className="text-sm tracking-wider hidden sm:inline">MENU</span>
+              <span className="text-sm tracking-wider hidden sm:inline font-light">MENU</span>
             </button>
 
-            {/* Logo */}
             <a href="/" className="absolute left-1/2 -translate-x-1/2">
-              <h1 className="text-2xl font-serif tracking-wider text-[#0a0a0a]">Gaea</h1>
+              <h1 className="text-2xl font-serif tracking-wider text-[#1a1a1a]">Gaea</h1>
             </a>
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-4">
-              <button className="text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors hidden sm:block">
+            <div className="flex items-center gap-5">
+              <button className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors hidden sm:block">
                 <Search className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => user ? handleLogout() : setAuthOpen(true)}
-                className="text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
+                className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors"
               >
                 <User className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => setCartOpen(true)}
-                className="relative text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
+                className="relative text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors"
               >
                 <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
@@ -304,7 +291,7 @@ export default function GaeaStore() {
         </div>
       </motion.nav>
 
-      {/* Slide-out Menu */}
+      {/* Elegant Slide-out Menu */}
       <AnimatePresence>
         {menuOpen && (
           <>
@@ -313,18 +300,18 @@ export default function GaeaStore() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 bg-black/80 z-50"
+              className="fixed inset-0 bg-[#1a1a1a]/30 backdrop-blur-sm z-50"
             />
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed left-0 top-0 bottom-0 w-full max-w-md bg-[#0a0a0a] z-50 flex flex-col"
+              transition={{ type: 'tween', duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed left-0 top-0 bottom-0 w-full max-w-md bg-[#faf9f6] z-50 flex flex-col shadow-2xl"
             >
-              <div className="p-6 flex justify-between items-center border-b border-white/10">
-                <span className="text-sm tracking-wider text-white/60">MENU</span>
-                <button onClick={() => setMenuOpen(false)}>
+              <div className="p-6 flex justify-between items-center border-b border-[#1a1a1a]/10">
+                <span className="text-sm tracking-[0.2em] text-[#6b6b6b] font-light">MENU</span>
+                <button onClick={() => setMenuOpen(false)} className="text-[#1a1a1a]/60 hover:text-[#1a1a1a]">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -343,26 +330,22 @@ export default function GaeaStore() {
                           if (item === 'B2B & Export') setB2bModal(true);
                           if (item === 'All Products') setSelectedCategory(null);
                         }}
-                        className="text-3xl font-serif hover:text-[#c9a961] transition-colors flex items-center gap-4 group"
+                        className="text-3xl font-serif text-[#1a1a1a] hover:text-[#2d5a27] transition-colors flex items-center gap-4 group"
                       >
                         {item}
-                        <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </button>
                     </motion.li>
                   ))}
                 </ul>
               </nav>
-              <div className="p-8 border-t border-white/10">
+              <div className="p-8 border-t border-[#1a1a1a]/10">
                 <div className="flex gap-4">
-                  <a href="#" className="text-white/60 hover:text-white transition-colors">
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors">
-                    <Facebook className="w-5 h-5" />
-                  </a>
+                  {[Instagram, Twitter, Facebook].map((Icon, i) => (
+                    <a key={i} href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors">
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -370,7 +353,7 @@ export default function GaeaStore() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section - Full bleed lifestyle image like Brkthru */}
+      {/* Hero Section - Elegant with lifestyle image */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div 
           style={{ scale: heroScale }}
@@ -383,11 +366,10 @@ export default function GaeaStore() {
               backgroundPosition: 'center center'
             }}
           />
-          {/* Gradient overlay - lighter at top for nav, darker at bottom for text */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-black/20 to-[#050505]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/60 via-transparent to-[#faf9f6]" />
         </motion.div>
         
-        <div className="relative h-full flex flex-col justify-end pb-24 px-6">
+        <div className="relative h-full flex flex-col justify-end pb-32 px-6">
           <div className="container mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -395,21 +377,20 @@ export default function GaeaStore() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="max-w-3xl"
             >
-              {/* Text overlay on bottom of hero */}
-              <p className="text-[#7cb342] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
-              <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-white drop-shadow-lg">
+              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-[#1a1a1a]">
                 Nature's Craft,
                 <br />
-                <span className="italic text-[#7cb342]">Your Story</span>
+                <span className="italic text-[#2d5a27]">Your Story</span>
               </h2>
-              <p className="text-white/80 text-lg md:text-xl max-w-xl mb-8 font-light">
+              <p className="text-[#4a4a4a] text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed">
                 Premium bamboo and wood products for the conscious lifestyle. 
                 Where sustainability meets luxury.
               </p>
               <Button 
                 size="lg"
                 onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-                className="bg-white text-[#0a0a0a] hover:bg-[#2d5a27] hover:text-white px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
+                className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
               >
                 SHOP NOW
               </Button>
@@ -423,18 +404,18 @@ export default function GaeaStore() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+          <div className="w-6 h-10 border-2 border-[#1a1a1a]/20 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-white/80 rounded-full mt-2"
+              className="w-1 h-3 bg-[#1a1a1a]/40 rounded-full mt-2"
             />
           </div>
         </motion.div>
       </section>
 
-      {/* Brand Statement */}
-      <section className="py-32 px-6 bg-[#050505]">
+      {/* Brand Statement - Elegant Light */}
+      <section className="py-32 px-6 bg-[#faf9f6]">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -442,11 +423,11 @@ export default function GaeaStore() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">THE PHILOSOPHY</p>
-              <h3 className="text-4xl md:text-5xl font-serif leading-tight mb-6 text-white">
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">THE PHILOSOPHY</p>
+              <h3 className="text-4xl md:text-5xl font-serif leading-tight mb-6 text-[#1a1a1a]">
                 We exist in the space<br/>
                 between <span className="text-[#2d5a27]">nature</span><br/>
-                and <span className="italic text-[#c9a961]">artistry.</span>
+                and <span className="italic text-[#2d5a27]">artistry.</span>
               </h3>
             </motion.div>
             <motion.div
@@ -455,20 +436,20 @@ export default function GaeaStore() {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <p className="text-white/60 text-lg font-light leading-relaxed">
+              <p className="text-[#4a4a4a] text-lg font-light leading-relaxed">
                 The Gaea Store was founded on a simple principle: everyday products should 
                 honor both the people who use them and the planet we share. We source the 
                 finest bamboo, teak, walnut, and neem to create pieces that are as beautiful 
                 as they are sustainable.
               </p>
               <div className="flex gap-12 pt-4">
-                <div className="border-t border-white/20 pt-4">
+                <div className="border-t border-[#1a1a1a]/10 pt-4">
                   <p className="text-3xl font-serif text-[#2d5a27]">15K+</p>
-                  <p className="text-white/40 text-sm tracking-wider">HAPPY CUSTOMERS</p>
+                  <p className="text-[#6b6b6b] text-sm tracking-wider font-light">HAPPY CUSTOMERS</p>
                 </div>
-                <div className="border-t border-white/20 pt-4">
+                <div className="border-t border-[#1a1a1a]/10 pt-4">
                   <p className="text-3xl font-serif text-[#2d5a27]">50+</p>
-                  <p className="text-white/40 text-sm tracking-wider">ARTISAN PARTNERS</p>
+                  <p className="text-[#6b6b6b] text-sm tracking-wider font-light">ARTISAN PARTNERS</p>
                 </div>
               </div>
             </motion.div>
@@ -476,8 +457,11 @@ export default function GaeaStore() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-20 px-6 bg-[#050505]">
+      {/* Elegant Divider */}
+      <div className="elegant-divider mx-auto max-w-6xl" />
+
+      {/* Categories - Light elegant cards */}
+      <section className="py-20 px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -485,8 +469,8 @@ export default function GaeaStore() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">COLLECTIONS</p>
-            <h3 className="text-4xl md:text-5xl font-serif text-white">Shop by Category</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">COLLECTIONS</p>
+            <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">Shop by Category</h3>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -501,16 +485,16 @@ export default function GaeaStore() {
                   setSelectedCategory(category.slug);
                   document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="group relative aspect-[3/4] overflow-hidden"
+                className="group relative aspect-[3/4] overflow-hidden bg-[#f0efe9] rounded-sm"
               >
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{ backgroundImage: `url(${category.image})` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h4 className="text-xl font-serif mb-2">{category.name}</h4>
-                  <p className="text-white/50 text-sm line-clamp-2">{category.description}</p>
+                  <h4 className="text-xl font-serif mb-1 text-white">{category.name}</h4>
+                  <p className="text-white/70 text-sm line-clamp-2 font-light">{category.description}</p>
                 </div>
               </motion.button>
             ))}
@@ -518,8 +502,8 @@ export default function GaeaStore() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-20 px-6 bg-[#050505]">
+      {/* Featured Products - Light elegant */}
+      <section className="py-20 px-6 bg-[#f5f4f0]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -528,16 +512,16 @@ export default function GaeaStore() {
             className="flex items-end justify-between mb-12"
           >
             <div>
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">CURATED</p>
-              <h3 className="text-4xl md:text-5xl font-serif text-white">Featured Products</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">CURATED</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">Featured Products</h3>
             </div>
-            <button className="hidden md:flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
-              <span className="tracking-wider text-sm">VIEW ALL</span>
+            <button className="hidden md:flex items-center gap-2 text-[#6b6b6b] hover:text-[#2d5a27] transition-colors group">
+              <span className="tracking-wider text-sm font-light">VIEW ALL</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredProducts.slice(0, 4).map((product, i) => (
               <ProductCard 
                 key={product.id} 
@@ -552,7 +536,7 @@ export default function GaeaStore() {
       </section>
 
       {/* New Arrivals */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
+      <section className="py-20 px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -561,12 +545,12 @@ export default function GaeaStore() {
             className="flex items-end justify-between mb-12"
           >
             <div>
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">JUST IN</p>
-              <h3 className="text-4xl md:text-5xl font-serif text-white">New Arrivals</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">JUST IN</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">New Arrivals</h3>
             </div>
           </motion.div>
 
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
+          <div className="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
             {newArrivals.map((product, i) => (
               <div key={product.id} className="flex-shrink-0 w-72">
                 <ProductCard 
@@ -582,7 +566,7 @@ export default function GaeaStore() {
       </section>
 
       {/* All Products */}
-      <section id="products" className="py-20 px-6 bg-[#050505]">
+      <section id="products" className="py-20 px-6 bg-[#f5f4f0]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -591,8 +575,8 @@ export default function GaeaStore() {
             className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12"
           >
             <div>
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">ALL PRODUCTS</p>
-              <h3 className="text-4xl md:text-5xl font-serif text-white">
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">ALL PRODUCTS</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">
                 {selectedCategory 
                   ? categories.find(c => c.slug === selectedCategory)?.name || 'Products'
                   : 'Our Collection'
@@ -602,10 +586,10 @@ export default function GaeaStore() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className={`px-4 py-2 text-sm tracking-wider border transition-all ${
+                className={`px-4 py-2 text-sm tracking-wider border transition-all rounded-none ${
                   !selectedCategory 
-                    ? 'border-[#2d5a27] text-[#2d5a27]' 
-                    : 'border-white/20 text-white/60 hover:border-white/40'
+                    ? 'border-[#2d5a27] text-[#2d5a27] bg-[#2d5a27]/5' 
+                    : 'border-[#1a1a1a]/20 text-[#6b6b6b] hover:border-[#1a1a1a]/40'
                 }`}
               >
                 ALL
@@ -614,10 +598,10 @@ export default function GaeaStore() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 text-sm tracking-wider border transition-all ${
+                  className={`px-4 py-2 text-sm tracking-wider border transition-all rounded-none ${
                     selectedCategory === cat.slug 
-                      ? 'border-[#2d5a27] text-[#2d5a27]' 
-                      : 'border-white/20 text-white/60 hover:border-white/40'
+                      ? 'border-[#2d5a27] text-[#2d5a27] bg-[#2d5a27]/5' 
+                      : 'border-[#1a1a1a]/20 text-[#6b6b6b] hover:border-[#1a1a1a]/40'
                   }`}
                 >
                   {cat.name.toUpperCase()}
@@ -626,7 +610,7 @@ export default function GaeaStore() {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredProducts.map((product, i) => (
               <ProductCard 
                 key={product.id} 
@@ -640,14 +624,8 @@ export default function GaeaStore() {
         </div>
       </section>
 
-      {/* B2B Section */}
-      <section className="py-32 px-6 relative overflow-hidden bg-[#0a0a0a]">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{ backgroundImage: `url(${heroImage2})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-[#0a0a0a]" />
-        
+      {/* B2B Section - Elegant dark contrast */}
+      <section className="py-32 px-6 relative overflow-hidden bg-[#1a1a1a]">
         <div className="container mx-auto relative">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -655,25 +633,25 @@ export default function GaeaStore() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">B2B & EXPORT</p>
+              <p className="text-[#7cb342] tracking-[0.2em] text-sm mb-4 font-medium">B2B & EXPORT</p>
               <h3 className="text-4xl md:text-5xl font-serif mb-6 text-white">
                 Partner with Gaea
               </h3>
-              <p className="text-white/60 text-lg mb-8 leading-relaxed">
+              <p className="text-white/60 text-lg mb-8 leading-relaxed font-light">
                 From corporate gifting solutions to hotel toiletries, we offer tailored 
                 sustainable products for businesses worldwide. Currently exporting to 
                 USA, UAE, Netherlands, UK, and Germany.
               </p>
-              <div className="flex flex-wrap gap-4 mb-8">
+              <div className="flex flex-wrap gap-3 mb-8">
                 {['USA', 'UAE', 'Netherlands', 'UK', 'Germany'].map(country => (
-                  <span key={country} className="px-4 py-2 border border-white/20 text-sm text-white/60">
+                  <span key={country} className="px-4 py-2 border border-white/20 text-sm text-white/70 font-light">
                     {country}
                   </span>
                 ))}
               </div>
               <Button 
                 onClick={() => setB2bModal(true)}
-                className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 px-8 py-6 rounded-none tracking-wider"
+                className="bg-white text-[#1a1a1a] hover:bg-[#7cb342] hover:text-white px-8 py-6 rounded-none tracking-wider transition-all"
               >
                 GET IN TOUCH
               </Button>
@@ -683,30 +661,30 @@ export default function GaeaStore() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-2 gap-6"
+              className="grid grid-cols-2 gap-4"
             >
-              <div className="p-8 bg-white/5 border border-white/10">
-                <Building2 className="w-10 h-10 text-[#2d5a27] mb-4" />
-                <h4 className="text-xl font-serif mb-2 text-white">Corporate Gifting</h4>
-                <p className="text-white/50 text-sm">Sustainable gifts for employees and clients</p>
-              </div>
-              <div className="p-8 bg-white/5 border border-white/10">
-                <Package className="w-10 h-10 text-[#2d5a27] mb-4" />
-                <h4 className="text-xl font-serif mb-2 text-white">Hotel Amenities</h4>
-                <p className="text-white/50 text-sm">Eco-friendly toiletries for hospitality</p>
-              </div>
+              {[
+                { icon: Building2, title: 'Corporate Gifting', desc: 'Sustainable gifts for employees and clients' },
+                { icon: Package, title: 'Hotel Amenities', desc: 'Eco-friendly toiletries for hospitality' },
+              ].map((item, i) => (
+                <div key={i} className="p-8 bg-white/5 border border-white/10">
+                  <item.icon className="w-10 h-10 text-[#7cb342] mb-4" />
+                  <h4 className="text-xl font-serif mb-2 text-white">{item.title}</h4>
+                  <p className="text-white/50 text-sm font-light">{item.desc}</p>
+                </div>
+              ))}
               <div className="p-8 bg-white/5 border border-white/10 col-span-2">
-                <Globe className="w-10 h-10 text-[#2d5a27] mb-4" />
+                <Globe className="w-10 h-10 text-[#7cb342] mb-4" />
                 <h4 className="text-xl font-serif mb-2 text-white">Global Export</h4>
-                <p className="text-white/50 text-sm">Reliable shipping and customs support worldwide</p>
+                <p className="text-white/50 text-sm font-light">Reliable shipping and customs support worldwide</p>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
+      {/* Testimonials - Elegant light */}
+      <section className="py-20 px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -714,8 +692,8 @@ export default function GaeaStore() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">TESTIMONIALS</p>
-            <h3 className="text-4xl md:text-5xl font-serif text-white">What People Say</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">TESTIMONIALS</p>
+            <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">What People Say</h3>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -726,14 +704,14 @@ export default function GaeaStore() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-8 bg-white/5 border border-white/10"
+                className="p-8 bg-white border border-[#1a1a1a]/5 shadow-sm"
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />
                   ))}
                 </div>
-                <p className="text-white/70 mb-6 font-light italic">"{testimonial.content}"</p>
+                <p className="text-[#4a4a4a] mb-6 font-light italic leading-relaxed">"{testimonial.content}"</p>
                 <div className="flex items-center gap-4">
                   <img 
                     src={testimonial.avatar} 
@@ -741,8 +719,8 @@ export default function GaeaStore() {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div>
-                    <p className="font-medium">{testimonial.name}</p>
-                    <p className="text-white/50 text-sm">{testimonial.role}</p>
+                    <p className="font-medium text-[#1a1a1a]">{testimonial.name}</p>
+                    <p className="text-[#6b6b6b] text-sm font-light">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -751,8 +729,8 @@ export default function GaeaStore() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-20 px-6 bg-[#050505]">
+      {/* Newsletter - Elegant */}
+      <section className="py-20 px-6 bg-[#f5f4f0]">
         <div className="container mx-auto max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -760,8 +738,8 @@ export default function GaeaStore() {
             viewport={{ once: true }}
           >
             <Leaf className="w-12 h-12 text-[#2d5a27] mx-auto mb-6" />
-            <h3 className="text-3xl md:text-4xl font-serif mb-4 text-white">Join the Gaea Family</h3>
-            <p className="text-white/60 mb-8">
+            <h3 className="text-3xl md:text-4xl font-serif mb-4 text-[#1a1a1a]">Join the Gaea Family</h3>
+            <p className="text-[#6b6b6b] mb-8 font-light">
               Subscribe for exclusive offers, sustainability tips, and early access to new collections.
             </p>
             <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row gap-4">
@@ -770,12 +748,12 @@ export default function GaeaStore() {
                 placeholder="Enter your email"
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
-                className="flex-1 bg-transparent border-white/20 rounded-none h-12 focus:border-[#2d5a27] transition-colors"
+                className="flex-1 bg-white border-[#1a1a1a]/10 rounded-none h-12 focus:border-[#2d5a27] transition-colors"
                 required
               />
               <Button 
                 type="submit"
-                className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12 px-8 tracking-wider"
+                className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12 px-8 tracking-wider"
               >
                 SUBSCRIBE
               </Button>
@@ -787,30 +765,26 @@ export default function GaeaStore() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-16 px-6 border-t border-white/10 bg-[#050505]">
+      {/* Footer - Elegant light */}
+      <footer className="py-16 px-6 border-t border-[#1a1a1a]/10 bg-[#faf9f6]">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 md:col-span-1">
-              <h2 className="text-2xl font-serif mb-4 text-white">Gaea</h2>
-              <p className="text-white/50 text-sm mb-6">
+              <h2 className="text-2xl font-serif mb-4 text-[#1a1a1a]">Gaea</h2>
+              <p className="text-[#6b6b6b] text-sm mb-6 font-light leading-relaxed">
                 Premium sustainable products for conscious living.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
-                  <Facebook className="w-5 h-5" />
-                </a>
+                {[Instagram, Twitter, Facebook].map((Icon, i) => (
+                  <a key={i} href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
               </div>
             </div>
             
             <div>
-              <h4 className="text-sm tracking-wider text-white/80 mb-4">SHOP</h4>
+              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">SHOP</h4>
               <ul className="space-y-3">
                 {categories.map(cat => (
                   <li key={cat.id}>
@@ -819,7 +793,7 @@ export default function GaeaStore() {
                         setSelectedCategory(cat.slug);
                         document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="text-white/50 hover:text-white transition-colors text-sm"
+                      className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-sm font-light"
                     >
                       {cat.name}
                     </button>
@@ -829,11 +803,11 @@ export default function GaeaStore() {
             </div>
 
             <div>
-              <h4 className="text-sm tracking-wider text-white/80 mb-4">COMPANY</h4>
+              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">COMPANY</h4>
               <ul className="space-y-3">
                 {['About Us', 'Sustainability', 'Careers', 'Press'].map(item => (
                   <li key={item}>
-                    <a href="#" className="text-white/50 hover:text-white transition-colors text-sm">
+                    <a href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-sm font-light">
                       {item}
                     </a>
                   </li>
@@ -842,17 +816,17 @@ export default function GaeaStore() {
             </div>
 
             <div>
-              <h4 className="text-sm tracking-wider text-white/80 mb-4">CONTACT</h4>
+              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">CONTACT</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-white/50 text-sm">
+                <li className="flex items-center gap-2 text-[#6b6b6b] text-sm font-light">
                   <Mail className="w-4 h-4" />
                   hello@gaeastore.com
                 </li>
-                <li className="flex items-center gap-2 text-white/50 text-sm">
+                <li className="flex items-center gap-2 text-[#6b6b6b] text-sm font-light">
                   <Phone className="w-4 h-4" />
                   +1 (555) 123-4567
                 </li>
-                <li className="flex items-start gap-2 text-white/50 text-sm">
+                <li className="flex items-start gap-2 text-[#6b6b6b] text-sm font-light">
                   <MapPin className="w-4 h-4 mt-0.5" />
                   123 Eco Street<br/>Portland, OR 97201
                 </li>
@@ -860,34 +834,34 @@ export default function GaeaStore() {
             </div>
           </div>
 
-          <Separator className="bg-white/10 mb-8" />
+          <Separator className="bg-[#1a1a1a]/10 mb-8" />
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-white/40 text-sm">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[#6b6b6b] text-sm font-light">
             <p>© 2025 The Gaea Store. All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Shipping Info</a>
+              <a href="#" className="hover:text-[#2d5a27] transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-[#2d5a27] transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-[#2d5a27] transition-colors">Shipping Info</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Cart Sheet */}
+      {/* Cart Sheet - Elegant */}
       <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-        <SheetContent className="bg-[#0a0a0a] border-white/10 w-full sm:max-w-lg">
+        <SheetContent className="bg-[#faf9f6] border-[#1a1a1a]/10 w-full sm:max-w-lg">
           <SheetHeader>
-            <SheetTitle className="text-white font-serif text-2xl">Your Cart</SheetTitle>
+            <SheetTitle className="text-[#1a1a1a] font-serif text-2xl">Your Cart</SheetTitle>
           </SheetHeader>
           <div className="mt-8 flex flex-col h-[calc(100vh-180px)]">
             {cart.items?.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center">
-                <ShoppingBag className="w-16 h-16 text-white/20 mb-4" />
-                <p className="text-white/60">Your cart is empty</p>
+                <ShoppingBag className="w-16 h-16 text-[#1a1a1a]/20 mb-4" />
+                <p className="text-[#6b6b6b]">Your cart is empty</p>
                 <Button 
                   variant="outline" 
                   onClick={() => setCartOpen(false)}
-                  className="mt-4 border-white/20 text-white hover:bg-white/10"
+                  className="mt-4 border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
                 >
                   Continue Shopping
                 </Button>
@@ -904,25 +878,25 @@ export default function GaeaStore() {
                           className="w-20 h-20 object-cover"
                         />
                         <div className="flex-1">
-                          <h4 className="text-white font-medium">{item.name}</h4>
-                          <p className="text-[#c9a961]">${item.price?.toFixed(2)}</p>
+                          <h4 className="text-[#1a1a1a] font-medium">{item.name}</h4>
+                          <p className="text-[#2d5a27]">${item.price?.toFixed(2)}</p>
                           <div className="flex items-center gap-3 mt-2">
                             <button 
                               onClick={() => updateCartItem(item.productId, item.quantity - 1)}
-                              className="text-white/60 hover:text-white"
+                              className="text-[#6b6b6b] hover:text-[#1a1a1a]"
                             >
                               <Minus className="w-4 h-4" />
                             </button>
-                            <span className="text-white">{item.quantity}</span>
+                            <span className="text-[#1a1a1a]">{item.quantity}</span>
                             <button 
                               onClick={() => updateCartItem(item.productId, item.quantity + 1)}
-                              className="text-white/60 hover:text-white"
+                              className="text-[#6b6b6b] hover:text-[#1a1a1a]"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
                             <button 
                               onClick={() => updateCartItem(item.productId, 0)}
-                              className="ml-auto text-white/40 hover:text-red-400"
+                              className="ml-auto text-[#6b6b6b] hover:text-red-500"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -932,12 +906,12 @@ export default function GaeaStore() {
                     ))}
                   </div>
                 </ScrollArea>
-                <div className="pt-6 border-t border-white/10">
+                <div className="pt-6 border-t border-[#1a1a1a]/10">
                   <div className="flex justify-between mb-4">
-                    <span className="text-white/60">Subtotal</span>
-                    <span className="text-white text-xl font-serif">${cartTotal.toFixed(2)}</span>
+                    <span className="text-[#6b6b6b]">Subtotal</span>
+                    <span className="text-[#1a1a1a] text-xl font-serif">${cartTotal.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12">
+                  <Button className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12">
                     CHECKOUT
                   </Button>
                 </div>
@@ -947,37 +921,37 @@ export default function GaeaStore() {
         </SheetContent>
       </Sheet>
 
-      {/* Auth Modal */}
+      {/* Auth Modal - Elegant */}
       <Dialog open={authOpen} onOpenChange={setAuthOpen}>
-        <DialogContent className="bg-[#0a0a0a] border-white/10 max-w-md">
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-white font-serif text-2xl text-center">
+            <DialogTitle className="text-[#1a1a1a] font-serif text-2xl text-center">
               {user ? 'Your Account' : 'Welcome'}
             </DialogTitle>
           </DialogHeader>
           
           {user ? (
             <div className="text-center py-8">
-              <div className="w-20 h-20 bg-[#c9a961]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User className="w-10 h-10 text-[#c9a961]" />
+              <div className="w-20 h-20 bg-[#2d5a27]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="w-10 h-10 text-[#2d5a27]" />
               </div>
-              <h3 className="text-white text-xl mb-2">{user.name}</h3>
-              <p className="text-white/60 mb-6">{user.email}</p>
+              <h3 className="text-[#1a1a1a] text-xl mb-2">{user.name}</h3>
+              <p className="text-[#6b6b6b] mb-6">{user.email}</p>
               <Button 
                 variant="outline" 
                 onClick={handleLogout}
-                className="border-white/20 text-white hover:bg-white/10"
+                className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
               >
                 Sign Out
               </Button>
             </div>
           ) : (
             <Tabs value={authTab} onValueChange={setAuthTab} className="mt-4">
-              <TabsList className="grid grid-cols-2 bg-white/5">
-                <TabsTrigger value="login" className="data-[state=active]:bg-[#2d5a27] data-[state=active]:text-white">
+              <TabsList className="grid grid-cols-2 bg-[#1a1a1a]/5">
+                <TabsTrigger value="login" className="data-[state=active]:bg-[#1a1a1a] data-[state=active]:text-white">
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="register" className="data-[state=active]:bg-[#2d5a27] data-[state=active]:text-white">
+                <TabsTrigger value="register" className="data-[state=active]:bg-[#1a1a1a] data-[state=active]:text-white">
                   Register
                 </TabsTrigger>
               </TabsList>
@@ -988,7 +962,7 @@ export default function GaeaStore() {
                     placeholder="Full Name"
                     value={authForm.name}
                     onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })}
-                    className="bg-transparent border-white/20 rounded-none h-12"
+                    className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
                     required
                   />
                 )}
@@ -997,7 +971,7 @@ export default function GaeaStore() {
                   placeholder="Email"
                   value={authForm.email}
                   onChange={(e) => setAuthForm({ ...authForm, email: e.target.value })}
-                  className="bg-transparent border-white/20 rounded-none h-12"
+                  className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
                   required
                 />
                 <Input
@@ -1005,15 +979,15 @@ export default function GaeaStore() {
                   placeholder="Password"
                   value={authForm.password}
                   onChange={(e) => setAuthForm({ ...authForm, password: e.target.value })}
-                  className="bg-transparent border-white/20 rounded-none h-12"
+                  className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
                   required
                 />
                 {authError && (
-                  <p className="text-red-400 text-sm">{authError}</p>
+                  <p className="text-red-500 text-sm">{authError}</p>
                 )}
                 <Button 
                   type="submit"
-                  className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
+                  className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
                 >
                   {authTab === 'login' ? 'SIGN IN' : 'CREATE ACCOUNT'}
                 </Button>
@@ -1023,12 +997,12 @@ export default function GaeaStore() {
         </DialogContent>
       </Dialog>
 
-      {/* Product Modal */}
+      {/* Product Modal - Elegant */}
       <Dialog open={!!productModal} onOpenChange={() => setProductModal(null)}>
-        <DialogContent className="bg-[#0a0a0a] border-white/10 max-w-4xl p-0 overflow-hidden">
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-4xl p-0 overflow-hidden">
           {productModal && (
             <div className="grid md:grid-cols-2">
-              <div className="aspect-square">
+              <div className="aspect-square bg-[#f5f4f0]">
                 <img 
                   src={productModal.images?.[0]} 
                   alt={productModal.name}
@@ -1036,41 +1010,41 @@ export default function GaeaStore() {
                 />
               </div>
               <div className="p-8 flex flex-col">
-                <Badge className="w-fit bg-[#2d5a27]/20 text-[#2d5a27] mb-4">
+                <Badge className="w-fit bg-[#2d5a27]/10 text-[#2d5a27] border-0 mb-4">
                   {productModal.material}
                 </Badge>
-                <h2 className="text-3xl font-serif text-white mb-2">{productModal.name}</h2>
+                <h2 className="text-3xl font-serif text-[#1a1a1a] mb-2">{productModal.name}</h2>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#2d5a27] text-[#2d5a27]' : 'text-white/20'}`}
+                        className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#2d5a27] text-[#2d5a27]' : 'text-[#1a1a1a]/20'}`}
                       />
                     ))}
                   </div>
-                  <span className="text-white/60 text-sm">({productModal.reviews} reviews)</span>
+                  <span className="text-[#6b6b6b] text-sm">({productModal.reviews} reviews)</span>
                 </div>
                 <div className="flex items-baseline gap-3 mb-6">
-                  <span className="text-3xl text-[#2d5a27] font-serif">${productModal.price?.toFixed(2)}</span>
+                  <span className="text-3xl text-[#1a1a1a] font-serif">${productModal.price?.toFixed(2)}</span>
                   {productModal.originalPrice && (
-                    <span className="text-white/40 line-through">${productModal.originalPrice?.toFixed(2)}</span>
+                    <span className="text-[#6b6b6b] line-through">${productModal.originalPrice?.toFixed(2)}</span>
                   )}
                 </div>
-                <p className="text-white/60 mb-8 flex-1">{productModal.description}</p>
+                <p className="text-[#4a4a4a] mb-8 flex-1 font-light leading-relaxed">{productModal.description}</p>
                 <div className="flex gap-4">
                   <Button 
                     onClick={() => {
                       addToCart(productModal);
                       setProductModal(null);
                     }}
-                    className="flex-1 bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
+                    className="flex-1 bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
                   >
                     ADD TO CART
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="border-white/20 text-white hover:bg-white/10 rounded-none h-12 w-12 p-0"
+                    className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5 rounded-none h-12 w-12 p-0"
                   >
                     <Heart className="w-5 h-5" />
                   </Button>
@@ -1081,11 +1055,11 @@ export default function GaeaStore() {
         </DialogContent>
       </Dialog>
 
-      {/* B2B Modal */}
+      {/* B2B Modal - Elegant */}
       <Dialog open={b2bModal} onOpenChange={setB2bModal}>
-        <DialogContent className="bg-[#0a0a0a] border-white/10 max-w-lg">
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-white font-serif text-2xl">B2B Inquiry</DialogTitle>
+            <DialogTitle className="text-[#1a1a1a] font-serif text-2xl">B2B Inquiry</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleB2bSubmit} className="mt-4 space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -1093,14 +1067,14 @@ export default function GaeaStore() {
                 placeholder="Company Name *"
                 value={b2bForm.companyName}
                 onChange={(e) => setB2bForm({ ...b2bForm, companyName: e.target.value })}
-                className="bg-transparent border-white/20 rounded-none h-12"
+                className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
                 required
               />
               <Input
                 placeholder="Contact Name"
                 value={b2bForm.contactName}
                 onChange={(e) => setB2bForm({ ...b2bForm, contactName: e.target.value })}
-                className="bg-transparent border-white/20 rounded-none h-12"
+                className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
               />
             </div>
             <Input
@@ -1108,7 +1082,7 @@ export default function GaeaStore() {
               placeholder="Email *"
               value={b2bForm.email}
               onChange={(e) => setB2bForm({ ...b2bForm, email: e.target.value })}
-              className="bg-transparent border-white/20 rounded-none h-12"
+              className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
               required
             />
             <div className="grid grid-cols-2 gap-4">
@@ -1116,33 +1090,33 @@ export default function GaeaStore() {
                 placeholder="Phone"
                 value={b2bForm.phone}
                 onChange={(e) => setB2bForm({ ...b2bForm, phone: e.target.value })}
-                className="bg-transparent border-white/20 rounded-none h-12"
+                className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
               />
               <select
                 value={b2bForm.type}
                 onChange={(e) => setB2bForm({ ...b2bForm, type: e.target.value })}
-                className="bg-transparent border border-white/20 h-12 px-3 text-white/80"
+                className="bg-white border border-[#1a1a1a]/10 h-12 px-3 text-[#4a4a4a]"
               >
-                <option value="corporate" className="bg-[#0a0a0a]">Corporate Gifting</option>
-                <option value="hotel" className="bg-[#0a0a0a]">Hotel Amenities</option>
-                <option value="export" className="bg-[#0a0a0a]">Export/Wholesale</option>
+                <option value="corporate">Corporate Gifting</option>
+                <option value="hotel">Hotel Amenities</option>
+                <option value="export">Export/Wholesale</option>
               </select>
             </div>
             <Input
               placeholder="Country"
               value={b2bForm.country}
               onChange={(e) => setB2bForm({ ...b2bForm, country: e.target.value })}
-              className="bg-transparent border-white/20 rounded-none h-12"
+              className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
             />
             <textarea
               placeholder="Tell us about your requirements..."
               value={b2bForm.message}
               onChange={(e) => setB2bForm({ ...b2bForm, message: e.target.value })}
-              className="w-full bg-transparent border border-white/20 p-3 text-white/80 h-24 resize-none"
+              className="w-full bg-white border border-[#1a1a1a]/10 p-3 text-[#4a4a4a] h-24 resize-none"
             />
             <Button 
               type="submit"
-              className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
+              className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
             >
               SUBMIT INQUIRY
             </Button>
@@ -1153,7 +1127,7 @@ export default function GaeaStore() {
   );
 }
 
-// Product Card Component
+// Product Card Component - Elegant Light Theme
 function ProductCard({ product, index, onView, onAddToCart }) {
   return (
     <motion.div
@@ -1163,44 +1137,44 @@ function ProductCard({ product, index, onView, onAddToCart }) {
       transition={{ delay: index * 0.1 }}
       className="product-card group cursor-pointer"
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#111] mb-4">
+      <div className="relative aspect-[3/4] overflow-hidden bg-[#f0efe9] mb-4">
         <img 
           src={product.images?.[0]} 
           alt={product.name}
           className="product-image w-full h-full object-cover"
         />
         {product.newArrival && (
-          <Badge className="absolute top-4 left-4 bg-[#2d5a27] text-white">
+          <Badge className="absolute top-4 left-4 bg-[#1a1a1a] text-white border-0">
             NEW
           </Badge>
         )}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+        <div className="absolute inset-0 bg-[#1a1a1a]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
           <Button 
             variant="outline" 
             size="sm"
             onClick={(e) => { e.stopPropagation(); onView(); }}
-            className="border-white text-white hover:bg-white hover:text-[#050505] rounded-none"
+            className="border-white text-white hover:bg-white hover:text-[#1a1a1a] rounded-none"
           >
             Quick View
           </Button>
           <Button 
             size="sm"
             onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
-            className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none"
+            className="bg-white text-[#1a1a1a] hover:bg-[#2d5a27] hover:text-white rounded-none"
           >
             Add to Cart
           </Button>
         </div>
       </div>
       <div onClick={onView}>
-        <p className="text-[#2d5a27] text-xs tracking-wider mb-1">{product.material}</p>
-        <h4 className="text-white font-medium mb-2 group-hover:text-[#2d5a27] transition-colors">
+        <p className="text-[#2d5a27] text-xs tracking-wider mb-1 font-medium">{product.material}</p>
+        <h4 className="text-[#1a1a1a] font-medium mb-2 group-hover:text-[#2d5a27] transition-colors">
           {product.name}
         </h4>
         <div className="flex items-baseline gap-2">
-          <span className="text-white">${product.price?.toFixed(2)}</span>
+          <span className="text-[#1a1a1a]">${product.price?.toFixed(2)}</span>
           {product.originalPrice && (
-            <span className="text-white/40 line-through text-sm">${product.originalPrice?.toFixed(2)}</span>
+            <span className="text-[#6b6b6b] line-through text-sm">${product.originalPrice?.toFixed(2)}</span>
           )}
         </div>
       </div>
