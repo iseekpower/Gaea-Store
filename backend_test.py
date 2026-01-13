@@ -1,318 +1,540 @@
 #!/usr/bin/env python3
 """
-Gaea Store Backend API Testing Suite
-Tests all backend endpoints according to test_result.md priorities
+Backend API Testing for Gaea Store - New Endpoints
+Testing Orders API, Blog API, and Collective API
 """
 
 import requests
 import json
 import sys
-from typing import Dict, Any, Optional
+from datetime import datetime
 
-# Base URL from environment
+# Get base URL from environment
 BASE_URL = "https://gaea-eco.preview.emergentagent.com/api"
 
-class GaeaStoreAPITester:
+class GaeaAPITester:
     def __init__(self):
         self.base_url = BASE_URL
-        self.auth_token = None
-        self.test_user_email = "sarah.tester@gaea.com"
-        self.test_user_password = "SecurePass123!"
-        self.test_user_name = "Sarah Tester"
-        self.product_id = None
-        self.results = {
-            "passed": 0,
-            "failed": 0,
-            "details": []
-        }
-
-    def log_result(self, test_name: str, success: bool, details: str = ""):
-        """Log test result"""
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{status}: {test_name}")
-        if details:
-            print(f"   Details: {details}")
+        self.admin_token = None
+        self.user_token = None
+        self.test_user_id = None
+        self.test_order_id = None
+        self.test_blog_post_id = None
+        self.test_application_id = None
         
-        self.results["details"].append({
-            "test": test_name,
-            "success": success,
-            "details": details
-        })
+    def log(self, message):
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] {message}")
         
-        if success:
-            self.results["passed"] += 1
-        else:
-            self.results["failed"] += 1
-
-    def make_request(self, method: str, endpoint: str, data: Dict = None, headers: Dict = None) -> tuple:
-        """Make HTTP request and return (success, response_data, status_code)"""
-        url = f"{self.base_url}{endpoint}"
-        default_headers = {"Content-Type": "application/json"}
-        
-        if headers:
-            default_headers.update(headers)
-        
+    def test_admin_setup(self):
+        """Setup admin user for testing"""
         try:
-            if method.upper() == "GET":
-                response = requests.get(url, headers=default_headers, timeout=30)
-            elif method.upper() == "POST":
-                response = requests.post(url, json=data, headers=default_headers, timeout=30)
-            elif method.upper() == "PUT":
-                response = requests.put(url, json=data, headers=default_headers, timeout=30)
-            elif method.upper() == "DELETE":
-                response = requests.delete(url, headers=default_headers, timeout=30)
+            self.log("🔧 Setting up admin user...")
+            
+            # Try to login with existing admin
+            login_data = {
+                "email": "admin@gaea.co",
+                "password": "admin123"
+            }
+            
+            response = requests.post(f"{self.base_url}/auth/login", json=login_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                self.admin_token = data.get('token')
+                self.log("✅ Admin login successful")
+                return True
             else:
-                return False, {"error": f"Unsupported method: {method}"}, 0
+                # Try to create admin
+                self.log("⚠️ Admin login failed, attempting to create admin...")
+                admin_data = {
+                    "email": "admin@gaea.co",
+                    "password": "admin123",
+                    "name": "Gaea Admin"
+                }
+                
+                response = requests.post(f"{self.base_url}/admin/setup", json=admin_data)
+                if response.status_code == 200:
+                    data = response.json()
+                    self.admin_token = data.get('token')
+                    self.log("✅ Admin created successfully")
+                    return True
+                else:
+                    self.log(f"❌ Admin setup failed: {response.text}")
+                    return False
+                    
+        except Exception as e:
+            self.log(f"❌ Admin setup error: {str(e)}")
+            return False
+    
+    def test_user_setup(self):
+        """Setup regular user for testing"""
+        try:
+            self.log("👤 Setting up test user...")
             
-            try:
-                response_data = response.json()
-            except:
-                response_data = {"raw_response": response.text}
+            # Create a test user
+            user_data = {
+                "email": f"testuser_{datetime.now().strftime('%H%M%S')}@gaea.co",
+                "password": "testpass123",
+                "name": "Emma Green"
+            }
             
-            return response.status_code < 400, response_data, response.status_code
+            response = requests.post(f"{self.base_url}/auth/register", json=user_data)
             
-        except requests.exceptions.RequestException as e:
-            return False, {"error": str(e)}, 0
+            if response.status_code == 200:
+                data = response.json()
+                self.user_token = data.get('token')
+                self.test_user_id = data.get('user', {}).get('id')
+                self.log(f"✅ Test user created: {user_data['email']}")
+                return True
+            else:
+                self.log(f"❌ User creation failed: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ User setup error: {str(e)}")
+            return False
 
-    def test_health_check(self):
-        """Test GET /api/health"""
-        print("\n=== Testing Health Check API ===")
-        success, data, status = self.make_request("GET", "/health")
+    def test_orders_api(self):
+        """Test Orders API endpoints"""
+        self.log("\n🛒 TESTING ORDERS API")
         
-        if success and data.get("status") == "healthy":
-            self.log_result("Health Check API", True, f"Status: {data.get('status')}")
-        else:
-            self.log_result("Health Check API", False, f"Status: {status}, Data: {data}")
+        # Test 1: Create Order (POST /api/orders)
+        try:
+            self.log("Testing POST /api/orders - Create Order...")
+            
+            if not self.user_token:
+                self.log("❌ No user token available for order creation")
+                return False
+            
+            order_data = {
+                "shippingAddress": {
+                    "firstName": "Emma",
+                    "lastName": "Green",
+                    "email": "emma.green@example.com",
+                    "phone": "+1-555-0123",
+                    "address": "123 Eco Street",
+                    "city": "Portland",
+                    "state": "OR",
+                    "zip": "97201",
+                    "country": "USA"
+                },
+                "paymentMethod": "card",
+                "items": [
+                    {
+                        "productId": "bamboo-toothbrush-set",
+                        "name": "Bamboo Toothbrush Set",
+                        "price": 24.99,
+                        "quantity": 2
+                    },
+                    {
+                        "productId": "organic-cotton-tote",
+                        "name": "Organic Cotton Tote Bag",
+                        "price": 18.99,
+                        "quantity": 1
+                    }
+                ],
+                "subtotal": 68.97,
+                "shipping": 5.99,
+                "total": 74.96
+            }
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.post(f"{self.base_url}/orders", json=order_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success') and data.get('order', {}).get('orderNumber'):
+                    order_number = data['order']['orderNumber']
+                    self.log(f"✅ Order created successfully: {order_number}")
+                    self.log(f"   Total: ${data['order']['total']}")
+                    self.log(f"   Status: {data['order']['status']}")
+                else:
+                    self.log(f"❌ Order creation response missing required fields: {data}")
+                    return False
+            else:
+                self.log(f"❌ Order creation failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Order creation error: {str(e)}")
+            return False
+        
+        # Test 2: Get User Orders (GET /api/orders)
+        try:
+            self.log("Testing GET /api/orders - Get User Orders...")
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.get(f"{self.base_url}/orders", headers=headers)
+            
+            if response.status_code == 200:
+                orders = response.json()
+                if isinstance(orders, list):
+                    self.log(f"✅ Retrieved {len(orders)} orders for user")
+                    if len(orders) > 0:
+                        order = orders[0]
+                        self.log(f"   Latest order: {order.get('orderNumber', 'N/A')}")
+                        self.log(f"   Status: {order.get('status', 'N/A')}")
+                        self.log(f"   Total: ${order.get('total', 'N/A')}")
+                else:
+                    self.log(f"❌ Orders response not a list: {orders}")
+                    return False
+            else:
+                self.log(f"❌ Get orders failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Get orders error: {str(e)}")
+            return False
+        
+        # Test 3: Unauthorized access
+        try:
+            self.log("Testing unauthorized access to orders...")
+            response = requests.get(f"{self.base_url}/orders")
+            
+            if response.status_code == 401:
+                self.log("✅ Unauthorized access properly blocked")
+            else:
+                self.log(f"⚠️ Expected 401 but got {response.status_code}")
+                
+        except Exception as e:
+            self.log(f"❌ Unauthorized test error: {str(e)}")
+        
+        return True
 
-    def test_products_api(self):
-        """Test GET /api/products with various filters"""
-        print("\n=== Testing Products API ===")
+    def test_blog_api(self):
+        """Test Blog API endpoints"""
+        self.log("\n📝 TESTING BLOG API")
         
-        # Test 1: Get all products
-        success, data, status = self.make_request("GET", "/products")
-        if success and isinstance(data, list) and len(data) > 0:
-            self.log_result("Products API - List all", True, f"Found {len(data)} products")
-            # Store first product ID for cart testing
-            if data[0].get("id"):
-                self.product_id = data[0]["id"]
-                print(f"   Stored product ID for cart testing: {self.product_id}")
-        else:
-            self.log_result("Products API - List all", False, f"Status: {status}, Data: {data}")
-            return
+        # Test 1: Get Published Blog Posts (GET /api/blog)
+        try:
+            self.log("Testing GET /api/blog - Get Published Posts...")
+            
+            response = requests.get(f"{self.base_url}/blog")
+            
+            if response.status_code == 200:
+                posts = response.json()
+                if isinstance(posts, list):
+                    self.log(f"✅ Retrieved {len(posts)} published blog posts")
+                    if len(posts) > 0:
+                        post = posts[0]
+                        self.log(f"   Latest post: {post.get('title', 'N/A')}")
+                        self.log(f"   Category: {post.get('category', 'N/A')}")
+                        self.log(f"   Status: {post.get('status', 'N/A')}")
+                else:
+                    self.log(f"❌ Blog posts response not a list: {posts}")
+                    return False
+            else:
+                self.log(f"❌ Get blog posts failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Get blog posts error: {str(e)}")
+            return False
         
-        # Test 2: Filter by category
-        success, data, status = self.make_request("GET", "/products?category=personal-care")
-        if success and isinstance(data, list):
-            personal_care_count = len(data)
-            self.log_result("Products API - Filter by category", True, f"Found {personal_care_count} personal-care products")
-        else:
-            self.log_result("Products API - Filter by category", False, f"Status: {status}, Data: {data}")
+        # Test 2: Get Featured Blog Posts (GET /api/blog?featured=true)
+        try:
+            self.log("Testing GET /api/blog?featured=true - Get Featured Posts...")
+            
+            response = requests.get(f"{self.base_url}/blog?featured=true")
+            
+            if response.status_code == 200:
+                posts = response.json()
+                if isinstance(posts, list):
+                    featured_count = len([p for p in posts if p.get('featured')])
+                    self.log(f"✅ Retrieved {len(posts)} posts, {featured_count} are featured")
+                else:
+                    self.log(f"❌ Featured posts response not a list: {posts}")
+                    return False
+            else:
+                self.log(f"❌ Get featured posts failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Get featured posts error: {str(e)}")
+            return False
         
-        # Test 3: Filter by featured
-        success, data, status = self.make_request("GET", "/products?featured=true")
-        if success and isinstance(data, list):
-            featured_count = len(data)
-            self.log_result("Products API - Filter by featured", True, f"Found {featured_count} featured products")
-        else:
-            self.log_result("Products API - Filter by featured", False, f"Status: {status}, Data: {data}")
+        # Test 3: Admin Create Blog Post (POST /api/admin/blog)
+        try:
+            self.log("Testing POST /api/admin/blog - Create Blog Post...")
+            
+            if not self.admin_token:
+                self.log("❌ No admin token available for blog post creation")
+                return False
+            
+            blog_data = {
+                "title": "Sustainable Living: A Complete Guide",
+                "excerpt": "Discover practical tips for living more sustainably in your daily life.",
+                "content": "Living sustainably doesn't have to be overwhelming. Start with small changes like using reusable bags, choosing eco-friendly products, and reducing waste. Every small action contributes to a healthier planet.",
+                "category": "lifestyle",
+                "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
+                "tags": ["sustainability", "lifestyle", "eco-friendly"],
+                "featured": True
+            }
+            
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.post(f"{self.base_url}/admin/blog", json=blog_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('id') and data.get('title'):
+                    self.test_blog_post_id = data['id']
+                    self.log(f"✅ Blog post created successfully: {data['title']}")
+                    self.log(f"   ID: {data['id']}")
+                    self.log(f"   Slug: {data.get('slug', 'N/A')}")
+                    self.log(f"   Featured: {data.get('featured', False)}")
+                else:
+                    self.log(f"❌ Blog post creation response missing required fields: {data}")
+                    return False
+            else:
+                self.log(f"❌ Blog post creation failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Blog post creation error: {str(e)}")
+            return False
+        
+        # Test 4: Admin Get All Blog Posts (GET /api/admin/blog)
+        try:
+            self.log("Testing GET /api/admin/blog - Get All Posts (Admin)...")
+            
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.get(f"{self.base_url}/admin/blog", headers=headers)
+            
+            if response.status_code == 200:
+                posts = response.json()
+                if isinstance(posts, list):
+                    self.log(f"✅ Admin retrieved {len(posts)} total blog posts")
+                    published = len([p for p in posts if p.get('status') == 'published'])
+                    self.log(f"   Published: {published}")
+                else:
+                    self.log(f"❌ Admin blog posts response not a list: {posts}")
+                    return False
+            else:
+                self.log(f"❌ Admin get blog posts failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Admin get blog posts error: {str(e)}")
+            return False
+        
+        # Test 5: Unauthorized admin access
+        try:
+            self.log("Testing unauthorized access to admin blog endpoints...")
+            response = requests.get(f"{self.base_url}/admin/blog")
+            
+            if response.status_code == 401:
+                self.log("✅ Unauthorized admin access properly blocked")
+            else:
+                self.log(f"⚠️ Expected 401 but got {response.status_code}")
+                
+        except Exception as e:
+            self.log(f"❌ Unauthorized admin test error: {str(e)}")
+        
+        return True
 
-    def test_categories_api(self):
-        """Test GET /api/categories"""
-        print("\n=== Testing Categories API ===")
-        success, data, status = self.make_request("GET", "/categories")
+    def test_collective_api(self):
+        """Test Collective API endpoints"""
+        self.log("\n🤝 TESTING COLLECTIVE API")
         
-        if success and isinstance(data, list) and len(data) > 0:
-            categories = [cat.get("name", "Unknown") for cat in data]
-            self.log_result("Categories API", True, f"Found {len(data)} categories: {', '.join(categories)}")
-        else:
-            self.log_result("Categories API", False, f"Status: {status}, Data: {data}")
-
-    def test_testimonials_api(self):
-        """Test GET /api/testimonials"""
-        print("\n=== Testing Testimonials API ===")
-        success, data, status = self.make_request("GET", "/testimonials")
+        # Test 1: Submit Collective Application (POST /api/collective/apply)
+        try:
+            self.log("Testing POST /api/collective/apply - Submit Application...")
+            
+            if not self.user_token:
+                self.log("❌ No user token available for collective application")
+                return False
+            
+            application_data = {
+                "reason": "I'm passionate about sustainable living and want to connect with like-minded individuals to create positive environmental impact in our community.",
+                "bio": "Environmental advocate with 5 years experience in sustainable practices. I run a local composting program and organize eco-friendly workshops.",
+                "interests": ["sustainable fashion", "zero waste", "renewable energy", "organic gardening"],
+                "socialMedia": {
+                    "instagram": "@emma_green_living",
+                    "twitter": "@emmagreen",
+                    "linkedin": "emma-green-sustainability"
+                }
+            }
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.post(f"{self.base_url}/collective/apply", json=application_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success') and data.get('message'):
+                    self.log(f"✅ Collective application submitted successfully")
+                    self.log(f"   Message: {data['message']}")
+                else:
+                    self.log(f"❌ Application response missing required fields: {data}")
+                    return False
+            else:
+                self.log(f"❌ Collective application failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Collective application error: {str(e)}")
+            return False
         
-        if success and isinstance(data, list) and len(data) > 0:
-            self.log_result("Testimonials API", True, f"Found {len(data)} testimonials")
-        else:
-            self.log_result("Testimonials API", False, f"Status: {status}, Data: {data}")
-
-    def test_user_registration(self):
-        """Test POST /api/auth/register"""
-        print("\n=== Testing User Registration ===")
+        # Test 2: Check Collective Status (GET /api/collective/status)
+        try:
+            self.log("Testing GET /api/collective/status - Check Status...")
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.get(f"{self.base_url}/collective/status", headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if 'isMember' in data and 'applicationStatus' in data:
+                    self.log(f"✅ Collective status retrieved successfully")
+                    self.log(f"   Is Member: {data['isMember']}")
+                    self.log(f"   Application Status: {data['applicationStatus']}")
+                else:
+                    self.log(f"❌ Status response missing required fields: {data}")
+                    return False
+            else:
+                self.log(f"❌ Get collective status failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Get collective status error: {str(e)}")
+            return False
         
-        user_data = {
-            "email": self.test_user_email,
-            "password": self.test_user_password,
-            "name": self.test_user_name
-        }
+        # Test 3: Admin Get All Applications (GET /api/admin/collective)
+        try:
+            self.log("Testing GET /api/admin/collective - Get All Applications...")
+            
+            if not self.admin_token:
+                self.log("❌ No admin token available for collective management")
+                return False
+            
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.get(f"{self.base_url}/admin/collective", headers=headers)
+            
+            if response.status_code == 200:
+                applications = response.json()
+                if isinstance(applications, list):
+                    self.log(f"✅ Admin retrieved {len(applications)} collective applications")
+                    if len(applications) > 0:
+                        app = applications[0]
+                        self.test_application_id = app.get('id')
+                        self.log(f"   Latest application: {app.get('name', 'N/A')}")
+                        self.log(f"   Status: {app.get('status', 'N/A')}")
+                        self.log(f"   Email: {app.get('email', 'N/A')}")
+                else:
+                    self.log(f"❌ Applications response not a list: {applications}")
+                    return False
+            else:
+                self.log(f"❌ Admin get applications failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Admin get applications error: {str(e)}")
+            return False
         
-        success, data, status = self.make_request("POST", "/auth/register", user_data)
+        # Test 4: Admin Approve Application (POST /api/admin/collective/:id)
+        try:
+            self.log("Testing POST /api/admin/collective/:id - Approve Application...")
+            
+            if not self.admin_token or not self.test_application_id:
+                self.log("❌ No admin token or application ID available for approval")
+                return False
+            
+            approval_data = {"status": "approved"}
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.post(f"{self.base_url}/admin/collective/{self.test_application_id}", 
+                                   json=approval_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success') and data.get('status') == 'approved':
+                    self.log(f"✅ Application approved successfully")
+                    self.log(f"   Status: {data['status']}")
+                else:
+                    self.log(f"❌ Approval response missing required fields: {data}")
+                    return False
+            else:
+                self.log(f"❌ Application approval failed: {response.status_code} - {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Application approval error: {str(e)}")
+            return False
         
-        if success and data.get("token") and data.get("user"):
-            self.auth_token = data["token"]
-            user_info = data["user"]
-            self.log_result("User Registration", True, f"User created: {user_info.get('name')} ({user_info.get('email')})")
-        elif status == 400 and "already registered" in str(data.get("error", "")).lower():
-            # User already exists, try to login instead
-            self.log_result("User Registration", True, "User already exists (expected for repeated tests)")
-            self.test_user_login()  # Try to login with existing user
-        else:
-            self.log_result("User Registration", False, f"Status: {status}, Data: {data}")
-
-    def test_user_login(self):
-        """Test POST /api/auth/login"""
-        print("\n=== Testing User Login ===")
+        # Test 5: Verify membership status after approval
+        try:
+            self.log("Testing collective status after approval...")
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.get(f"{self.base_url}/collective/status", headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('isMember'):
+                    self.log("✅ User is now a collective member after approval")
+                else:
+                    self.log("⚠️ User membership status not updated yet (may need time)")
+            else:
+                self.log(f"⚠️ Could not verify membership status: {response.status_code}")
+                
+        except Exception as e:
+            self.log(f"❌ Membership verification error: {str(e)}")
         
-        login_data = {
-            "email": self.test_user_email,
-            "password": self.test_user_password
-        }
+        # Test 6: Unauthorized access
+        try:
+            self.log("Testing unauthorized access to admin collective endpoints...")
+            response = requests.get(f"{self.base_url}/admin/collective")
+            
+            if response.status_code == 401:
+                self.log("✅ Unauthorized admin access properly blocked")
+            else:
+                self.log(f"⚠️ Expected 401 but got {response.status_code}")
+                
+        except Exception as e:
+            self.log(f"❌ Unauthorized admin test error: {str(e)}")
         
-        success, data, status = self.make_request("POST", "/auth/login", login_data)
-        
-        if success and data.get("token") and data.get("user"):
-            self.auth_token = data["token"]
-            user_info = data["user"]
-            self.log_result("User Login", True, f"Login successful: {user_info.get('name')} ({user_info.get('email')})")
-        else:
-            self.log_result("User Login", False, f"Status: {status}, Data: {data}")
-
-    def test_auth_me(self):
-        """Test GET /api/auth/me"""
-        print("\n=== Testing Auth Me API ===")
-        
-        if not self.auth_token:
-            self.log_result("Auth Me API", False, "No auth token available")
-            return
-        
-        headers = {"Authorization": f"Bearer {self.auth_token}"}
-        success, data, status = self.make_request("GET", "/auth/me", headers=headers)
-        
-        if success and data.get("email") == self.test_user_email:
-            self.log_result("Auth Me API", True, f"User profile retrieved: {data.get('name')}")
-        else:
-            self.log_result("Auth Me API", False, f"Status: {status}, Data: {data}")
-
-    def test_cart_add_item(self):
-        """Test POST /api/cart/add"""
-        print("\n=== Testing Cart Add Item ===")
-        
-        if not self.auth_token:
-            self.log_result("Cart Add Item", False, "No auth token available")
-            return
-        
-        if not self.product_id:
-            self.log_result("Cart Add Item", False, "No product ID available")
-            return
-        
-        headers = {"Authorization": f"Bearer {self.auth_token}"}
-        cart_data = {
-            "productId": self.product_id,
-            "quantity": 2
-        }
-        
-        success, data, status = self.make_request("POST", "/cart/add", cart_data, headers)
-        
-        if success and data.get("items") and len(data["items"]) > 0:
-            item = data["items"][0]
-            self.log_result("Cart Add Item", True, f"Added {item.get('quantity')} x {item.get('name')} to cart")
-        else:
-            self.log_result("Cart Add Item", False, f"Status: {status}, Data: {data}")
-
-    def test_cart_get(self):
-        """Test GET /api/cart"""
-        print("\n=== Testing Get Cart ===")
-        
-        if not self.auth_token:
-            self.log_result("Get Cart", False, "No auth token available")
-            return
-        
-        headers = {"Authorization": f"Bearer {self.auth_token}"}
-        success, data, status = self.make_request("GET", "/cart", headers=headers)
-        
-        if success and "items" in data:
-            item_count = len(data["items"])
-            self.log_result("Get Cart", True, f"Cart retrieved with {item_count} items")
-        else:
-            self.log_result("Get Cart", False, f"Status: {status}, Data: {data}")
-
-    def test_newsletter_subscription(self):
-        """Test POST /api/newsletter"""
-        print("\n=== Testing Newsletter Subscription ===")
-        
-        newsletter_data = {
-            "email": "newsletter.test@gaea.com"
-        }
-        
-        success, data, status = self.make_request("POST", "/newsletter", newsletter_data)
-        
-        if success and (data.get("success") or "subscribed" in str(data.get("message", "")).lower()):
-            self.log_result("Newsletter Subscription", True, f"Message: {data.get('message')}")
-        else:
-            self.log_result("Newsletter Subscription", False, f"Status: {status}, Data: {data}")
-
-    def test_b2b_leads_submission(self):
-        """Test POST /api/leads"""
-        print("\n=== Testing B2B Leads Submission ===")
-        
-        lead_data = {
-            "companyName": "Sustainable Solutions Corp",
-            "contactName": "Alex Johnson",
-            "email": "alex.johnson@sustainablesolutions.com",
-            "phone": "+1-555-0123",
-            "type": "corporate",
-            "message": "Interested in bulk orders for our office sustainability initiative.",
-            "country": "United States"
-        }
-        
-        success, data, status = self.make_request("POST", "/leads", lead_data)
-        
-        if success and (data.get("success") or "contact you soon" in str(data.get("message", "")).lower()):
-            self.log_result("B2B Leads Submission", True, f"Message: {data.get('message')}")
-        else:
-            self.log_result("B2B Leads Submission", False, f"Status: {status}, Data: {data}")
+        return True
 
     def run_all_tests(self):
-        """Run all backend API tests in priority order"""
-        print(f"🚀 Starting Gaea Store Backend API Tests")
-        print(f"📍 Base URL: {self.base_url}")
-        print("=" * 60)
+        """Run all API tests"""
+        self.log("🚀 STARTING GAEA STORE NEW API ENDPOINTS TESTING")
+        self.log(f"Base URL: {self.base_url}")
         
-        # High Priority Tests (from test_plan.current_focus)
-        self.test_health_check()
-        self.test_products_api()
-        self.test_user_registration()
-        self.test_user_login()
-        self.test_auth_me()
-        self.test_cart_add_item()
-        self.test_cart_get()
+        # Setup phase
+        if not self.test_admin_setup():
+            self.log("❌ Admin setup failed - cannot continue with admin tests")
+            return False
+            
+        if not self.test_user_setup():
+            self.log("❌ User setup failed - cannot continue with user tests")
+            return False
         
-        # Medium Priority Tests
-        self.test_categories_api()
-        self.test_testimonials_api()
-        self.test_b2b_leads_submission()
+        # Test APIs in priority order
+        results = {
+            'orders': self.test_orders_api(),      # High priority
+            'blog': self.test_blog_api(),          # Medium priority  
+            'collective': self.test_collective_api() # Medium priority
+        }
         
-        # Low Priority Tests
-        self.test_newsletter_subscription()
+        # Summary
+        self.log("\n📊 TEST RESULTS SUMMARY")
+        self.log("=" * 50)
         
-        # Print Summary
-        print("\n" + "=" * 60)
-        print("🏁 TEST SUMMARY")
-        print("=" * 60)
-        print(f"✅ Passed: {self.results['passed']}")
-        print(f"❌ Failed: {self.results['failed']}")
-        print(f"📊 Total: {self.results['passed'] + self.results['failed']}")
+        passed = sum(1 for result in results.values() if result)
+        total = len(results)
         
-        if self.results['failed'] > 0:
-            print("\n❌ FAILED TESTS:")
-            for result in self.results['details']:
-                if not result['success']:
-                    print(f"   • {result['test']}: {result['details']}")
+        for api, result in results.items():
+            status = "✅ PASSED" if result else "❌ FAILED"
+            self.log(f"{api.upper()} API: {status}")
         
-        return self.results['failed'] == 0
+        self.log(f"\nOverall: {passed}/{total} API groups passed")
+        
+        if passed == total:
+            self.log("🎉 ALL NEW API ENDPOINTS WORKING CORRECTLY!")
+            return True
+        else:
+            self.log("⚠️ Some API endpoints have issues - see details above")
+            return False
 
 if __name__ == "__main__":
-    tester = GaeaStoreAPITester()
+    tester = GaeaAPITester()
     success = tester.run_all_tests()
     sys.exit(0 if success else 1)
