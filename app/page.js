@@ -978,33 +978,33 @@ export default function GaeaStore() {
       </section>
 
       {/* B2B Section - Elegant dark contrast */}
-      <section className="py-32 px-6 relative overflow-hidden bg-[#1a1a1a]">
+      <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 relative overflow-hidden bg-[#1a1a1a]">
         <div className="container mx-auto relative">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#7cb342] tracking-[0.2em] text-sm mb-4 font-medium">B2B & EXPORT</p>
-              <h3 className="text-4xl md:text-5xl font-serif mb-6 text-white">
+              <p className="text-[#7cb342] tracking-[0.2em] text-xs sm:text-sm mb-3 sm:mb-4 font-medium">B2B & EXPORT</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif mb-4 sm:mb-6 text-white">
                 Partner with Gaea
               </h3>
-              <p className="text-white/60 text-lg mb-8 leading-relaxed font-light">
+              <p className="text-white/60 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed font-light">
                 From corporate gifting solutions to hotel toiletries, we offer tailored 
                 sustainable products for businesses worldwide. Currently exporting to 
                 USA, UAE, Netherlands, UK, and Germany.
               </p>
-              <div className="flex flex-wrap gap-3 mb-8">
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                 {['USA', 'UAE', 'Netherlands', 'UK', 'Germany'].map(country => (
-                  <span key={country} className="px-4 py-2 border border-white/20 text-sm text-white/70 font-light">
+                  <span key={country} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-xs sm:text-sm text-white/70 font-light">
                     {country}
                   </span>
                 ))}
               </div>
               <Button 
                 onClick={() => setB2bModal(true)}
-                className="bg-white text-[#1a1a1a] hover:bg-[#7cb342] hover:text-white px-8 py-6 rounded-none tracking-wider transition-all"
+                className="bg-white text-[#1a1a1a] hover:bg-[#7cb342] hover:text-white px-6 sm:px-8 py-5 sm:py-6 rounded-none tracking-wider transition-all touch-manipulation w-full sm:w-auto justify-center"
               >
                 GET IN TOUCH
               </Button>
@@ -1014,22 +1014,22 @@ export default function GaeaStore() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4"
+              className="grid grid-cols-2 gap-3 sm:gap-4"
             >
               {[
                 { icon: Building2, title: 'Corporate Gifting', desc: 'Sustainable gifts for employees and clients' },
                 { icon: Package, title: 'Hotel Amenities', desc: 'Eco-friendly toiletries for hospitality' },
               ].map((item, i) => (
-                <div key={i} className="p-8 bg-white/5 border border-white/10">
-                  <item.icon className="w-10 h-10 text-[#7cb342] mb-4" />
-                  <h4 className="text-xl font-serif mb-2 text-white">{item.title}</h4>
-                  <p className="text-white/50 text-sm font-light">{item.desc}</p>
+                <div key={i} className="p-4 sm:p-6 md:p-8 bg-white/5 border border-white/10">
+                  <item.icon className="w-8 sm:w-10 h-8 sm:h-10 text-[#7cb342] mb-3 sm:mb-4" />
+                  <h4 className="text-base sm:text-lg md:text-xl font-serif mb-1 sm:mb-2 text-white">{item.title}</h4>
+                  <p className="text-white/50 text-xs sm:text-sm font-light">{item.desc}</p>
                 </div>
               ))}
-              <div className="p-8 bg-white/5 border border-white/10 col-span-2">
-                <Globe className="w-10 h-10 text-[#7cb342] mb-4" />
-                <h4 className="text-xl font-serif mb-2 text-white">Global Export</h4>
-                <p className="text-white/50 text-sm font-light">Reliable shipping and customs support worldwide</p>
+              <div className="p-4 sm:p-6 md:p-8 bg-white/5 border border-white/10 col-span-2">
+                <Globe className="w-8 sm:w-10 h-8 sm:h-10 text-[#7cb342] mb-3 sm:mb-4" />
+                <h4 className="text-base sm:text-lg md:text-xl font-serif mb-1 sm:mb-2 text-white">Global Export</h4>
+                <p className="text-white/50 text-xs sm:text-sm font-light">Reliable shipping and customs support worldwide</p>
               </div>
             </motion.div>
           </div>
@@ -1037,19 +1037,19 @@ export default function GaeaStore() {
       </section>
 
       {/* Testimonials - Elegant light */}
-      <section className="py-20 px-6 bg-[#faf9f6]">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#faf9f6]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">TESTIMONIALS</p>
-            <h3 className="text-4xl md:text-5xl font-serif text-[#1a1a1a]">What People Say</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-xs sm:text-sm mb-3 sm:mb-4 font-medium">TESTIMONIALS</p>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1a1a1a]">What People Say</h3>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {testimonials.map((testimonial, i) => (
               <motion.div
                 key={testimonial.id}
@@ -1057,23 +1057,23 @@ export default function GaeaStore() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-8 bg-white border border-[#1a1a1a]/5 shadow-sm"
+                className="p-4 sm:p-6 md:p-8 bg-white border border-[#1a1a1a]/5 shadow-sm"
               >
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-0.5 sm:gap-1 mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />
+                    <Star key={i} className="w-3 sm:w-4 h-3 sm:h-4 fill-[#2d5a27] text-[#2d5a27]" />
                   ))}
                 </div>
-                <p className="text-[#4a4a4a] mb-6 font-light italic leading-relaxed">"{testimonial.content}"</p>
-                <div className="flex items-center gap-4">
+                <p className="text-[#4a4a4a] mb-4 sm:mb-6 font-light italic leading-relaxed text-sm sm:text-base">"{testimonial.content}"</p>
+                <div className="flex items-center gap-3 sm:gap-4">
                   <img 
                     src={testimonial.avatar} 
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-10 sm:w-12 h-10 sm:h-12 rounded-full object-cover"
                   />
                   <div>
-                    <p className="font-medium text-[#1a1a1a]">{testimonial.name}</p>
-                    <p className="text-[#6b6b6b] text-sm font-light">{testimonial.role}</p>
+                    <p className="font-medium text-[#1a1a1a] text-sm sm:text-base">{testimonial.name}</p>
+                    <p className="text-[#6b6b6b] text-xs sm:text-sm font-light">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -1083,19 +1083,19 @@ export default function GaeaStore() {
       </section>
 
       {/* Newsletter - Elegant */}
-      <section className="py-20 px-6 bg-[#f5f4f0]">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-[#f5f4f0]">
         <div className="container mx-auto max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Leaf className="w-12 h-12 text-[#2d5a27] mx-auto mb-6" />
-            <h3 className="text-3xl md:text-4xl font-serif mb-4 text-[#1a1a1a]">Join the Gaea Family</h3>
-            <p className="text-[#6b6b6b] mb-8 font-light">
+            <Leaf className="w-10 sm:w-12 h-10 sm:h-12 text-[#2d5a27] mx-auto mb-4 sm:mb-6" />
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif mb-3 sm:mb-4 text-[#1a1a1a]">Join the Gaea Family</h3>
+            <p className="text-[#6b6b6b] mb-6 sm:mb-8 font-light text-sm sm:text-base">
               Subscribe for exclusive offers, sustainability tips, and early access to new collections.
             </p>
-            <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row gap-4">
+            <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Input
                 type="email"
                 placeholder="Enter your email"
@@ -1106,30 +1106,30 @@ export default function GaeaStore() {
               />
               <Button 
                 type="submit"
-                className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12 px-8 tracking-wider"
+                className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12 px-6 sm:px-8 tracking-wider touch-manipulation"
               >
                 SUBSCRIBE
               </Button>
             </form>
             {newsletterStatus && (
-              <p className="text-[#2d5a27] mt-4">{newsletterStatus}</p>
+              <p className="text-[#2d5a27] mt-4 text-sm">{newsletterStatus}</p>
             )}
           </motion.div>
         </div>
       </section>
 
       {/* Footer - Elegant light */}
-      <footer className="py-16 px-6 border-t border-[#1a1a1a]/10 bg-[#faf9f6]">
+      <footer className="py-12 sm:py-16 px-4 sm:px-6 border-t border-[#1a1a1a]/10 bg-[#faf9f6]">
         <div className="container mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
             <div className="col-span-2 md:col-span-1">
-              <h2 className="text-2xl font-serif mb-4 text-[#1a1a1a]">Gaea</h2>
-              <p className="text-[#6b6b6b] text-sm mb-6 font-light leading-relaxed">
+              <h2 className="text-xl sm:text-2xl font-serif mb-3 sm:mb-4 text-[#1a1a1a]">Gaea</h2>
+              <p className="text-[#6b6b6b] text-xs sm:text-sm mb-4 sm:mb-6 font-light leading-relaxed">
                 Premium sustainable products for conscious living.
               </p>
               <div className="flex gap-4">
                 {[Instagram, Twitter, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors">
+                  <a key={i} href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors p-2 -ml-2 touch-manipulation">
                     <Icon className="w-5 h-5" />
                   </a>
                 ))}
@@ -1137,8 +1137,8 @@ export default function GaeaStore() {
             </div>
             
             <div>
-              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">SHOP</h4>
-              <ul className="space-y-3">
+              <h4 className="text-xs sm:text-sm tracking-wider text-[#1a1a1a] mb-3 sm:mb-4 font-medium">SHOP</h4>
+              <ul className="space-y-2 sm:space-y-3">
                 {categories.map(cat => (
                   <li key={cat.id}>
                     <button 
@@ -1146,7 +1146,7 @@ export default function GaeaStore() {
                         setSelectedCategory(cat.slug);
                         document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-sm font-light"
+                      className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-xs sm:text-sm font-light touch-manipulation"
                     >
                       {cat.name}
                     </button>
@@ -1156,11 +1156,11 @@ export default function GaeaStore() {
             </div>
 
             <div>
-              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">COMPANY</h4>
-              <ul className="space-y-3">
+              <h4 className="text-xs sm:text-sm tracking-wider text-[#1a1a1a] mb-3 sm:mb-4 font-medium">COMPANY</h4>
+              <ul className="space-y-2 sm:space-y-3">
                 {['About Us', 'Sustainability', 'Careers', 'Press'].map(item => (
                   <li key={item}>
-                    <a href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-sm font-light">
+                    <a href="#" className="text-[#6b6b6b] hover:text-[#2d5a27] transition-colors text-xs sm:text-sm font-light touch-manipulation">
                       {item}
                     </a>
                   </li>
@@ -1169,32 +1169,32 @@ export default function GaeaStore() {
             </div>
 
             <div>
-              <h4 className="text-sm tracking-wider text-[#1a1a1a] mb-4 font-medium">CONTACT</h4>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-[#6b6b6b] text-sm font-light">
-                  <Mail className="w-4 h-4" />
-                  hello@gaeastore.com
+              <h4 className="text-xs sm:text-sm tracking-wider text-[#1a1a1a] mb-3 sm:mb-4 font-medium">CONTACT</h4>
+              <ul className="space-y-2 sm:space-y-3">
+                <li className="flex items-center gap-2 text-[#6b6b6b] text-xs sm:text-sm font-light">
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  <span className="break-all">hello@gaeastore.com</span>
                 </li>
-                <li className="flex items-center gap-2 text-[#6b6b6b] text-sm font-light">
-                  <Phone className="w-4 h-4" />
+                <li className="flex items-center gap-2 text-[#6b6b6b] text-xs sm:text-sm font-light">
+                  <Phone className="w-4 h-4 flex-shrink-0" />
                   +1 (555) 123-4567
                 </li>
-                <li className="flex items-start gap-2 text-[#6b6b6b] text-sm font-light">
-                  <MapPin className="w-4 h-4 mt-0.5" />
+                <li className="flex items-start gap-2 text-[#6b6b6b] text-xs sm:text-sm font-light">
+                  <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
                   123 Eco Street<br/>Portland, OR 97201
                 </li>
               </ul>
             </div>
           </div>
 
-          <Separator className="bg-[#1a1a1a]/10 mb-8" />
+          <Separator className="bg-[#1a1a1a]/10 mb-6 sm:mb-8" />
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[#6b6b6b] text-sm font-light">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[#6b6b6b] text-xs sm:text-sm font-light">
             <p>© 2025 The Gaea Store. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-[#2d5a27] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#2d5a27] transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-[#2d5a27] transition-colors">Shipping Info</a>
+            <div className="flex gap-4 sm:gap-6">
+              <a href="#" className="hover:text-[#2d5a27] transition-colors touch-manipulation">Privacy</a>
+              <a href="#" className="hover:text-[#2d5a27] transition-colors touch-manipulation">Terms</a>
+              <a href="#" className="hover:text-[#2d5a27] transition-colors touch-manipulation">Shipping</a>
             </div>
           </div>
         </div>
