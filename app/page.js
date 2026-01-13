@@ -747,15 +747,15 @@ export default function GaeaStore() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
+      <section className="py-20 px-6 bg-[#050505]">
         <div className="container mx-auto max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Leaf className="w-12 h-12 text-[#c9a961] mx-auto mb-6" />
-            <h3 className="text-3xl md:text-4xl font-serif mb-4">Join the Gaea Family</h3>
+            <Leaf className="w-12 h-12 text-[#2d5a27] mx-auto mb-6" />
+            <h3 className="text-3xl md:text-4xl font-serif mb-4 text-white">Join the Gaea Family</h3>
             <p className="text-white/60 mb-8">
               Subscribe for exclusive offers, sustainability tips, and early access to new collections.
             </p>
@@ -765,18 +765,18 @@ export default function GaeaStore() {
                 placeholder="Enter your email"
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
-                className="flex-1 bg-transparent border-white/20 rounded-none h-12 focus:border-[#c9a961] transition-colors"
+                className="flex-1 bg-transparent border-white/20 rounded-none h-12 focus:border-[#2d5a27] transition-colors"
                 required
               />
               <Button 
                 type="submit"
-                className="bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none h-12 px-8 tracking-wider"
+                className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12 px-8 tracking-wider"
               >
                 SUBSCRIBE
               </Button>
             </form>
             {newsletterStatus && (
-              <p className="text-[#c9a961] mt-4">{newsletterStatus}</p>
+              <p className="text-[#2d5a27] mt-4">{newsletterStatus}</p>
             )}
           </motion.div>
         </div>
