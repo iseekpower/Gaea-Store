@@ -738,7 +738,7 @@ export default function GaeaStore() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12"
+            className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8"
           >
             <div>
               <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4 font-medium">ALL PRODUCTS</p>
@@ -749,32 +749,120 @@ export default function GaeaStore() {
                 }
               </h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                onClick={() => setFilterOpen(!filterOpen)}
+                className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
+              >
+                <SlidersHorizontal className="w-4 h-4 mr-2" />
+                Filters
+                {(selectedMaterials.length > 0 || priceRange[0] > 0 || priceRange[1] < 200) && (
+                  <span className="ml-2 w-5 h-5 bg-[#2d5a27] text-white text-xs rounded-full flex items-center justify-center">
+                    {selectedMaterials.length + (priceRange[0] > 0 || priceRange[1] < 200 ? 1 : 0)}
+                  </span>
+                )}
+              </Button>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-2 border border-[#1a1a1a]/20 bg-white text-[#4a4a4a] rounded-none"
+              >
+                <option value="featured">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+              </select>
+            </div>
+          </motion.div>
+
+          {/* Category Pills */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className={`px-4 py-2 text-sm tracking-wider border transition-all rounded-none ${
+                !selectedCategory 
+                  ? 'border-[#2d5a27] text-[#2d5a27] bg-[#2d5a27]/5' 
+                  : 'border-[#1a1a1a]/20 text-[#6b6b6b] hover:border-[#1a1a1a]/40'
+              }`}
+            >
+              ALL
+            </button>
+            {categories.map(cat => (
               <button
-                onClick={() => setSelectedCategory(null)}
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.slug)}
                 className={`px-4 py-2 text-sm tracking-wider border transition-all rounded-none ${
-                  !selectedCategory 
+                  selectedCategory === cat.slug 
                     ? 'border-[#2d5a27] text-[#2d5a27] bg-[#2d5a27]/5' 
                     : 'border-[#1a1a1a]/20 text-[#6b6b6b] hover:border-[#1a1a1a]/40'
                 }`}
               >
-                ALL
+                {cat.name.toUpperCase()}
               </button>
-              {categories.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 text-sm tracking-wider border transition-all rounded-none ${
-                    selectedCategory === cat.slug 
-                      ? 'border-[#2d5a27] text-[#2d5a27] bg-[#2d5a27]/5' 
-                      : 'border-[#1a1a1a]/20 text-[#6b6b6b] hover:border-[#1a1a1a]/40'
-                  }`}
-                >
-                  {cat.name.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </motion.div>
+            ))}
+          </div>
+
+          {/* Filter Panel */}
+          <AnimatePresence>
+            {filterOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden mb-8"
+              >
+                <div className="bg-white p-6 border border-[#1a1a1a]/10 rounded-lg">
+                  <div className="flex items-center justify-between mb-6">
+                    <h4 className="font-medium text-[#1a1a1a]">Filters</h4>
+                    <button onClick={clearFilters} className="text-sm text-[#2d5a27] hover:underline">
+                      Clear All
+                    </button>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {/* Price Range */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#6b6b6b] mb-4">
+                        Price Range: ${priceRange[0]} - ${priceRange[1]}
+                      </label>
+                      <Slider
+                        value={priceRange}
+                        onValueChange={setPriceRange}
+                        max={200}
+                        step={5}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Materials */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#6b6b6b] mb-4">Materials</label>
+                      <div className="flex flex-wrap gap-2">
+                        {materials.map(material => (
+                          <button
+                            key={material}
+                            onClick={() => toggleMaterial(material)}
+                            className={`px-3 py-1 text-sm border transition-all ${
+                              selectedMaterials.includes(material)
+                                ? 'border-[#2d5a27] bg-[#2d5a27] text-white'
+                                : 'border-[#1a1a1a]/20 text-[#4a4a4a] hover:border-[#2d5a27]'
+                            }`}
+                          >
+                            {material}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Results count */}
+          <p className="text-[#6b6b6b] text-sm mb-6">{filteredProducts.length} products</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredProducts.map((product, i) => (
@@ -787,6 +875,15 @@ export default function GaeaStore() {
               />
             ))}
           </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-[#6b6b6b] text-lg">No products found matching your criteria.</p>
+              <Button onClick={clearFilters} className="mt-4 bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90">
+                Clear Filters
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
