@@ -379,12 +379,12 @@ export default function GaeaStore() {
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ 
-              backgroundImage: `url(https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1920&q=80)`,
-              backgroundPosition: 'center 30%'
+              backgroundImage: `url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80)`,
+              backgroundPosition: 'center center'
             }}
           />
           {/* Gradient overlay - lighter at top for nav, darker at bottom for text */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-[#050505]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-black/10 to-[#050505]/95" />
         </motion.div>
         
         <div className="relative h-full flex flex-col justify-end pb-24 px-6">
@@ -396,7 +396,7 @@ export default function GaeaStore() {
               className="max-w-3xl"
             >
               {/* Text overlay on bottom of hero */}
-              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
+              <p className="text-[#7cb342] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
               <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-white drop-shadow-lg">
                 Nature's Craft,
                 <br />
