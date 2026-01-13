@@ -332,6 +332,41 @@ export default function GaeaStore() {
     }
   };
 
+  const handleCollectiveApply = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('gaea_token');
+    try {
+      const res = await fetch('/api/collective/apply', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          bio: collectiveForm.bio,
+          interests: collectiveForm.interests,
+          reason: collectiveForm.reason,
+          socialMedia: {
+            instagram: collectiveForm.instagram,
+            twitter: collectiveForm.twitter
+          }
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCollectiveModal(false);
+        setCollectiveForm({ bio: '', interests: [], reason: '', instagram: '', twitter: '' });
+        setCollectiveStatus({ ...collectiveStatus, applicationStatus: 'pending' });
+        alert(data.message || 'Application submitted successfully!');
+      } else {
+        alert(data.error || 'Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Error applying to collective:', error);
+      alert('Failed to submit application. Please try again.');
+    }
+  };
+
   const featuredProducts = products.filter(p => p.featured);
   const newArrivals = products.filter(p => p.newArrival);
   
