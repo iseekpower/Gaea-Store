@@ -1137,7 +1137,7 @@ export default function GaeaStore() {
             />
             <Button 
               type="submit"
-              className="w-full bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none h-12"
+              className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12"
             >
               SUBMIT INQUIRY
             </Button>
