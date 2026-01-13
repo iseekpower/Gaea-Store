@@ -532,7 +532,7 @@ export default function GaeaStore() {
               backgroundPosition: 'center center'
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/60 via-transparent to-[#faf9f6]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/80 via-[#faf9f6]/30 to-[#faf9f6]" />
         </motion.div>
         
         <div className="relative h-full flex flex-col justify-end pb-32 px-6">
@@ -543,7 +543,7 @@ export default function GaeaStore() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="max-w-3xl"
             >
-              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-medium">SUSTAINABLE LIVING</p>
+              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-semibold">SUSTAINABLE LIVING</p>
               <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-[#1a1a1a]">
                 Nature's Craft,
                 <br />
@@ -570,11 +570,11 @@ export default function GaeaStore() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-10 border-2 border-[#1a1a1a]/20 rounded-full flex justify-center">
+          <div className="w-6 h-10 border-2 border-[#1a1a1a]/30 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-[#1a1a1a]/40 rounded-full mt-2"
+              className="w-1 h-3 bg-[#1a1a1a]/50 rounded-full mt-2"
             />
           </div>
         </motion.div>
