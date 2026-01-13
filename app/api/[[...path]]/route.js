@@ -713,6 +713,45 @@ export async function PUT(request) {
       return NextResponse.json({ success: true }, { headers: corsHeaders });
     }
 
+    // Admin: Update blog post
+    if (pathParts[0] === 'admin' && pathParts[1] === 'blog' && pathParts[2]) {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('blog_posts');
+      const { _id, id, createdAt, ...updateData } = body;
+      
+      const result = await collection.updateOne(
+        { id: pathParts[2] },
+        { $set: { ...updateData, updatedAt: new Date() } }
+      );
+
+      if (result.matchedCount === 0) {
+        return NextResponse.json({ error: 'Post not found' }, { status: 404, headers: corsHeaders });
+      }
+
+      const updated = await collection.findOne({ id: pathParts[2] });
+      return NextResponse.json(updated, { headers: corsHeaders });
+    }
+
+    // Admin: Update order status
+    if (pathParts[0] === 'admin' && pathParts[1] === 'orders' && pathParts[2]) {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('orders');
+      await collection.updateOne(
+        { id: pathParts[2] },
+        { $set: { status: body.status, updatedAt: new Date() } }
+      );
+
+      return NextResponse.json({ success: true }, { headers: corsHeaders });
+    }
+
     return NextResponse.json({ error: 'Not found' }, { status: 404, headers: corsHeaders });
   } catch (error) {
     console.error('PUT Error:', error);
