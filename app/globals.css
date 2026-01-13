@@ -5,37 +5,40 @@
 @tailwind utilities;
 
 :root {
-  --gaea-black: #050505;
-  --gaea-charcoal: #0a0a0a;
-  --gaea-dark: #111111;
-  --gaea-gray: #1a1a1a;
+  --gaea-cream: #faf9f6;
+  --gaea-warm-white: #f5f4f0;
+  --gaea-light: #eeeee9;
+  --gaea-sand: #e8e6e1;
+  --gaea-charcoal: #1a1a1a;
+  --gaea-dark: #2d2d2d;
+  --gaea-gray: #6b6b6b;
   --gaea-light-gray: #a1a1aa;
-  --gaea-white: #ffffff;
   --gaea-green: #2d5a27;
-  --gaea-gold: #c9a961;
+  --gaea-green-light: #4a7c43;
+  --gaea-gold: #b8956e;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 45 50% 60%;
-    --accent-foreground: 0 0% 4%;
+    --background: 40 20% 98%;
+    --foreground: 0 0% 10%;
+    --card: 40 20% 96%;
+    --card-foreground: 0 0% 10%;
+    --popover: 40 20% 98%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 100 37% 25%;
+    --primary-foreground: 40 20% 98%;
+    --secondary: 40 10% 92%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 40 10% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 100 37% 25%;
+    --accent-foreground: 40 20% 98%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 45 50% 60%;
+    --destructive-foreground: 40 20% 98%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 100 37% 25%;
     --radius: 0.5rem;
   }
 }
@@ -47,33 +50,48 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    background-color: #faf9f6;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Elegant */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gaea-black);
+  background: var(--gaea-cream);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gaea-gray);
-  border-radius: 4px;
+  background: var(--gaea-sand);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gaea-light-gray);
+  background: var(--gaea-gray);
 }
 
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(250, 249, 246, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glass-dark {
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* Custom animations */
@@ -101,32 +119,31 @@ html {
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-/* Glass effect */
-.glass {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-/* Product card hover effect */
+/* Product card hover effect - Elegant */
 .product-card {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .product-image {
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Elegant divider */
+.elegant-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+}
+
+/* Text shadow for hero */
+.text-shadow-elegant {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
