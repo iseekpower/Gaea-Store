@@ -636,12 +636,12 @@ export default function GaeaStore() {
       </section>
 
       {/* B2B Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
+      <section className="py-32 px-6 relative overflow-hidden bg-[#0a0a0a]">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{ backgroundImage: `url(${heroImage2})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/90 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-[#0a0a0a]" />
         
         <div className="container mx-auto relative">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -650,8 +650,8 @@ export default function GaeaStore() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">B2B & EXPORT</p>
-              <h3 className="text-4xl md:text-5xl font-serif mb-6">
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">B2B & EXPORT</p>
+              <h3 className="text-4xl md:text-5xl font-serif mb-6 text-white">
                 Partner with Gaea
               </h3>
               <p className="text-white/60 text-lg mb-8 leading-relaxed">
@@ -668,7 +668,7 @@ export default function GaeaStore() {
               </div>
               <Button 
                 onClick={() => setB2bModal(true)}
-                className="bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 px-8 py-6 rounded-none tracking-wider"
+                className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 px-8 py-6 rounded-none tracking-wider"
               >
                 GET IN TOUCH
               </Button>
@@ -681,18 +681,18 @@ export default function GaeaStore() {
               className="grid grid-cols-2 gap-6"
             >
               <div className="p-8 bg-white/5 border border-white/10">
-                <Building2 className="w-10 h-10 text-[#c9a961] mb-4" />
-                <h4 className="text-xl font-serif mb-2">Corporate Gifting</h4>
+                <Building2 className="w-10 h-10 text-[#2d5a27] mb-4" />
+                <h4 className="text-xl font-serif mb-2 text-white">Corporate Gifting</h4>
                 <p className="text-white/50 text-sm">Sustainable gifts for employees and clients</p>
               </div>
               <div className="p-8 bg-white/5 border border-white/10">
-                <Package className="w-10 h-10 text-[#c9a961] mb-4" />
-                <h4 className="text-xl font-serif mb-2">Hotel Amenities</h4>
+                <Package className="w-10 h-10 text-[#2d5a27] mb-4" />
+                <h4 className="text-xl font-serif mb-2 text-white">Hotel Amenities</h4>
                 <p className="text-white/50 text-sm">Eco-friendly toiletries for hospitality</p>
               </div>
               <div className="p-8 bg-white/5 border border-white/10 col-span-2">
-                <Globe className="w-10 h-10 text-[#c9a961] mb-4" />
-                <h4 className="text-xl font-serif mb-2">Global Export</h4>
+                <Globe className="w-10 h-10 text-[#2d5a27] mb-4" />
+                <h4 className="text-xl font-serif mb-2 text-white">Global Export</h4>
                 <p className="text-white/50 text-sm">Reliable shipping and customs support worldwide</p>
               </div>
             </motion.div>
