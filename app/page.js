@@ -1165,7 +1165,7 @@ function ProductCard({ product, index, onView, onAddToCart }) {
           className="product-image w-full h-full object-cover"
         />
         {product.newArrival && (
-          <Badge className="absolute top-4 left-4 bg-[#c9a961] text-[#050505]">
+          <Badge className="absolute top-4 left-4 bg-[#2d5a27] text-white">
             NEW
           </Badge>
         )}
@@ -1181,15 +1181,15 @@ function ProductCard({ product, index, onView, onAddToCart }) {
           <Button 
             size="sm"
             onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
-            className="bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none"
+            className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none"
           >
             Add to Cart
           </Button>
         </div>
       </div>
       <div onClick={onView}>
-        <p className="text-[#c9a961] text-xs tracking-wider mb-1">{product.material}</p>
-        <h4 className="text-white font-medium mb-2 group-hover:text-[#c9a961] transition-colors">
+        <p className="text-[#2d5a27] text-xs tracking-wider mb-1">{product.material}</p>
+        <h4 className="text-white font-medium mb-2 group-hover:text-[#2d5a27] transition-colors">
           {product.name}
         </h4>
         <div className="flex items-baseline gap-2">
