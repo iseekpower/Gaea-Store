@@ -308,11 +308,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Products API - List all"
-    - "User Registration"
-    - "User Login"
-    - "Cart Add Item"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
