@@ -63,6 +63,10 @@ export default function GaeaStore() {
     companyName: '', contactName: '', email: '', phone: '', type: 'corporate', message: '', country: ''
   });
 
+  const [collectiveForm, setCollectiveForm] = useState({
+    bio: '', interests: [], reason: '', instagram: '', twitter: ''
+  });
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1]);
