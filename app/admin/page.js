@@ -207,6 +207,23 @@ export default function AdminDashboard() {
     }
   };
 
+  const updateCollectiveStatus = async (appId, status) => {
+    const token = localStorage.getItem('gaea_token');
+    try {
+      await fetch(`/api/admin/collective/${appId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ status })
+      });
+      fetchData(token);
+    } catch (error) {
+      console.error('Collective update error:', error);
+    }
+  };
+
   const filteredProducts = products.filter(p => 
     p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.category?.toLowerCase().includes(searchQuery.toLowerCase())
