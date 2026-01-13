@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // Hero images - Lifestyle shots with light backgrounds
-const heroImage = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=80'; // Person in nature meditation/wellness
+const heroImage = 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1920&q=80'; // Person in nature with backpack - adventure lifestyle
 const heroImage2 = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80'; // Natural lifestyle
 const heroImageAlt = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&q=80'; // Yoga/wellness lifestyle
 
