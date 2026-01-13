@@ -233,22 +233,58 @@ export default function GaeaStore() {
     // Process order
     const token = localStorage.getItem('gaea_token');
     try {
-      // Clear cart after successful order
-      await fetch('/api/cart/clear', {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
+      const shippingCost = cartTotal >= 50 ? 0 : 5.99;
+      const orderTotal = cartTotal + shippingCost;
+      
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify({
+          shippingAddress: {
+            firstName: checkoutForm.firstName,
+            lastName: checkoutForm.lastName,
+            email: checkoutForm.email,
+            phone: checkoutForm.phone,
+            address: checkoutForm.address,
+            city: checkoutForm.city,
+            state: checkoutForm.state,
+            zip: checkoutForm.zip,
+            country: checkoutForm.country
+          },
+          paymentMethod: 'card',
+          items: cart.items,
+          subtotal: cartTotal,
+          shipping: shippingCost,
+          total: orderTotal
+        })
       });
       
-      setCart({ items: [] });
-      setOrderComplete(true);
-      setCheckoutStep(1);
+      const data = await res.json();
       
-      setTimeout(() => {
-        setCheckoutOpen(false);
-        setOrderComplete(false);
-      }, 3000);
+      if (res.ok && data.success) {
+        setCart({ items: [] });
+        setOrderComplete(true);
+        setOrderDetails(data.order);
+        setCheckoutStep(1);
+        setCheckoutForm({
+          firstName: '', lastName: '', email: '', phone: '',
+          address: '', city: '', state: '', zip: '', country: 'USA'
+        });
+        
+        setTimeout(() => {
+          setCheckoutOpen(false);
+          setOrderComplete(false);
+          setOrderDetails(null);
+        }, 5000);
+      } else {
+        alert(data.error || 'Failed to place order');
+      }
     } catch (error) {
       console.error('Checkout error:', error);
+      alert('Failed to place order. Please try again.');
     }
   };
 
