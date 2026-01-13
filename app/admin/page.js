@@ -224,6 +224,38 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleBlogSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('gaea_token');
+    
+    const blogData = {
+      ...blogForm,
+      tags: blogForm.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+    };
+
+    try {
+      const url = blogModal.mode === 'edit' 
+        ? `/api/admin/blog/${blogModal.post.id}`
+        : '/api/admin/blog';
+      
+      const res = await fetch(url, {
+        method: blogModal.mode === 'edit' ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(blogData)
+      });
+
+      if (res.ok) {
+        setBlogModal({ open: false, mode: 'create', post: null });
+        fetchData(token);
+      }
+    } catch (error) {
+      console.error('Blog save error:', error);
+    }
+  };
+
   const filteredProducts = products.filter(p => 
     p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.category?.toLowerCase().includes(searchQuery.toLowerCase())
