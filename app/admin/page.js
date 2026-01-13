@@ -438,6 +438,168 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        {/* Blog Posts */}
+        {activeTab === 'blog' && (
+          <div className="p-8">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-serif text-[#1a1a1a]">Blog Posts</h2>
+              <Button 
+                onClick={() => setBlogModal({ open: true, mode: 'create', post: null })}
+                className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Post
+              </Button>
+            </div>
+
+            <div className="bg-white rounded-lg border border-[#1a1a1a]/10 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-[#faf9f6]">
+                    <tr>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Title</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Category</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Status</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Date</th>
+                      <th className="text-right p-4 text-[#6b6b6b] font-medium text-sm">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {blogPosts.map(post => (
+                      <tr key={post.id} className="border-t border-[#1a1a1a]/5 hover:bg-[#faf9f6]/50">
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            {post.image && (
+                              <img 
+                                src={post.image} 
+                                alt={post.title}
+                                className="w-12 h-12 object-cover rounded"
+                              />
+                            )}
+                            <div>
+                              <p className="font-medium text-[#1a1a1a]">{post.title}</p>
+                              <p className="text-sm text-[#6b6b6b] line-clamp-1">{post.excerpt}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <Badge className="bg-[#1a1a1a]/5 text-[#4a4a4a] border-0 capitalize">
+                            {post.category}
+                          </Badge>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex gap-2">
+                            {post.featured && (
+                              <Badge className="bg-[#2d5a27]/10 text-[#2d5a27] border-0">Featured</Badge>
+                            )}
+                            <Badge className="bg-green-100 text-green-700 border-0">Published</Badge>
+                          </div>
+                        </td>
+                        <td className="p-4 text-[#6b6b6b] text-sm">
+                          {new Date(post.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => setBlogModal({ open: true, mode: 'edit', post })}
+                              className="text-[#6b6b6b] hover:text-[#2d5a27]"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              className="text-[#6b6b6b] hover:text-red-500"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Collective Applications */}
+        {activeTab === 'collective' && (
+          <div className="p-8">
+            <h2 className="text-3xl font-serif text-[#1a1a1a] mb-8">Collective Applications</h2>
+
+            <div className="bg-white rounded-lg border border-[#1a1a1a]/10 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-[#faf9f6]">
+                    <tr>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Applicant</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Business</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Type</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Status</th>
+                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Date</th>
+                      <th className="text-right p-4 text-[#6b6b6b] font-medium text-sm">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {collectiveApps.map(app => (
+                      <tr key={app.id} className="border-t border-[#1a1a1a]/5 hover:bg-[#faf9f6]/50">
+                        <td className="p-4">
+                          <div>
+                            <p className="font-medium text-[#1a1a1a]">{app.name}</p>
+                            <p className="text-sm text-[#6b6b6b]">{app.email}</p>
+                            {app.phone && <p className="text-sm text-[#6b6b6b]">{app.phone}</p>}
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <p className="text-[#1a1a1a]">{app.businessName}</p>
+                          <p className="text-sm text-[#6b6b6b]">{app.location}</p>
+                        </td>
+                        <td className="p-4">
+                          <Badge className="bg-[#1a1a1a]/5 text-[#4a4a4a] border-0 capitalize">
+                            {app.businessType}
+                          </Badge>
+                        </td>
+                        <td className="p-4">
+                          <select
+                            value={app.status || 'pending'}
+                            onChange={(e) => updateCollectiveStatus(app.id, e.target.value)}
+                            className={`px-3 py-1 rounded text-sm font-medium border-0 ${
+                              app.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                              app.status === 'approved' ? 'bg-green-100 text-green-700' :
+                              app.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                          </select>
+                        </td>
+                        <td className="p-4 text-[#6b6b6b] text-sm">
+                          {new Date(app.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="p-4">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="text-[#6b6b6b] hover:text-[#2d5a27]"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* B2B Leads */}
         {activeTab === 'leads' && (
           <div className="p-8">
