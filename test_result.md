@@ -227,15 +227,18 @@ backend:
 
   - task: "Newsletter Subscription"
     implemented: true
-    working: "NA"
+    working: true
     file: "app/api/[[...path]]/route.js"
     stuck_count: 0
     priority: "low"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/newsletter subscribes email"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Newsletter subscription working correctly - Successfully subscribed email with message 'Welcome to the Gaea family!'"
 
 frontend:
   - task: "Landing Page with Hero"
