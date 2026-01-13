@@ -373,6 +373,66 @@ frontend:
         agent: "main"
         comment: "Menu opens with animation showing navigation items"
 
+  - task: "Checkout Flow with Order Creation"
+    implemented: true
+    working: "NA"
+    file: "app/page.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Full checkout flow with shipping info, payment step, review, and order creation via /api/orders. Shows order number on confirmation."
+
+  - task: "Blog/Journal Section"
+    implemented: true
+    working: "NA"
+    file: "app/page.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Blog section displays posts from /api/blog with featured articles, categories, and read more links."
+
+  - task: "Gaea Collective Section"
+    implemented: true
+    working: "NA"
+    file: "app/page.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Community section with join application modal. Shows membership status for logged-in users."
+
+  - task: "Admin Blog Management"
+    implemented: true
+    working: "NA"
+    file: "app/admin/page.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Admin can create, edit, delete blog posts with title, content, category, image, and featured status."
+
+  - task: "Admin Collective Applications Management"
+    implemented: true
+    working: "NA"
+    file: "app/admin/page.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Admin can view and approve/reject collective membership applications."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
