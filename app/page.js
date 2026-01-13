@@ -514,7 +514,7 @@ export default function GaeaStore() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 px-6 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
+      <section className="py-20 px-6 bg-[#050505]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -523,8 +523,8 @@ export default function GaeaStore() {
             className="flex items-end justify-between mb-12"
           >
             <div>
-              <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">CURATED</p>
-              <h3 className="text-4xl md:text-5xl font-serif">Featured Products</h3>
+              <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">CURATED</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-white">Featured Products</h3>
             </div>
             <button className="hidden md:flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
               <span className="tracking-wider text-sm">VIEW ALL</span>
