@@ -519,65 +519,150 @@ export default function GaeaStore() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section - Elegant with lifestyle image */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
-        <motion.div 
-          style={{ scale: heroScale }}
-          className="absolute inset-0"
-        >
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: `url(https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1920&q=80)`,
-              backgroundPosition: 'center center'
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/80 via-[#faf9f6]/30 to-[#faf9f6]" />
-        </motion.div>
-        
-        <div className="relative h-full flex flex-col justify-end pb-32 px-6">
-          <div className="container mx-auto">
+      {/* Hero Section - Split Layout for Conversion */}
+      <section ref={heroRef} className="min-h-screen bg-[#faf9f6] pt-20">
+        <div className="container mx-auto px-6 h-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
+            {/* Left - Content */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="max-w-3xl"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="py-12 lg:py-0"
             >
-              <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-4 font-semibold">SUSTAINABLE LIVING</p>
-              <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-[#1a1a1a]">
-                Nature's Craft,
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#2d5a27]/10 rounded-full mb-6">
+                <Leaf className="w-4 h-4 text-[#2d5a27]" />
+                <span className="text-[#2d5a27] text-sm font-medium tracking-wide">SUSTAINABLE LIVING</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#1a1a1a] leading-[1.1] mb-6">
+                Premium Eco-Friendly
                 <br />
-                <span className="italic text-[#2d5a27]">Your Story</span>
-              </h2>
-              <p className="text-[#4a4a4a] text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed">
-                Premium bamboo and wood products for the conscious lifestyle. 
-                Where sustainability meets luxury.
+                <span className="text-[#2d5a27]">Products</span> for
+                <br />
+                Conscious Living
+              </h1>
+              
+              <p className="text-lg md:text-xl text-[#4a4a4a] max-w-lg mb-8 leading-relaxed">
+                Discover our curated collection of bamboo, teak, and wood essentials. 
+                Beautifully crafted, naturally sustainable.
               </p>
-              <Button 
-                size="lg"
-                onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-                className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
+
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                <Button 
+                  size="lg"
+                  onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] px-8 py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-14"
+                >
+                  SHOP COLLECTION
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setB2bModal(true)}
+                  className="border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 text-sm tracking-wider rounded-none transition-all duration-300 h-14"
+                >
+                  B2B INQUIRY
+                </Button>
+              </div>
+
+              {/* Trust Signals */}
+              <div className="flex flex-wrap items-center gap-8 pt-8 border-t border-[#1a1a1a]/10">
+                <div className="flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-sm">Free Shipping $50+</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-sm">30-Day Returns</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Leaf className="w-5 h-5 text-[#2d5a27]" />
+                  <span className="text-[#4a4a4a] text-sm">100% Eco-Friendly</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right - Image Grid */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                {/* Main large image */}
+                <div className="col-span-2 aspect-[16/10] overflow-hidden bg-[#f0efe9]">
+                  <img 
+                    src="https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=800&q=80" 
+                    alt="Bamboo toothbrushes in a ceramic holder"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                {/* Two smaller images */}
+                <div className="aspect-square overflow-hidden bg-[#f0efe9]">
+                  <img 
+                    src="https://images.unsplash.com/photo-1594226801341-41427b4e5c22?w=600&q=80" 
+                    alt="Wooden cutting board with fresh vegetables"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                <div className="aspect-square overflow-hidden bg-[#f0efe9]">
+                  <img 
+                    src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80" 
+                    alt="Sustainable water bottle"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+              </div>
+
+              {/* Floating Stats Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="absolute -bottom-6 -left-6 bg-white p-6 shadow-xl border border-[#1a1a1a]/5"
               >
-                SHOP NOW
-              </Button>
+                <div className="flex items-center gap-4">
+                  <div className="text-center">
+                    <p className="text-3xl font-serif text-[#2d5a27]">15K+</p>
+                    <p className="text-xs text-[#6b6b6b] tracking-wider">HAPPY CUSTOMERS</p>
+                  </div>
+                  <div className="w-px h-12 bg-[#1a1a1a]/10" />
+                  <div className="text-center">
+                    <p className="text-3xl font-serif text-[#2d5a27]">4.9</p>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-[#2d5a27] text-[#2d5a27]" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
+      </section>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-[#1a1a1a]/30 rounded-full flex justify-center">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-[#1a1a1a]/50 rounded-full mt-2"
-            />
+      {/* Featured Categories Bar */}
+      <section className="bg-[#1a1a1a] py-6">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+            {['Personal Care', 'Home & Kitchen', 'Apparel', 'Decor', 'Travel EDC'].map((cat, i) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setSelectedCategory(cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-'));
+                  document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="text-white/70 hover:text-white text-sm tracking-wider transition-colors"
+              >
+                {cat.toUpperCase()}
+              </button>
+            ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Brand Statement - Elegant Light */}
