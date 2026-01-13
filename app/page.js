@@ -255,18 +255,18 @@ export default function GaeaStore() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white">
-      {/* Navigation */}
+      {/* Navigation - Clean minimal with transparency */}
       <motion.nav 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5"
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5"
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Menu Button */}
             <button 
               onClick={() => setMenuOpen(true)}
-              className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
             >
               <Menu className="w-5 h-5" />
               <span className="text-sm tracking-wider hidden sm:inline">MENU</span>
@@ -274,27 +274,27 @@ export default function GaeaStore() {
 
             {/* Logo */}
             <a href="/" className="absolute left-1/2 -translate-x-1/2">
-              <h1 className="text-2xl font-serif tracking-wider">Gaea</h1>
+              <h1 className="text-2xl font-serif tracking-wider text-[#0a0a0a]">Gaea</h1>
             </a>
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
-              <button className="text-white/80 hover:text-white transition-colors hidden sm:block">
+              <button className="text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors hidden sm:block">
                 <Search className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => user ? handleLogout() : setAuthOpen(true)}
-                className="text-white/80 hover:text-white transition-colors"
+                className="text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
               >
                 <User className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => setCartOpen(true)}
-                className="relative text-white/80 hover:text-white transition-colors"
+                className="relative text-[#0a0a0a]/80 hover:text-[#0a0a0a] transition-colors"
               >
                 <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#c9a961] text-[#050505] text-xs rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#2d5a27] text-white text-xs rounded-full flex items-center justify-center font-medium">
                     {cartCount}
                   </span>
                 )}
