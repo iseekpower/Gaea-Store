@@ -472,7 +472,7 @@ export default function GaeaStore() {
       </section>
 
       {/* Categories */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-[#050505]">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -480,8 +480,8 @@ export default function GaeaStore() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <p className="text-[#c9a961] tracking-[0.2em] text-sm mb-4">COLLECTIONS</p>
-            <h3 className="text-4xl md:text-5xl font-serif">Shop by Category</h3>
+            <p className="text-[#2d5a27] tracking-[0.2em] text-sm mb-4">COLLECTIONS</p>
+            <h3 className="text-4xl md:text-5xl font-serif text-white">Shop by Category</h3>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
