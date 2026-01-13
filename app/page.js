@@ -71,15 +71,19 @@ export default function GaeaStore() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productsRes, categoriesRes, testimonialsRes] = await Promise.all([
+        const [productsRes, categoriesRes, testimonialsRes, blogRes] = await Promise.all([
           fetch('/api/products'),
           fetch('/api/categories'),
-          fetch('/api/testimonials')
+          fetch('/api/testimonials'),
+          fetch('/api/blog?limit=6')
         ]);
         
         setProducts(await productsRes.json());
         setCategories(await categoriesRes.json());
         setTestimonials(await testimonialsRes.json());
+        
+        const blogData = await blogRes.json();
+        setBlogPosts(Array.isArray(blogData) ? blogData : []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -92,8 +96,23 @@ export default function GaeaStore() {
     const token = localStorage.getItem('gaea_token');
     if (token) {
       fetchUser(token);
+      fetchCollectiveStatus(token);
     }
   }, []);
+
+  const fetchCollectiveStatus = async (token) => {
+    try {
+      const res = await fetch('/api/collective/status', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCollectiveStatus(data);
+      }
+    } catch (error) {
+      console.error('Error fetching collective status:', error);
+    }
+  };
 
   const fetchUser = async (token) => {
     try {
