@@ -370,7 +370,7 @@ export default function GaeaStore() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section */}
+      {/* Hero Section - Light Background with Dark Text for Contrast */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div 
           style={{ scale: heroScale, opacity: heroOpacity }}
@@ -380,7 +380,8 @@ export default function GaeaStore() {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${heroImage})` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]" />
+          {/* Light gradient overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#050505]" />
         </motion.div>
         
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
@@ -390,20 +391,21 @@ export default function GaeaStore() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="max-w-4xl"
           >
-            <p className="text-[#c9a961] tracking-[0.3em] text-sm mb-6">SUSTAINABLE LIVING</p>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight">
+            {/* Dark text for contrast on light hero */}
+            <p className="text-[#2d5a27] tracking-[0.3em] text-sm mb-6 font-medium">SUSTAINABLE LIVING</p>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-tight text-[#0a0a0a] drop-shadow-sm">
               Nature's Craft,
               <br />
-              <span className="italic text-[#c9a961]">Your Story</span>
+              <span className="italic text-[#2d5a27]">Your Story</span>
             </h2>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+            <p className="text-[#333] text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
               Premium bamboo and wood products for the conscious lifestyle. 
               Where sustainability meets luxury.
             </p>
             <Button 
               size="lg"
               onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-[#050505] hover:bg-[#c9a961] hover:text-[#050505] px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
+              className="bg-[#0a0a0a] text-white hover:bg-[#2d5a27] px-12 py-6 text-sm tracking-wider rounded-none transition-all duration-300"
             >
               SHOP NOW
             </Button>
@@ -416,11 +418,11 @@ export default function GaeaStore() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+          <div className="w-6 h-10 border-2 border-[#0a0a0a]/30 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-white/60 rounded-full mt-2"
+              className="w-1 h-3 bg-[#0a0a0a]/60 rounded-full mt-2"
             />
           </div>
         </motion.div>
