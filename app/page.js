@@ -38,6 +38,9 @@ export default function GaeaStore() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('');
   const [orderComplete, setOrderComplete] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [collectiveStatus, setCollectiveStatus] = useState({ isMember: false, applicationStatus: null });
   
   // Search and Filter state
   const [searchQuery, setSearchQuery] = useState('');
