@@ -783,22 +783,22 @@ export default function GaeaStore() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 border-t border-white/10">
+      <footer className="py-16 px-6 border-t border-white/10 bg-[#050505]">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 md:col-span-1">
-              <h2 className="text-2xl font-serif mb-4">Gaea</h2>
+              <h2 className="text-2xl font-serif mb-4 text-white">Gaea</h2>
               <p className="text-white/50 text-sm mb-6">
                 Premium sustainable products for conscious living.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="text-white/50 hover:text-[#c9a961] transition-colors">
+                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-white/50 hover:text-[#c9a961] transition-colors">
+                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
                   <Twitter className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-white/50 hover:text-[#c9a961] transition-colors">
+                <a href="#" className="text-white/50 hover:text-[#2d5a27] transition-colors">
                   <Facebook className="w-5 h-5" />
                 </a>
               </div>
