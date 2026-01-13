@@ -387,6 +387,167 @@ export async function POST(request) {
       return NextResponse.json({ message: 'Admin created', token }, { headers: corsHeaders });
     }
 
+    // Create Order (Checkout)
+    if (pathParts[0] === 'orders') {
+      const user = verifyToken(request);
+      if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { shippingAddress, paymentMethod, items, subtotal, shipping, total } = body;
+      
+      if (!shippingAddress || !items || items.length === 0) {
+        return NextResponse.json({ error: 'Order details required' }, { status: 400, headers: corsHeaders });
+      }
+
+      const ordersCollection = await getCollection('orders');
+      const orderNumber = `GAE-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+      
+      const order = {
+        id: uuidv4(),
+        orderNumber,
+        userId: user.id,
+        userEmail: user.email,
+        items,
+        shippingAddress,
+        paymentMethod: paymentMethod || 'card',
+        subtotal,
+        shipping,
+        total,
+        status: 'confirmed',
+        createdAt: new Date()
+      };
+
+      await ordersCollection.insertOne(order);
+
+      // Clear the user's cart after successful order
+      const cartsCollection = await getCollection('carts');
+      await cartsCollection.updateOne(
+        { userId: user.id },
+        { $set: { items: [], updatedAt: new Date() } }
+      );
+
+      return NextResponse.json({ 
+        success: true, 
+        order: {
+          orderNumber: order.orderNumber,
+          total: order.total,
+          status: order.status,
+          createdAt: order.createdAt
+        }
+      }, { headers: corsHeaders });
+    }
+
+    // Admin: Create Blog Post
+    if (pathParts[0] === 'admin' && pathParts[1] === 'blog') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { title, excerpt, content, category, image, tags, featured } = body;
+      if (!title || !content) {
+        return NextResponse.json({ error: 'Title and content required' }, { status: 400, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('blog_posts');
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      
+      const post = {
+        id: uuidv4(),
+        title,
+        slug,
+        excerpt: excerpt || content.substring(0, 150) + '...',
+        content,
+        category: category || 'lifestyle',
+        image: image || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80',
+        tags: tags || [],
+        featured: featured || false,
+        author: user.email,
+        authorName: user.name || 'Gaea Team',
+        status: 'published',
+        views: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      await collection.insertOne(post);
+      return NextResponse.json(post, { headers: corsHeaders });
+    }
+
+    // Gaea Collective Application
+    if (pathParts[0] === 'collective' && pathParts[1] === 'apply') {
+      const user = verifyToken(request);
+      if (!user) {
+        return NextResponse.json({ error: 'Please login to apply' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { bio, interests, socialMedia, reason } = body;
+      if (!reason) {
+        return NextResponse.json({ error: 'Please tell us why you want to join' }, { status: 400, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('collective_applications');
+      
+      // Check if already applied
+      const existing = await collection.findOne({ userId: user.id });
+      if (existing) {
+        return NextResponse.json({ error: 'You have already applied', status: existing.status }, { status: 400, headers: corsHeaders });
+      }
+
+      const application = {
+        id: uuidv4(),
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        bio: bio || '',
+        interests: interests || [],
+        socialMedia: socialMedia || {},
+        reason,
+        status: 'pending',
+        createdAt: new Date()
+      };
+
+      await collection.insertOne(application);
+      return NextResponse.json({ success: true, message: 'Application submitted! We will review it shortly.' }, { headers: corsHeaders });
+    }
+
+    // Admin: Approve/Reject Collective Application
+    if (pathParts[0] === 'admin' && pathParts[1] === 'collective' && pathParts[2]) {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { status } = body; // 'approved' or 'rejected'
+      if (!['approved', 'rejected'].includes(status)) {
+        return NextResponse.json({ error: 'Invalid status' }, { status: 400, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('collective_applications');
+      const application = await collection.findOne({ id: pathParts[2] });
+      
+      if (!application) {
+        return NextResponse.json({ error: 'Application not found' }, { status: 404, headers: corsHeaders });
+      }
+
+      await collection.updateOne(
+        { id: pathParts[2] },
+        { $set: { status, reviewedAt: new Date(), reviewedBy: user.email } }
+      );
+
+      // If approved, update user role to 'collective_member'
+      if (status === 'approved') {
+        const usersCollection = await getCollection('users');
+        await usersCollection.updateOne(
+          { id: application.userId },
+          { $set: { collectiveMember: true, collectiveJoinedAt: new Date() } }
+        );
+      }
+
+      return NextResponse.json({ success: true, status }, { headers: corsHeaders });
+    }
+
     return NextResponse.json({ error: 'Not found' }, { status: 404, headers: corsHeaders });
   } catch (error) {
     console.error('POST Error:', error);
