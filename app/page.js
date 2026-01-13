@@ -10,10 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
 import { 
   Menu, X, ShoppingBag, User, Search, ChevronRight, Star, Leaf, 
   ArrowRight, Instagram, Twitter, Facebook, Mail, MapPin, Phone,
-  Minus, Plus, Trash2, Heart, Globe, Building2, Package
+  Minus, Plus, Trash2, Heart, Globe, Building2, Package, Filter,
+  Check, CreditCard, Truck, Shield, ChevronDown, SlidersHorizontal
 } from 'lucide-react';
 
 export default function GaeaStore() {
@@ -22,6 +24,9 @@ export default function GaeaStore() {
   const [authOpen, setAuthOpen] = useState(false);
   const [productModal, setProductModal] = useState(null);
   const [b2bModal, setB2bModal] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
@@ -32,6 +37,20 @@ export default function GaeaStore() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('');
+  const [orderComplete, setOrderComplete] = useState(false);
+  
+  // Search and Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [priceRange, setPriceRange] = useState([0, 200]);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [sortBy, setSortBy] = useState('featured');
+  
+  // Checkout form state
+  const [checkoutForm, setCheckoutForm] = useState({
+    firstName: '', lastName: '', email: '', phone: '',
+    address: '', city: '', state: '', zip: '', country: 'USA'
+  });
+  const [checkoutStep, setCheckoutStep] = useState(1);
   
   const [authForm, setAuthForm] = useState({ email: '', password: '', name: '' });
   const [authError, setAuthError] = useState('');
@@ -43,6 +62,8 @@ export default function GaeaStore() {
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1]);
+
+  const materials = ['Bamboo', 'Teak', 'Walnut', 'Neem', 'Steel & Bamboo'];
 
   useEffect(() => {
     const fetchData = async () => {
