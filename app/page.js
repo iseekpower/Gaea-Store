@@ -1728,19 +1728,19 @@ function ProductCard({ product, index, onView, onAddToCart }) {
             NEW
           </Badge>
         )}
-        <div className="absolute inset-0 bg-[#1a1a1a]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+        <div className="absolute inset-0 bg-[#1a1a1a]/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
           <Button 
-            variant="outline" 
+            variant="secondary" 
             size="sm"
             onClick={(e) => { e.stopPropagation(); onView(); }}
-            className="border-white text-white hover:bg-white hover:text-[#1a1a1a] rounded-none"
+            className="bg-white text-[#1a1a1a] hover:bg-[#f5f4f0] rounded-none font-medium"
           >
             Quick View
           </Button>
           <Button 
             size="sm"
             onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
-            className="bg-white text-[#1a1a1a] hover:bg-[#2d5a27] hover:text-white rounded-none"
+            className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none font-medium"
           >
             Add to Cart
           </Button>
