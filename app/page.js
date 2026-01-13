@@ -1363,7 +1363,16 @@ export default function GaeaStore() {
                 <Check className="w-10 h-10 text-white" />
               </motion.div>
               <h2 className="text-3xl font-serif text-[#1a1a1a] mb-4">Order Confirmed!</h2>
-              <p className="text-[#6b6b6b]">Thank you for your purchase. You will receive a confirmation email shortly.</p>
+              {orderDetails && (
+                <div className="bg-white p-6 rounded-lg border border-[#1a1a1a]/10 max-w-sm mx-auto mb-6">
+                  <p className="text-[#6b6b6b] text-sm mb-2">Order Number</p>
+                  <p className="text-[#2d5a27] font-mono text-lg font-medium">{orderDetails.orderNumber}</p>
+                  <Separator className="my-4 bg-[#1a1a1a]/10" />
+                  <p className="text-[#6b6b6b] text-sm mb-1">Total Paid</p>
+                  <p className="text-[#1a1a1a] text-2xl font-serif">${orderDetails.total?.toFixed(2)}</p>
+                </div>
+              )}
+              <p className="text-[#6b6b6b]">Thank you for your purchase! You will receive a confirmation email shortly.</p>
             </div>
           ) : (
             <>
