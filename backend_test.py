@@ -10,7 +10,7 @@ import sys
 from typing import Dict, Any, Optional
 
 # Base URL from environment
-BASE_URL = "https://sustainable-shop-9.preview.emergentagent.com/api"
+BASE_URL = "https://gaea-eco.preview.emergentagent.com/api"
 
 class GaeaStoreAPITester:
     def __init__(self):
