@@ -1960,6 +1960,93 @@ export default function GaeaStore() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Collective Application Modal */}
+      <Dialog open={collectiveModal} onOpenChange={setCollectiveModal}>
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-[#1a1a1a] font-serif text-2xl">Join The Gaea Collective</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCollectiveApply} className="mt-4 space-y-4">
+            <div>
+              <label className="block text-sm text-[#6b6b6b] mb-2">Tell us about yourself</label>
+              <textarea
+                placeholder="Share a bit about your journey with sustainable living..."
+                value={collectiveForm.bio}
+                onChange={(e) => setCollectiveForm({ ...collectiveForm, bio: e.target.value })}
+                className="w-full bg-white border border-[#1a1a1a]/10 p-3 text-[#4a4a4a] h-24 resize-none"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm text-[#6b6b6b] mb-2">Why do you want to join? *</label>
+              <textarea
+                placeholder="What excites you about the Gaea Collective?"
+                value={collectiveForm.reason}
+                onChange={(e) => setCollectiveForm({ ...collectiveForm, reason: e.target.value })}
+                className="w-full bg-white border border-[#1a1a1a]/10 p-3 text-[#4a4a4a] h-24 resize-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-[#6b6b6b] mb-2">Interests (select all that apply)</label>
+              <div className="flex flex-wrap gap-2">
+                {['Eco Living', 'Zero Waste', 'Artisan Crafts', 'Sustainable Fashion', 'Plant-Based', 'Minimalism'].map(interest => (
+                  <button
+                    key={interest}
+                    type="button"
+                    onClick={() => {
+                      const newInterests = collectiveForm.interests.includes(interest)
+                        ? collectiveForm.interests.filter(i => i !== interest)
+                        : [...collectiveForm.interests, interest];
+                      setCollectiveForm({ ...collectiveForm, interests: newInterests });
+                    }}
+                    className={`px-3 py-1.5 text-sm border transition-all ${
+                      collectiveForm.interests.includes(interest)
+                        ? 'border-[#2d5a27] bg-[#2d5a27] text-white'
+                        : 'border-[#1a1a1a]/20 text-[#4a4a4a] hover:border-[#2d5a27]'
+                    }`}
+                  >
+                    {interest}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-[#6b6b6b] mb-2">Instagram (optional)</label>
+                <Input
+                  placeholder="@username"
+                  value={collectiveForm.instagram}
+                  onChange={(e) => setCollectiveForm({ ...collectiveForm, instagram: e.target.value })}
+                  className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[#6b6b6b] mb-2">Twitter (optional)</label>
+                <Input
+                  placeholder="@username"
+                  value={collectiveForm.twitter}
+                  onChange={(e) => setCollectiveForm({ ...collectiveForm, twitter: e.target.value })}
+                  className="bg-white border-[#1a1a1a]/10 rounded-none h-12"
+                />
+              </div>
+            </div>
+
+            <Button 
+              type="submit"
+              className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
+            >
+              SUBMIT APPLICATION
+            </Button>
+            <p className="text-center text-xs text-[#6b6b6b]">
+              We review applications within 48 hours
+            </p>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
