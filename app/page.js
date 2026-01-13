@@ -932,7 +932,7 @@ export default function GaeaStore() {
                     <span className="text-white/60">Subtotal</span>
                     <span className="text-white text-xl font-serif">${cartTotal.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full bg-[#c9a961] text-[#050505] hover:bg-[#c9a961]/90 rounded-none h-12">
+                  <Button className="w-full bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 rounded-none h-12">
                     CHECKOUT
                   </Button>
                 </div>
