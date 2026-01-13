@@ -1170,12 +1170,30 @@ export default function GaeaStore() {
                   </div>
                 </ScrollArea>
                 <div className="pt-6 border-t border-[#1a1a1a]/10">
+                  {/* Cart benefits */}
+                  <div className="flex justify-between text-sm text-[#6b6b6b] mb-4">
+                    <div className="flex items-center gap-2">
+                      <Truck className="w-4 h-4" />
+                      <span>Free shipping over $50</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Shield className="w-4 h-4" />
+                      <span>Secure checkout</span>
+                    </div>
+                  </div>
+                  <Separator className="bg-[#1a1a1a]/10 my-4" />
                   <div className="flex justify-between mb-4">
                     <span className="text-[#6b6b6b]">Subtotal</span>
                     <span className="text-[#1a1a1a] text-xl font-serif">${cartTotal.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12">
-                    CHECKOUT
+                  <Button 
+                    onClick={() => {
+                      setCartOpen(false);
+                      setCheckoutOpen(true);
+                    }}
+                    className="w-full bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
+                  >
+                    PROCEED TO CHECKOUT
                   </Button>
                 </div>
               </>
@@ -1183,6 +1201,220 @@ export default function GaeaStore() {
           </div>
         </SheetContent>
       </Sheet>
+
+      {/* Checkout Modal */}
+      <Dialog open={checkoutOpen} onOpenChange={setCheckoutOpen}>
+        <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-4xl max-h-[90vh] overflow-y-auto">
+          {orderComplete ? (
+            <div className="text-center py-16">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="w-20 h-20 bg-[#2d5a27] rounded-full flex items-center justify-center mx-auto mb-6"
+              >
+                <Check className="w-10 h-10 text-white" />
+              </motion.div>
+              <h2 className="text-3xl font-serif text-[#1a1a1a] mb-4">Order Confirmed!</h2>
+              <p className="text-[#6b6b6b]">Thank you for your purchase. You will receive a confirmation email shortly.</p>
+            </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-[#1a1a1a] font-serif text-2xl">Checkout</DialogTitle>
+              </DialogHeader>
+
+              {/* Progress Steps */}
+              <div className="flex items-center justify-center gap-4 my-6">
+                {[1, 2, 3].map((step) => (
+                  <div key={step} className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      checkoutStep >= step 
+                        ? 'bg-[#2d5a27] text-white' 
+                        : 'bg-[#1a1a1a]/10 text-[#6b6b6b]'
+                    }`}>
+                      {checkoutStep > step ? <Check className="w-4 h-4" /> : step}
+                    </div>
+                    <span className={`text-sm hidden sm:inline ${checkoutStep >= step ? 'text-[#1a1a1a]' : 'text-[#6b6b6b]'}`}>
+                      {step === 1 ? 'Shipping' : step === 2 ? 'Payment' : 'Review'}
+                    </span>
+                    {step < 3 && <ChevronRight className="w-4 h-4 text-[#6b6b6b]" />}
+                  </div>
+                ))}
+              </div>
+
+              <form onSubmit={handleCheckout}>
+                {/* Step 1: Shipping */}
+                {checkoutStep === 1 && (
+                  <div className="space-y-4">
+                    <h3 className="font-medium text-[#1a1a1a] mb-4">Shipping Information</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-[#6b6b6b] mb-2">First Name</label>
+                        <Input
+                          value={checkoutForm.firstName}
+                          onChange={(e) => setCheckoutForm({...checkoutForm, firstName: e.target.value})}
+                          className="bg-white border-[#1a1a1a]/10"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-[#6b6b6b] mb-2">Last Name</label>
+                        <Input
+                          value={checkoutForm.lastName}
+                          onChange={(e) => setCheckoutForm({...checkoutForm, lastName: e.target.value})}
+                          className="bg-white border-[#1a1a1a]/10"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm text-[#6b6b6b] mb-2">Email</label>
+                      <Input
+                        type="email"
+                        value={checkoutForm.email}
+                        onChange={(e) => setCheckoutForm({...checkoutForm, email: e.target.value})}
+                        className="bg-white border-[#1a1a1a]/10"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-[#6b6b6b] mb-2">Address</label>
+                      <Input
+                        value={checkoutForm.address}
+                        onChange={(e) => setCheckoutForm({...checkoutForm, address: e.target.value})}
+                        className="bg-white border-[#1a1a1a]/10"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm text-[#6b6b6b] mb-2">City</label>
+                        <Input
+                          value={checkoutForm.city}
+                          onChange={(e) => setCheckoutForm({...checkoutForm, city: e.target.value})}
+                          className="bg-white border-[#1a1a1a]/10"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-[#6b6b6b] mb-2">State</label>
+                        <Input
+                          value={checkoutForm.state}
+                          onChange={(e) => setCheckoutForm({...checkoutForm, state: e.target.value})}
+                          className="bg-white border-[#1a1a1a]/10"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-[#6b6b6b] mb-2">ZIP</label>
+                        <Input
+                          value={checkoutForm.zip}
+                          onChange={(e) => setCheckoutForm({...checkoutForm, zip: e.target.value})}
+                          className="bg-white border-[#1a1a1a]/10"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 2: Payment */}
+                {checkoutStep === 2 && (
+                  <div className="space-y-4">
+                    <h3 className="font-medium text-[#1a1a1a] mb-4">Payment Method</h3>
+                    <div className="p-6 bg-white border border-[#1a1a1a]/10 rounded-lg">
+                      <div className="flex items-center gap-4 mb-4">
+                        <CreditCard className="w-8 h-8 text-[#6b6b6b]" />
+                        <span className="font-medium text-[#1a1a1a]">Credit Card</span>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm text-[#6b6b6b] mb-2">Card Number</label>
+                          <Input placeholder="1234 5678 9012 3456" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm text-[#6b6b6b] mb-2">Expiry</label>
+                            <Input placeholder="MM/YY" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                          </div>
+                          <div>
+                            <label className="block text-sm text-[#6b6b6b] mb-2">CVC</label>
+                            <Input placeholder="123" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-[#6b6b6b] flex items-center gap-2">
+                      <Shield className="w-4 h-4" />
+                      Your payment information is encrypted and secure
+                    </p>
+                  </div>
+                )}
+
+                {/* Step 3: Review */}
+                {checkoutStep === 3 && (
+                  <div className="space-y-6">
+                    <h3 className="font-medium text-[#1a1a1a] mb-4">Order Review</h3>
+                    
+                    <div className="bg-white p-4 border border-[#1a1a1a]/10 rounded-lg">
+                      <h4 className="text-sm font-medium text-[#6b6b6b] mb-3">SHIPPING TO</h4>
+                      <p className="text-[#1a1a1a]">{checkoutForm.firstName} {checkoutForm.lastName}</p>
+                      <p className="text-[#4a4a4a]">{checkoutForm.address}</p>
+                      <p className="text-[#4a4a4a]">{checkoutForm.city}, {checkoutForm.state} {checkoutForm.zip}</p>
+                    </div>
+
+                    <div className="bg-white p-4 border border-[#1a1a1a]/10 rounded-lg">
+                      <h4 className="text-sm font-medium text-[#6b6b6b] mb-3">ORDER ITEMS</h4>
+                      <div className="space-y-3">
+                        {cart.items?.map(item => (
+                          <div key={item.productId} className="flex justify-between">
+                            <span className="text-[#1a1a1a]">{item.name} x {item.quantity}</span>
+                            <span className="text-[#1a1a1a]">${(item.price * item.quantity).toFixed(2)}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <Separator className="my-4 bg-[#1a1a1a]/10" />
+                      <div className="flex justify-between">
+                        <span className="text-[#6b6b6b]">Subtotal</span>
+                        <span className="text-[#1a1a1a]">${cartTotal.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#6b6b6b]">Shipping</span>
+                        <span className="text-[#2d5a27]">{cartTotal >= 50 ? 'FREE' : '$5.99'}</span>
+                      </div>
+                      <Separator className="my-4 bg-[#1a1a1a]/10" />
+                      <div className="flex justify-between text-lg font-medium">
+                        <span className="text-[#1a1a1a]">Total</span>
+                        <span className="text-[#1a1a1a]">${(cartTotal + (cartTotal >= 50 ? 0 : 5.99)).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Navigation Buttons */}
+                <div className="flex gap-4 mt-8">
+                  {checkoutStep > 1 && (
+                    <Button 
+                      type="button"
+                      variant="outline"
+                      onClick={() => setCheckoutStep(checkoutStep - 1)}
+                      className="flex-1 border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
+                    >
+                      Back
+                    </Button>
+                  )}
+                  <Button 
+                    type="submit"
+                    className="flex-1 bg-[#1a1a1a] text-white hover:bg-[#2d5a27]"
+                  >
+                    {checkoutStep === 3 ? 'PLACE ORDER' : 'CONTINUE'}
+                  </Button>
+                </div>
+              </form>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Auth Modal - Elegant */}
       <Dialog open={authOpen} onOpenChange={setAuthOpen}>
