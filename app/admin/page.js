@@ -44,8 +44,17 @@ export default function AdminDashboard() {
   const [productForm, setProductForm] = useState({
     name: '', slug: '', description: '', price: '', originalPrice: '',
     category: 'personal-care', material: 'Bamboo', images: '',
-    featured: false, newArrival: false, stock: ''
+    featured: false, newArrival: false, stock: '',
+    variants: []
   });
+
+  // Variant types available
+  const variantTypes = [
+    { id: 'size', name: 'Size', options: ['Small', 'Medium', 'Large', 'XL', 'XXL'] },
+    { id: 'color', name: 'Color', options: ['Natural', 'Black', 'White', 'Brown', 'Green', 'Blue'] },
+    { id: 'material', name: 'Material', options: ['Bamboo', 'Teak', 'Walnut', 'Neem', 'Recycled Plastic'] },
+    { id: 'packaging', name: 'Packaging', options: ['Single Pack', 'Pack of 2', 'Pack of 4', 'Family Pack', 'Travel Size', 'Gift Set'] },
+  ];
 
   // Blog form state
   const [blogForm, setBlogForm] = useState({
