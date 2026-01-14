@@ -693,72 +693,74 @@ export default function AdminDashboard() {
           <div className="p-8">
             <h2 className="text-3xl font-serif text-[#1a1a1a] mb-8">Collective Applications</h2>
 
-            <div className="bg-white rounded-lg border border-[#1a1a1a]/10 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-[#faf9f6]">
-                    <tr>
-                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Applicant</th>
-                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Business</th>
-                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Type</th>
-                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Status</th>
-                      <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Date</th>
-                      <th className="text-right p-4 text-[#6b6b6b] font-medium text-sm">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {collectiveApps.map(app => (
-                      <tr key={app.id} className="border-t border-[#1a1a1a]/5 hover:bg-[#faf9f6]/50">
-                        <td className="p-4">
-                          <div>
-                            <p className="font-medium text-[#1a1a1a]">{app.name}</p>
-                            <p className="text-sm text-[#6b6b6b]">{app.email}</p>
-                            {app.phone && <p className="text-sm text-[#6b6b6b]">{app.phone}</p>}
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <p className="text-[#1a1a1a]">{app.businessName}</p>
-                          <p className="text-sm text-[#6b6b6b]">{app.location}</p>
-                        </td>
-                        <td className="p-4">
-                          <Badge className="bg-[#1a1a1a]/5 text-[#4a4a4a] border-0 capitalize">
-                            {app.businessType}
-                          </Badge>
-                        </td>
-                        <td className="p-4">
-                          <select
-                            value={app.status || 'pending'}
-                            onChange={(e) => updateCollectiveStatus(app.id, e.target.value)}
-                            className={`px-3 py-1 rounded text-sm font-medium border-0 ${
-                              app.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                              app.status === 'approved' ? 'bg-green-100 text-green-700' :
-                              app.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                              'bg-gray-100 text-gray-700'
-                            }`}
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
-                          </select>
-                        </td>
-                        <td className="p-4 text-[#6b6b6b] text-sm">
-                          {new Date(app.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className="p-4">
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            className="text-[#6b6b6b] hover:text-[#2d5a27]"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            {collectiveApps.length === 0 ? (
+              <div className="bg-white rounded-lg border border-[#1a1a1a]/10 p-12 text-center">
+                <Users className="w-12 h-12 text-[#6b6b6b] mx-auto mb-4" />
+                <p className="text-[#6b6b6b]">No applications yet</p>
               </div>
-            </div>
+            ) : (
+              <div className="bg-white rounded-lg border border-[#1a1a1a]/10 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-[#faf9f6]">
+                      <tr>
+                        <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Applicant</th>
+                        <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Reason to Join</th>
+                        <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Interests</th>
+                        <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Status</th>
+                        <th className="text-left p-4 text-[#6b6b6b] font-medium text-sm">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {collectiveApps.map(app => (
+                        <tr key={app.id} className="border-t border-[#1a1a1a]/5 hover:bg-[#faf9f6]/50">
+                          <td className="p-4">
+                            <div>
+                              <p className="font-medium text-[#1a1a1a]">{app.name || 'Unknown'}</p>
+                              <p className="text-sm text-[#6b6b6b]">{app.email}</p>
+                            </div>
+                          </td>
+                          <td className="p-4">
+                            <p className="text-[#4a4a4a] text-sm max-w-xs line-clamp-2">{app.reason || '-'}</p>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex flex-wrap gap-1">
+                              {(app.interests || []).slice(0, 3).map((interest, i) => (
+                                <span key={i} className="px-2 py-0.5 bg-[#2d5a27]/10 text-[#2d5a27] text-xs rounded">
+                                  {interest}
+                                </span>
+                              ))}
+                              {(app.interests || []).length > 3 && (
+                                <span className="text-xs text-[#6b6b6b]">+{app.interests.length - 3} more</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="p-4">
+                            <select
+                              value={app.status || 'pending'}
+                              onChange={(e) => updateCollectiveStatus(app.id, e.target.value)}
+                              className={`px-3 py-1.5 rounded text-sm font-medium border-0 cursor-pointer ${
+                                app.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                                app.status === 'approved' ? 'bg-green-100 text-green-700' :
+                                app.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                'bg-gray-100 text-gray-700'
+                              }`}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="approved">Approved</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                          </td>
+                          <td className="p-4 text-[#6b6b6b] text-sm">
+                            {new Date(app.createdAt).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
