@@ -146,16 +146,17 @@ export default function AdminDashboard() {
         originalPrice: product.originalPrice?.toString() || '',
         category: product.category || 'personal-care',
         material: product.material || 'Bamboo',
-        images: product.images?.join(', ') || '',
+        images: Array.isArray(product.images) ? product.images.join(', ') : (product.images || ''),
         featured: product.featured || false,
         newArrival: product.newArrival || false,
-        stock: product.stock?.toString() || ''
+        stock: product.stock?.toString() || '',
+        variants: product.variants || []
       });
     } else {
       setProductForm({
         name: '', slug: '', description: '', price: '', originalPrice: '',
         category: 'personal-care', material: 'Bamboo', images: '',
-        featured: false, newArrival: false, stock: ''
+        featured: false, newArrival: false, stock: '', variants: []
       });
     }
     setProductModal({ open: true, mode, product });
