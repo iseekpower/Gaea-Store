@@ -244,6 +244,40 @@ export async function GET(request) {
       return NextResponse.json(settings, { headers: corsHeaders });
     }
 
+    // Get uploaded image
+    if (pathParts[0] === 'images' && pathParts[1]) {
+      const collection = await getCollection('images');
+      const image = await collection.findOne({ id: pathParts[1] });
+      
+      if (!image) {
+        return NextResponse.json({ error: 'Image not found' }, { status: 404, headers: corsHeaders });
+      }
+
+      // Return the base64 data with proper headers for display
+      const base64Data = image.data;
+      
+      // If it's a data URL, extract just the base64 part
+      if (base64Data.startsWith('data:')) {
+        const matches = base64Data.match(/^data:([^;]+);base64,(.+)$/);
+        if (matches) {
+          const mimeType = matches[1];
+          const rawBase64 = matches[2];
+          const buffer = Buffer.from(rawBase64, 'base64');
+          
+          return new NextResponse(buffer, {
+            headers: {
+              'Content-Type': mimeType,
+              'Cache-Control': 'public, max-age=31536000',
+              ...corsHeaders
+            }
+          });
+        }
+      }
+      
+      // Fallback: return as JSON
+      return NextResponse.json({ data: base64Data }, { headers: corsHeaders });
+    }
+
     // Get all categories
     if (pathParts[0] === 'categories') {
       const collection = await getCollection('categories');
