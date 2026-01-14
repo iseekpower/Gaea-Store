@@ -1157,6 +1157,140 @@ export default function AdminDashboard() {
               </label>
             </div>
 
+            {/* Product Variants Section */}
+            <div className="border-t border-[#1a1a1a]/10 pt-6 mt-2">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-medium text-[#1a1a1a]">Product Variants</h3>
+                  <p className="text-sm text-[#6b6b6b]">Add different sizes, colors, or packaging options</p>
+                </div>
+                <Button
+                  type="button"
+                  onClick={addVariant}
+                  variant="outline"
+                  size="sm"
+                  className="border-[#2d5a27] text-[#2d5a27] hover:bg-[#2d5a27] hover:text-white"
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Variant
+                </Button>
+              </div>
+
+              {productForm.variants.length === 0 ? (
+                <div className="text-center py-8 bg-[#faf9f6] rounded-lg border border-dashed border-[#1a1a1a]/20">
+                  <Package className="w-10 h-10 text-[#6b6b6b] mx-auto mb-2" />
+                  <p className="text-[#6b6b6b] text-sm">No variants added yet</p>
+                  <p className="text-[#6b6b6b] text-xs mt-1">Click "Add Variant" to create product options</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {productForm.variants.map((variant, index) => (
+                    <div 
+                      key={variant.id} 
+                      className={`p-4 rounded-lg border ${variant.isDefault ? 'border-[#2d5a27] bg-[#2d5a27]/5' : 'border-[#1a1a1a]/10 bg-white'}`}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium text-[#1a1a1a]">Variant {index + 1}</span>
+                          {variant.isDefault && (
+                            <span className="px-2 py-0.5 bg-[#2d5a27] text-white text-xs rounded">Default</span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {!variant.isDefault && (
+                            <button
+                              type="button"
+                              onClick={() => setDefaultVariant(variant.id)}
+                              className="text-xs text-[#2d5a27] hover:underline"
+                            >
+                              Set as Default
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => removeVariant(variant.id)}
+                            className="text-red-500 hover:text-red-700 p-1"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">Type</label>
+                          <select
+                            value={variant.type}
+                            onChange={(e) => updateVariant(variant.id, 'type', e.target.value)}
+                            className="w-full bg-white border border-[#1a1a1a]/10 rounded p-2 text-sm"
+                          >
+                            {variantTypes.map(type => (
+                              <option key={type.id} value={type.id}>{type.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">Value</label>
+                          <select
+                            value={variant.value}
+                            onChange={(e) => updateVariant(variant.id, 'value', e.target.value)}
+                            className="w-full bg-white border border-[#1a1a1a]/10 rounded p-2 text-sm"
+                          >
+                            <option value="">Select...</option>
+                            {variantTypes.find(t => t.id === variant.type)?.options.map(opt => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">SKU</label>
+                          <Input
+                            value={variant.sku}
+                            onChange={(e) => updateVariant(variant.id, 'sku', e.target.value)}
+                            placeholder="SKU-001"
+                            className="bg-white border-[#1a1a1a]/10 h-9 text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">Price ($)</label>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            value={variant.price}
+                            onChange={(e) => updateVariant(variant.id, 'price', e.target.value)}
+                            placeholder="0.00"
+                            className="bg-white border-[#1a1a1a]/10 h-9 text-sm"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3 mt-3">
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">Stock</label>
+                          <Input
+                            type="number"
+                            value={variant.stock}
+                            onChange={(e) => updateVariant(variant.id, 'stock', e.target.value)}
+                            placeholder="0"
+                            className="bg-white border-[#1a1a1a]/10 h-9 text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-[#6b6b6b] mb-1">Custom Label (optional)</label>
+                          <Input
+                            value={variant.customLabel || ''}
+                            onChange={(e) => updateVariant(variant.id, 'customLabel', e.target.value)}
+                            placeholder="e.g., Best Value"
+                            className="bg-white border-[#1a1a1a]/10 h-9 text-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="flex gap-4 pt-4">
               <Button 
                 type="button"
