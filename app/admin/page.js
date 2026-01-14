@@ -1022,13 +1022,57 @@ export default function AdminDashboard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Image URLs (comma separated)</label>
-              <Input
-                value={productForm.images}
-                onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
-                placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
-                className="bg-white border-[#1a1a1a]/10"
-              />
+              <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Product Images</label>
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <Input
+                    value={productForm.images}
+                    onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
+                    placeholder="Paste image URL or upload your own"
+                    className="bg-white border-[#1a1a1a]/10 flex-1"
+                  />
+                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#2d5a27] text-white rounded-md cursor-pointer hover:bg-[#2d5a27]/90 transition-colors">
+                    <Upload className="w-4 h-4" />
+                    <span>{imageUploading ? 'Uploading...' : 'Upload'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      disabled={imageUploading}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                {productForm.images && (
+                  <div className="flex flex-wrap gap-2">
+                    {productForm.images.split(',').map((url, i) => (
+                      url.trim() && (
+                        <div key={i} className="relative group">
+                          <img 
+                            src={url.trim()} 
+                            alt={`Preview ${i + 1}`}
+                            className="w-16 h-16 object-cover rounded border border-[#1a1a1a]/10"
+                            onError={(e) => e.target.style.display = 'none'}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const urls = productForm.images.split(',').filter((_, idx) => idx !== i);
+                              setProductForm({ ...productForm, images: urls.join(', ') });
+                            }}
+                            className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      )
+                    ))}
+                  </div>
+                )}
+                <p className="text-xs text-[#6b6b6b]">
+                  Upload images from your photoshoot or paste URLs. Multiple images supported.
+                </p>
+              </div>
             </div>
 
             <div className="flex gap-6">
