@@ -688,6 +688,69 @@ export async function POST(request) {
       return NextResponse.json({ success: true, status }, { headers: corsHeaders });
     }
 
+    // Admin: Save settings
+    if (pathParts[0] === 'admin' && pathParts[1] === 'settings') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { storeName, email, phone, address, currency, taxRate } = body;
+      const collection = await getCollection('settings');
+      
+      await collection.updateOne(
+        { key: 'store_settings' },
+        { 
+          $set: { 
+            storeName, 
+            email, 
+            phone, 
+            address, 
+            currency, 
+            taxRate,
+            updatedAt: new Date() 
+          } 
+        },
+        { upsert: true }
+      );
+
+      return NextResponse.json({ success: true, message: 'Settings saved successfully' }, { headers: corsHeaders });
+    }
+
+    // Image upload
+    if (pathParts[0] === 'upload' && pathParts[1] === 'image') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const { image, filename } = body; // image is base64 encoded
+      
+      if (!image) {
+        return NextResponse.json({ error: 'No image provided' }, { status: 400, headers: corsHeaders });
+      }
+
+      // Store image in database as base64 (for MVP purposes)
+      const collection = await getCollection('images');
+      const imageId = uuidv4();
+      const imageDoc = {
+        id: imageId,
+        filename: filename || `image_${imageId}`,
+        data: image,
+        uploadedBy: user.email,
+        createdAt: new Date()
+      };
+      
+      await collection.insertOne(imageDoc);
+      
+      // Return a URL that can fetch this image
+      return NextResponse.json({ 
+        success: true, 
+        imageId,
+        url: `/api/images/${imageId}`
+      }, { headers: corsHeaders });
+    }
+
     return NextResponse.json({ error: 'Not found' }, { status: 404, headers: corsHeaders });
   } catch (error) {
     console.error('POST Error:', error);
