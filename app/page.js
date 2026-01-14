@@ -1226,38 +1226,42 @@ export default function GaeaStore() {
                   transition={{ delay: i * 0.1 }}
                   className="group bg-white border border-[#1a1a1a]/5 overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  <div className="aspect-[16/10] overflow-hidden bg-[#f0efe9]">
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-[#2d5a27] text-xs font-medium tracking-wider uppercase">{post.category}</span>
-                      <span className="text-[#6b6b6b] text-xs">•</span>
-                      <span className="text-[#6b6b6b] text-xs">{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <Link href={`/blog/${post.slug || post.id}`}>
+                    <div className="aspect-[16/10] overflow-hidden bg-[#f0efe9]">
+                      <img 
+                        src={post.image} 
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                    <h4 className="font-serif text-xl text-[#1a1a1a] mb-2 group-hover:text-[#2d5a27] transition-colors">{post.title}</h4>
-                    <p className="text-[#6b6b6b] text-sm font-light line-clamp-2">{post.excerpt}</p>
-                    <button className="mt-4 text-[#2d5a27] text-sm font-medium flex items-center gap-2 group/btn">
-                      Read More
-                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-[#2d5a27] text-xs font-medium tracking-wider uppercase">{post.category}</span>
+                        <span className="text-[#6b6b6b] text-xs">•</span>
+                        <span className="text-[#6b6b6b] text-xs">{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                      <h4 className="font-serif text-xl text-[#1a1a1a] mb-2 group-hover:text-[#2d5a27] transition-colors">{post.title}</h4>
+                      <p className="text-[#6b6b6b] text-sm font-light line-clamp-2">{post.excerpt}</p>
+                      <span className="mt-4 text-[#2d5a27] text-sm font-medium flex items-center gap-2">
+                        Read More
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </div>
+                  </Link>
                 </motion.article>
               ))}
             </div>
 
             {blogPosts.length > 3 && (
               <div className="text-center mt-10">
-                <Button 
-                  variant="outline"
-                  className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 rounded-none tracking-wider"
-                >
-                  VIEW ALL ARTICLES
-                </Button>
+                <Link href="/blog">
+                  <Button 
+                    variant="outline"
+                    className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 rounded-none tracking-wider"
+                  >
+                    VIEW ALL ARTICLES
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
