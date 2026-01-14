@@ -91,12 +91,13 @@ export default function AdminDashboard() {
 
   const fetchData = async (token) => {
     try {
-      const [productsRes, leadsRes, categoriesRes, blogRes, collectiveRes] = await Promise.all([
+      const [productsRes, leadsRes, categoriesRes, blogRes, collectiveRes, settingsRes] = await Promise.all([
         fetch('/api/products'),
         fetch('/api/admin/leads', { headers: { Authorization: `Bearer ${token}` } }),
         fetch('/api/categories'),
         fetch('/api/admin/blog', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('/api/admin/collective', { headers: { Authorization: `Bearer ${token}` } })
+        fetch('/api/admin/collective', { headers: { Authorization: `Bearer ${token}` } }),
+        fetch('/api/admin/settings', { headers: { Authorization: `Bearer ${token}` } })
       ]);
 
       setProducts(await productsRes.json());
@@ -109,6 +110,10 @@ export default function AdminDashboard() {
       if (collectiveRes.ok) {
         const collectiveData = await collectiveRes.json();
         setCollectiveApps(Array.isArray(collectiveData) ? collectiveData : []);
+      }
+      if (settingsRes.ok) {
+        const settingsData = await settingsRes.json();
+        setSettings(settingsData);
       }
     } catch (error) {
       console.error('Fetch error:', error);
