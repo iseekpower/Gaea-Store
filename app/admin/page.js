@@ -844,21 +844,75 @@ export default function AdminDashboard() {
             <div className="bg-white rounded-lg border border-[#1a1a1a]/10 p-6 max-w-2xl">
               <h3 className="text-lg font-medium text-[#1a1a1a] mb-6">Store Information</h3>
               
+              {settingsMessage && (
+                <div className={`p-3 rounded mb-4 ${settingsMessage.includes('success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  {settingsMessage}
+                </div>
+              )}
+              
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Store Name</label>
-                  <Input defaultValue="The Gaea Store" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                  <Input 
+                    value={settings.storeName || ''} 
+                    onChange={(e) => setSettings({ ...settings, storeName: e.target.value })}
+                    className="bg-[#faf9f6] border-[#1a1a1a]/10" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Contact Email</label>
-                  <Input defaultValue="hello@gaeastore.com" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                  <Input 
+                    value={settings.email || ''} 
+                    onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                    className="bg-[#faf9f6] border-[#1a1a1a]/10" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Phone</label>
-                  <Input defaultValue="+1 (555) 123-4567" className="bg-[#faf9f6] border-[#1a1a1a]/10" />
+                  <Input 
+                    value={settings.phone || ''} 
+                    onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+                    className="bg-[#faf9f6] border-[#1a1a1a]/10" 
+                  />
                 </div>
-                <Button className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 mt-4">
-                  Save Changes
+                <div>
+                  <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Address</label>
+                  <Input 
+                    value={settings.address || ''} 
+                    onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                    className="bg-[#faf9f6] border-[#1a1a1a]/10" 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Currency</label>
+                    <select
+                      value={settings.currency || 'INR'}
+                      onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
+                      className="w-full bg-[#faf9f6] border border-[#1a1a1a]/10 rounded-md p-2 h-10"
+                    >
+                      <option value="INR">INR (₹)</option>
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#6b6b6b] mb-2">Tax Rate (%)</label>
+                    <Input 
+                      type="number"
+                      value={settings.taxRate || 18} 
+                      onChange={(e) => setSettings({ ...settings, taxRate: parseInt(e.target.value) || 0 })}
+                      className="bg-[#faf9f6] border-[#1a1a1a]/10" 
+                    />
+                  </div>
+                </div>
+                <Button 
+                  onClick={handleSaveSettings}
+                  disabled={settingsSaving}
+                  className="bg-[#2d5a27] text-white hover:bg-[#2d5a27]/90 mt-4"
+                >
+                  {settingsSaving ? 'Saving...' : 'Save Changes'}
                 </Button>
               </div>
             </div>
