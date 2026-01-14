@@ -581,24 +581,42 @@ export default function GaeaStore() {
               </div>
               <nav className="flex-1 p-8">
                 <ul className="space-y-6">
-                  {['All Products', 'New Arrivals', 'Shop by Category', 'B2B & Export', 'The Gaea Collective', 'About Us'].map((item, i) => (
+                  {[
+                    { name: 'All Products', href: '/#products' },
+                    { name: 'New Arrivals', href: '/#products' },
+                    { name: 'Shop by Category', href: '/#categories' },
+                    { name: 'Journal', href: '/blog' },
+                    { name: 'B2B & Export', href: '#', action: 'b2b' },
+                    { name: 'The Gaea Collective', href: '/#collective' },
+                    { name: 'About Us', href: '/#about' }
+                  ].map((item, i) => (
                     <motion.li
-                      key={item}
+                      key={item.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
                     >
-                      <button 
-                        onClick={() => {
-                          setMenuOpen(false);
-                          if (item === 'B2B & Export') setB2bModal(true);
-                          if (item === 'All Products') setSelectedCategory(null);
-                        }}
-                        className="text-3xl font-serif text-[#1a1a1a] hover:text-[#2d5a27] transition-colors flex items-center gap-4 group"
-                      >
-                        {item}
-                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </button>
+                      {item.href === '/blog' ? (
+                        <a
+                          href="/blog"
+                          className="text-3xl font-serif text-[#1a1a1a] hover:text-[#2d5a27] transition-colors flex items-center gap-4 group"
+                        >
+                          {item.name}
+                          <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </a>
+                      ) : (
+                        <button 
+                          onClick={() => {
+                            setMenuOpen(false);
+                            if (item.action === 'b2b') setB2bModal(true);
+                            if (item.name === 'All Products') setSelectedCategory(null);
+                          }}
+                          className="text-3xl font-serif text-[#1a1a1a] hover:text-[#2d5a27] transition-colors flex items-center gap-4 group"
+                        >
+                          {item.name}
+                          <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
+                      )}
                     </motion.li>
                   ))}
                 </ul>
