@@ -271,13 +271,69 @@ export default function ProductPage() {
               <span className="text-[#6b6b6b]">({reviewCount} reviews)</span>
             </div>
 
-            {/* Price */}
+            {/* Price - Dynamic based on variant */}
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-3xl font-serif text-[#1a1a1a]">${product.price?.toFixed(2)}</span>
-              {product.originalPrice && (
+              <span className="text-3xl font-serif text-[#1a1a1a]">${getCurrentPrice().toFixed(2)}</span>
+              {product.originalPrice && !selectedVariant && (
                 <span className="text-xl text-[#6b6b6b] line-through">${product.originalPrice.toFixed(2)}</span>
               )}
+              {selectedVariant && selectedVariant.customLabel && (
+                <Badge className="bg-[#2d5a27] text-white border-0">{selectedVariant.customLabel}</Badge>
+              )}
             </div>
+
+            {/* Variants Selection */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-6">
+                {/* Group variants by type */}
+                {(() => {
+                  const variantTypes = [...new Set(product.variants.map(v => v.type))];
+                  return variantTypes.map(type => {
+                    const typeVariants = product.variants.filter(v => v.type === type);
+                    const typeLabels = {
+                      size: 'Size',
+                      color: 'Color',
+                      material: 'Material',
+                      packaging: 'Packaging'
+                    };
+                    
+                    return (
+                      <div key={type} className="mb-4">
+                        <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                          {typeLabels[type] || type}: {selectedVariant?.type === type && <span className="text-[#2d5a27]">{selectedVariant.value}</span>}
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          {typeVariants.map(variant => {
+                            const isSelected = selectedVariant?.id === variant.id;
+                            const isOutOfStock = parseInt(variant.stock) === 0;
+                            
+                            return (
+                              <button
+                                key={variant.id}
+                                onClick={() => !isOutOfStock && setSelectedVariant(variant)}
+                                disabled={isOutOfStock}
+                                className={`px-4 py-2 text-sm border-2 transition-all ${
+                                  isSelected 
+                                    ? 'border-[#2d5a27] bg-[#2d5a27]/10 text-[#2d5a27]' 
+                                    : isOutOfStock
+                                      ? 'border-[#1a1a1a]/10 text-[#6b6b6b] line-through cursor-not-allowed'
+                                      : 'border-[#1a1a1a]/10 text-[#1a1a1a] hover:border-[#2d5a27]'
+                                }`}
+                              >
+                                {variant.value}
+                                {variant.price && parseFloat(variant.price) !== product.price && (
+                                  <span className="ml-1 text-xs text-[#6b6b6b]">(${parseFloat(variant.price).toFixed(2)})</span>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            )}
 
             {/* Description */}
             <p className="text-[#4a4a4a] leading-relaxed mb-6">
@@ -293,9 +349,13 @@ export default function ProductPage() {
                 <span className="text-[#6b6b6b]">Category</span>
                 <span className="text-[#1a1a1a] capitalize">{product.category?.replace('-', ' ')}</span>
                 <span className="text-[#6b6b6b]">Stock</span>
-                <span className="text-[#1a1a1a]">{product.stock > 0 ? `${product.stock} available` : 'Out of stock'}</span>
+                <span className="text-[#1a1a1a]">
+                  {getCurrentStock() > 0 ? `${getCurrentStock()} available` : 'Out of stock'}
+                </span>
                 <span className="text-[#6b6b6b]">SKU</span>
-                <span className="text-[#1a1a1a] font-mono text-xs">{product.id?.slice(0, 8).toUpperCase()}</span>
+                <span className="text-[#1a1a1a] font-mono text-xs">
+                  {selectedVariant?.sku || product.id?.slice(0, 8).toUpperCase()}
+                </span>
               </div>
             </div>
 
@@ -319,7 +379,7 @@ export default function ProductPage() {
 
               <Button
                 onClick={handleAddToCart}
-                disabled={addingToCart || product.stock === 0}
+                disabled={addingToCart || getCurrentStock() === 0}
                 className={`flex-1 h-12 rounded-none text-white transition-all ${
                   addedToCart ? 'bg-green-600' : 'bg-[#1a1a1a] hover:bg-[#2d5a27]'
                 }`}
