@@ -2086,6 +2086,22 @@ export default function GaeaStore() {
 
 // Product Card Component - Elegant Light Theme
 function ProductCard({ product, index, onView, onAddToCart }) {
+  // Helper to get product image - handles uploaded images, URLs, and arrays
+  const getProductImage = () => {
+    if (product.images) {
+      if (Array.isArray(product.images)) {
+        return product.images[0];
+      } else if (typeof product.images === 'string') {
+        const images = product.images.split(',').map(url => url.trim()).filter(Boolean);
+        return images[0];
+      }
+    }
+    return product.image || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80';
+  };
+
+  const productImage = getProductImage();
+  const productUrl = `/product/${product.slug || product.id}`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -2094,47 +2110,49 @@ function ProductCard({ product, index, onView, onAddToCart }) {
       transition={{ delay: index * 0.1 }}
       className="product-card group cursor-pointer"
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#f0efe9] mb-4">
-        <img 
-          src={product.images?.[0]} 
-          alt={product.name}
-          className="product-image w-full h-full object-cover"
-        />
-        {product.newArrival && (
-          <Badge className="absolute top-4 left-4 bg-[#1a1a1a] text-white border-0">
-            NEW
-          </Badge>
-        )}
-        <div className="absolute inset-0 bg-[#1a1a1a]/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-          <Button 
-            variant="secondary" 
-            size="sm"
-            onClick={(e) => { e.stopPropagation(); onView(); }}
-            className="bg-white text-[#1a1a1a] hover:bg-[#f5f4f0] rounded-none font-medium"
-          >
-            Quick View
-          </Button>
-          <Button 
-            size="sm"
-            onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
-            className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none font-medium"
-          >
-            Add to Cart
-          </Button>
-        </div>
-      </div>
-      <div onClick={onView}>
-        <p className="text-[#2d5a27] text-xs tracking-wider mb-1 font-medium">{product.material}</p>
-        <h4 className="text-[#1a1a1a] font-medium mb-2 group-hover:text-[#2d5a27] transition-colors">
-          {product.name}
-        </h4>
-        <div className="flex items-baseline gap-2">
-          <span className="text-[#1a1a1a]">${product.price?.toFixed(2)}</span>
-          {product.originalPrice && (
-            <span className="text-[#6b6b6b] line-through text-sm">${product.originalPrice?.toFixed(2)}</span>
+      <Link href={productUrl}>
+        <div className="relative aspect-[3/4] overflow-hidden bg-[#f0efe9] mb-4">
+          <img 
+            src={productImage} 
+            alt={product.name}
+            className="product-image w-full h-full object-cover"
+          />
+          {product.newArrival && (
+            <Badge className="absolute top-4 left-4 bg-[#1a1a1a] text-white border-0">
+              NEW
+            </Badge>
           )}
+          <div className="absolute inset-0 bg-[#1a1a1a]/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onView(); }}
+              className="bg-white text-[#1a1a1a] hover:bg-[#f5f4f0] rounded-none font-medium"
+            >
+              Quick View
+            </Button>
+            <Button 
+              size="sm"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToCart(); }}
+              className="bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none font-medium"
+            >
+              Add to Cart
+            </Button>
+          </div>
         </div>
-      </div>
+        <div>
+          <p className="text-[#2d5a27] text-xs tracking-wider mb-1 font-medium">{product.material}</p>
+          <h4 className="text-[#1a1a1a] font-medium mb-2 group-hover:text-[#2d5a27] transition-colors">
+            {product.name}
+          </h4>
+          <div className="flex items-baseline gap-2">
+            <span className="text-[#1a1a1a]">${product.price?.toFixed(2)}</span>
+            {product.originalPrice && (
+              <span className="text-[#6b6b6b] line-through text-sm">${product.originalPrice?.toFixed(2)}</span>
+            )}
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 }
