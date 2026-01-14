@@ -219,6 +219,31 @@ export async function GET(request) {
       }, { headers: corsHeaders });
     }
 
+    // Get store settings
+    if (pathParts[0] === 'admin' && pathParts[1] === 'settings') {
+      const user = verifyToken(request);
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders });
+      }
+
+      const collection = await getCollection('settings');
+      let settings = await collection.findOne({ key: 'store_settings' });
+      
+      if (!settings) {
+        settings = {
+          key: 'store_settings',
+          storeName: 'The Gaea Store',
+          email: 'hello@gaeastore.com',
+          phone: '+91 98765 43210',
+          address: 'Bangalore, India',
+          currency: 'INR',
+          taxRate: 18
+        };
+      }
+      
+      return NextResponse.json(settings, { headers: corsHeaders });
+    }
+
     // Get all categories
     if (pathParts[0] === 'categories') {
       const collection = await getCollection('categories');
