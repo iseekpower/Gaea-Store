@@ -210,17 +210,26 @@ export default function AdminDashboard() {
   const updateCollectiveStatus = async (appId, status) => {
     const token = localStorage.getItem('gaea_token');
     try {
-      await fetch(`/api/admin/collective/${appId}`, {
-        method: 'PUT',
+      const res = await fetch(`/api/admin/collective/${appId}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ status })
       });
-      fetchData(token);
+      if (res.ok) {
+        // Update local state immediately for better UX
+        setCollectiveApps(prev => prev.map(app => 
+          app.id === appId ? { ...app, status } : app
+        ));
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update status');
+      }
     } catch (error) {
       console.error('Collective update error:', error);
+      alert('Failed to update status');
     }
   };
 
