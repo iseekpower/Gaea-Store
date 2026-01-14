@@ -459,7 +459,17 @@ export default function GaeaStore() {
                 <Search className="w-5 h-5" />
               </button>
               <button 
-                onClick={() => user ? (user.role === 'admin' ? window.location.href = '/admin' : handleLogout()) : setAuthOpen(true)}
+                onClick={() => {
+                  if (user) {
+                    if (user.role === 'admin') {
+                      window.location.href = '/admin';
+                    } else {
+                      window.location.href = '/profile';
+                    }
+                  } else {
+                    setAuthOpen(true);
+                  }
+                }}
                 className="text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors p-2 touch-manipulation"
               >
                 <User className="w-5 h-5" />
