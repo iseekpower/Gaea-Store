@@ -27,6 +27,17 @@ export default function AdminDashboard() {
   const [productModal, setProductModal] = useState({ open: false, mode: 'create', product: null });
   const [blogModal, setBlogModal] = useState({ open: false, mode: 'create', post: null });
   const [searchQuery, setSearchQuery] = useState('');
+  const [settingsSaving, setSettingsSaving] = useState(false);
+  const [settingsMessage, setSettingsMessage] = useState('');
+  const [imageUploading, setImageUploading] = useState(false);
+  const [settings, setSettings] = useState({
+    storeName: 'The Gaea Store',
+    email: 'hello@gaeastore.com',
+    phone: '+91 98765 43210',
+    address: 'Bangalore, India',
+    currency: 'INR',
+    taxRate: 18
+  });
   const router = useRouter();
 
   // Product form state
