@@ -1870,58 +1870,82 @@ export default function GaeaStore() {
       {/* Product Modal - Elegant */}
       <Dialog open={!!productModal} onOpenChange={() => setProductModal(null)}>
         <DialogContent className="bg-[#faf9f6] border-[#1a1a1a]/10 max-w-4xl p-0 overflow-hidden">
-          {productModal && (
-            <div className="grid md:grid-cols-2">
-              <div className="aspect-square bg-[#f5f4f0]">
-                <img 
-                  src={productModal.images?.[0]} 
-                  alt={productModal.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-8 flex flex-col">
-                <Badge className="w-fit bg-[#2d5a27]/10 text-[#2d5a27] border-0 mb-4">
-                  {productModal.material}
-                </Badge>
-                <h2 className="text-3xl font-serif text-[#1a1a1a] mb-2">{productModal.name}</h2>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#2d5a27] text-[#2d5a27]' : 'text-[#1a1a1a]/20'}`}
-                      />
-                    ))}
+          {productModal && (() => {
+            // Helper to get product image
+            const getModalImage = () => {
+              if (productModal.images) {
+                if (Array.isArray(productModal.images)) {
+                  return productModal.images[0];
+                } else if (typeof productModal.images === 'string') {
+                  const imgs = productModal.images.split(',').map(url => url.trim()).filter(Boolean);
+                  return imgs[0];
+                }
+              }
+              return productModal.image || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80';
+            };
+            
+            return (
+              <div className="grid md:grid-cols-2">
+                <div className="aspect-square bg-[#f5f4f0]">
+                  <img 
+                    src={getModalImage()} 
+                    alt={productModal.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-8 flex flex-col">
+                  <Badge className="w-fit bg-[#2d5a27]/10 text-[#2d5a27] border-0 mb-4">
+                    {productModal.material}
+                  </Badge>
+                  <h2 className="text-3xl font-serif text-[#1a1a1a] mb-2">{productModal.name}</h2>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`w-4 h-4 ${i < Math.floor(productModal.rating || 0) ? 'fill-[#2d5a27] text-[#2d5a27]' : 'text-[#1a1a1a]/20'}`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-[#6b6b6b] text-sm">({productModal.reviews} reviews)</span>
                   </div>
-                  <span className="text-[#6b6b6b] text-sm">({productModal.reviews} reviews)</span>
-                </div>
-                <div className="flex items-baseline gap-3 mb-6">
-                  <span className="text-3xl text-[#1a1a1a] font-serif">${productModal.price?.toFixed(2)}</span>
-                  {productModal.originalPrice && (
-                    <span className="text-[#6b6b6b] line-through">${productModal.originalPrice?.toFixed(2)}</span>
-                  )}
-                </div>
-                <p className="text-[#4a4a4a] mb-8 flex-1 font-light leading-relaxed">{productModal.description}</p>
-                <div className="flex gap-4">
-                  <Button 
-                    onClick={() => {
-                      addToCart(productModal);
-                      setProductModal(null);
-                    }}
-                    className="flex-1 bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
+                  <div className="flex items-baseline gap-3 mb-6">
+                    <span className="text-3xl text-[#1a1a1a] font-serif">${productModal.price?.toFixed(2)}</span>
+                    {productModal.originalPrice && (
+                      <span className="text-[#6b6b6b] line-through">${productModal.originalPrice?.toFixed(2)}</span>
+                    )}
+                  </div>
+                  <p className="text-[#4a4a4a] mb-6 font-light leading-relaxed line-clamp-3">{productModal.description}</p>
+                  
+                  <Link 
+                    href={`/product/${productModal.slug || productModal.id}`}
+                    className="text-[#2d5a27] text-sm font-medium mb-6 hover:underline"
+                    onClick={() => setProductModal(null)}
                   >
-                    ADD TO CART
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5 rounded-none h-12 w-12 p-0"
-                  >
-                    <Heart className="w-5 h-5" />
-                  </Button>
+                    View Full Details →
+                  </Link>
+                  
+                  <div className="flex gap-4 mt-auto">
+                    <Button 
+                      onClick={() => {
+                        addToCart(productModal);
+                        setProductModal(null);
+                      }}
+                      className="flex-1 bg-[#1a1a1a] text-white hover:bg-[#2d5a27] rounded-none h-12"
+                    >
+                      ADD TO CART
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="border-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/5 rounded-none h-12 w-12 p-0"
+                    >
+                      <Heart className="w-5 h-5" />
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </DialogContent>
       </Dialog>
 
