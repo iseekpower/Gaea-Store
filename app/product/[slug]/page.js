@@ -21,6 +21,7 @@ export default function ProductPage() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [addingToCart, setAddingToCart] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,6 +30,12 @@ export default function ProductPage() {
         if (res.ok) {
           const data = await res.json();
           setProduct(data);
+          
+          // Set default variant if exists
+          if (data.variants && data.variants.length > 0) {
+            const defaultVar = data.variants.find(v => v.isDefault) || data.variants[0];
+            setSelectedVariant(defaultVar);
+          }
           
           // Fetch related products from same category
           const relatedRes = await fetch(`/api/products?category=${data.category}&limit=4`);
