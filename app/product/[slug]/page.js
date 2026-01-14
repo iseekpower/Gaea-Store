@@ -56,6 +56,22 @@ export default function ProductPage() {
     }
   }, [params.slug]);
 
+  // Get the current price (variant price or base price)
+  const getCurrentPrice = () => {
+    if (selectedVariant && selectedVariant.price) {
+      return parseFloat(selectedVariant.price);
+    }
+    return product?.price || 0;
+  };
+
+  // Get the current stock (variant stock or base stock)
+  const getCurrentStock = () => {
+    if (selectedVariant && selectedVariant.stock !== undefined) {
+      return parseInt(selectedVariant.stock);
+    }
+    return product?.stock || 0;
+  };
+
   const handleAddToCart = async () => {
     const token = localStorage.getItem('gaea_token');
     if (!token) {
@@ -65,19 +81,30 @@ export default function ProductPage() {
 
     setAddingToCart(true);
     try {
+      const cartItem = {
+        productId: product.id,
+        quantity,
+        name: product.name,
+        price: getCurrentPrice(),
+        image: getProductImages()[0]
+      };
+
+      // Add variant info if selected
+      if (selectedVariant) {
+        cartItem.variantId = selectedVariant.id;
+        cartItem.variantType = selectedVariant.type;
+        cartItem.variantValue = selectedVariant.value;
+        cartItem.variantSku = selectedVariant.sku;
+        cartItem.name = `${product.name} - ${selectedVariant.value}`;
+      }
+
       const res = await fetch('/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({
-          productId: product.id,
-          quantity,
-          name: product.name,
-          price: product.price,
-          image: getProductImages()[0]
-        })
+        body: JSON.stringify(cartItem)
       });
 
       if (res.ok) {
