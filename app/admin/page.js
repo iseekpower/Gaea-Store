@@ -281,6 +281,94 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleSaveSettings = async () => {
+    const token = localStorage.getItem('gaea_token');
+    setSettingsSaving(true);
+    setSettingsMessage('');
+    
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(settings)
+      });
+      
+      if (res.ok) {
+        setSettingsMessage('Settings saved successfully!');
+        setTimeout(() => setSettingsMessage(''), 3000);
+      } else {
+        const data = await res.json();
+        setSettingsMessage(data.error || 'Failed to save settings');
+      }
+    } catch (error) {
+      console.error('Settings save error:', error);
+      setSettingsMessage('Failed to save settings');
+    } finally {
+      setSettingsSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size must be less than 5MB');
+      return;
+    }
+
+    setImageUploading(true);
+    const token = localStorage.getItem('gaea_token');
+
+    try {
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64 = event.target.result;
+        
+        const res = await fetch('/api/upload/image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            image: base64,
+            filename: file.name
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          // Add the image URL to the product form
+          const currentImages = productForm.images ? productForm.images + ', ' : '';
+          setProductForm({ 
+            ...productForm, 
+            images: currentImages + data.url 
+          });
+        } else {
+          alert('Failed to upload image');
+        }
+        setImageUploading(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Image upload error:', error);
+      alert('Failed to upload image');
+      setImageUploading(false);
+    }
+  };
+
   const filteredProducts = products.filter(p => 
     p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.category?.toLowerCase().includes(searchQuery.toLowerCase())
