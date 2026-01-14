@@ -171,7 +171,8 @@ export default function AdminDashboard() {
       originalPrice: productForm.originalPrice ? parseFloat(productForm.originalPrice) : null,
       stock: parseInt(productForm.stock) || 0,
       images: productForm.images.split(',').map(img => img.trim()).filter(Boolean),
-      slug: productForm.slug || productForm.name.toLowerCase().replace(/\s+/g, '-')
+      slug: productForm.slug || productForm.name.toLowerCase().replace(/\s+/g, '-'),
+      variants: productForm.variants || []
     };
 
     try {
@@ -195,6 +196,54 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Product save error:', error);
     }
+  };
+
+  // Variant management functions
+  const addVariant = () => {
+    const newVariant = {
+      id: Date.now().toString(),
+      type: 'size',
+      value: '',
+      sku: '',
+      price: productForm.price || '',
+      stock: '0',
+      isDefault: productForm.variants.length === 0
+    };
+    setProductForm({
+      ...productForm,
+      variants: [...productForm.variants, newVariant]
+    });
+  };
+
+  const updateVariant = (variantId, field, value) => {
+    setProductForm({
+      ...productForm,
+      variants: productForm.variants.map(v => 
+        v.id === variantId ? { ...v, [field]: value } : v
+      )
+    });
+  };
+
+  const removeVariant = (variantId) => {
+    const updatedVariants = productForm.variants.filter(v => v.id !== variantId);
+    // If we removed the default variant, make the first one default
+    if (updatedVariants.length > 0 && !updatedVariants.some(v => v.isDefault)) {
+      updatedVariants[0].isDefault = true;
+    }
+    setProductForm({
+      ...productForm,
+      variants: updatedVariants
+    });
+  };
+
+  const setDefaultVariant = (variantId) => {
+    setProductForm({
+      ...productForm,
+      variants: productForm.variants.map(v => ({
+        ...v,
+        isDefault: v.id === variantId
+      }))
+    });
   };
 
   const handleDeleteProduct = async (productId) => {
